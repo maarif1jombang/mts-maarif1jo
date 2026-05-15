@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Absensi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #14b8a6;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        /* --- CSS UNTUK NOTIFIKASI --- */
+        #notification {
+            transform: translate(-50%, -150%) scale(0.9);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            z-index: 50;
+            pointer-events: none;
+        }
+        #notification.show {
+            transform: translate(-50%, 0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+        <!-- Halaman Login -->
+        <div id="loginPage" class="w-full max-w-sm mx-auto card">
+			<div class="flex justify-center mx-auto mb-4 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                    <path id="primary" d="M20,21H4a1,1,0,0,1-1-1V9H21V20A1,1,0,0,1,20,21ZM21,5a1,1,0,0,0-1-1H4A1,1,0,0,0,3,5V9H21Z" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><polyline id="secondary" points="7 15 9 17 13 13" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline><path id="secondary-2" data-name="secondary" d="M16,3V6M8,3V6m5,11,4-4" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                </svg>
+            </div>
+            <div class="text-center mb-10">
+				<h1 class="text-2xl font-bold text-gray-800">Aplikasi Absensi Online</h1>
+            	<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+			</div>
+            <div class="space-y-4">
+				<div class="">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+                               <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg>
+                        </span>
+                        <input type="text" id="nik" name="nik" placeholder="Memuat data guru..." class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition" disabled>
+                    </div>
+					<p id="loginError" class="text-red-500 text-sm text-center"></p>
+                </div>
+                <button id="loginButton" class="w-full btn bg-teal-600 text-white rounded-md hover:bg-teal-700" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+                      </svg>
+                    <span>Masuk untuk Absensi</span>
+                </button>
+            </div>
+			<p class="text-xs text-gray-500 text-center mt-3.5 mb-1">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+        </div>
+
+        <!-- Halaman Absensi -->
+        <div id="absensiPage" class="w-full max-w-lg mx-auto card hidden">
+			<div class="flex justify-between items-center mb-2">
+                <div class="flex items-center">
+                    <button class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+						<svg class="h-5 w-5 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+						</svg>
+                    </button>
+					<h1 class="text-xl font-bold text-gray-900 ml-3">e-Absensi</h1>
+                </div>
+                <button id="logoutButton" title="Logout" class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                    </svg>
+                </button>
+            </div>
+			<hr class="mb-5">
+
+            <!-- FOTO PROFIL (Fitur Baru) -->
+            <div class="flex justify-center -mt-2 mb-4">
+                <div class="relative w-24 h-24">
+                    <!-- Fallback Icon (Ditampilkan jika gambar tidak ada/error) -->
+                    <div id="profileFallback" class="w-full h-full rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-md text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-12 h-12">
+                            <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <!-- Image Asli (Ditampilkan lewat JS jika berhasil diload) -->
+                    <!-- PERBAIKAN: Menambahkan class 'object-top' agar foto fokus ke bagian atas (wajah) -->
+                    <img id="profileImage" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-4 border-white shadow-md hidden" alt="Foto Profil">
+                </div>
+            </div>
+            <!-- END FOTO PROFIL -->
+
+			<div class="text-center mb-8">
+                <p class="text-gray-500">Selamat Bekerja,</p>
+                <h2 id="teacherName" class="text-2xl font-bold text-gray-900"></h2>
+              	<p class="text-gray-500">Guru MTs Ma'arif 1 Jombang</p>
+            </div>
+            
+            <!-- Tombol Aksi -->
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button id="clockInButton" class="btn rounded-md bg-green-500 text-white hover:bg-green-600 disabled:bg-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                    </svg>
+                    <span>Masuk</span>
+                </button>
+                <button id="clockOutButton" class="btn rounded-md bg-red-500 text-white hover:bg-red-600 disabled:bg-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                    </svg>
+                    <span>Pulang</span>
+                </button>
+            </div>
+
+            <!-- Riwayat Absensi Hari Ini -->
+            <div>
+                <h3 class="text-xm font-semibold text-gray-800 mb-0 text-center">Absensi Hari Ini</h3>
+				<div id="loadingTodayHistory" class="flex justify-center items-center py-2 hidden">
+                    <div class="loader"></div>
+                </div>
+                <p id="historyDate" class="text-center text-sm text-gray-500 mb-3 h-5"></p>
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                     <table class="min-w-full bg-white">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="py-2 px-4 text-center text-sm font-medium text-gray-500 tracking-wider border-b border-r border-gray-200">Jam Masuk</th>
+                                <th class="py-2 px-4 text-center text-sm font-medium text-gray-500 tracking-wider border-b border-gray-200">Jam Pulang</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- Data riwayat hari ini akan ditambahkan di sini -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tombol Riwayat -->
+            <div class="mt-8">
+                 <button id="monthlyHistoryButton" class="w-full btn rounded-md bg-teal-600 text-white hover:bg-teal-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Riwayat Absensi Bulan Ini</span>
+                </button>
+            </div>
+			<p class="text-xs text-gray-500 text-center mt-3.5 mb-1">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+        </div>
+
+        <!-- Halaman Riwayat Bulanan -->
+        <div id="historyPage" class="w-full max-w-lg mx-auto card hidden">
+            <div class="flex justify-between items-center mb-2">
+                <div class="flex items-center">
+                    <button class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+						<svg class="h-5 w-5 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+						</svg>
+                    </button>
+                    <h1 class="text-xl font-bold text-gray-900 ml-3">e-Absensi</h1>
+                </div>
+                <button id="backButton" title="Kembali" class="h-8 w-8 rounded-full flex items-center justify-center bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-600">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                    </svg>
+                </button>
+            </div>
+			<hr class="mb-5">
+			<div class="text-center mb-6">
+                <div class="flex items-center justify-center">
+                    <h2 class="text-2xl font-bold text-gray-900">Riwayat Absensi</h2>
+                </div>
+                 <p class="text-gray-500">Rekap absensi Anda untuk bulan ini.</p>
+            </div>
+            <div id="loadingMonthlyHistory" class="flex justify-center items-center py-8 hidden">
+                <div class="loader"></div>
+            </div>
+            <div id="monthlyHistoryContainer" class="max-h-96 overflow-y-auto rounded-lg border border-gray-200">
+                 <table class="min-w-full bg-white">
+                    <thead class="bg-gray-50 sticky top-0">
+                        <tr>
+                            <th class="py-2 px-2 font-bold text-center text-sm font-medium text-gray-800 tracking-wider border-b border-r border-gray-200">Hari</th>
+							<th class="py-2 px-2 font-bold text-center text-sm font-medium text-gray-800 tracking-wider border-b border-r border-gray-200">Tanggal</th>
+                            <th class="py-2 px-2 font-bold text-center text-sm font-medium text-gray-800 tracking-wider border-b border-r border-gray-200">Masuk</th>
+                            <th class="py-2 px-2 font-bold text-center text-sm font-medium text-gray-800 tracking-wider border-b border-gray-200">Pulang</th>
+                        </tr>
+                    </thead>
+                    <tbody id="monthlyHistoryTableBody">
+                        <!-- Data riwayat bulanan akan ditambahkan di sini -->
+                    </tbody>
+                </table>
+            </div>
+			<p class="text-xs text-gray-500 text-center mt-3.5 mb-1">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+        </div>
+
+    <!-- --- ELEMEN HTML NOTIFIKASI --- -->
+    <div id="notification" class="fixed top-5 left-1/2 bg-green-500 text-white py-3 px-5 rounded-lg shadow-lg whitespace-nowrap">
+        <span id="notificationMessage"></span>
+    </div>
+
+    <script>
+        // --- KONFIGURASI URL ---
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIhSNgEbe_hmmu2sq2EcLbKCWicqEaEWlIyfuiIxK1s_JQBV_lrSGyPAuPgyGL_LQ5/exec'; 
+        const GOOGLE_SHEET_TEACHERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpF1RPHJAMaYj9u56dqTf1UtF8gp57yuuSxI993tnalTMEav-3HWjLC2VWS3eAe1aozkUKxwmzq69n/pub?gid=1270339686&single=true&output=csv';
+        
+        // --- Ganti link folder hosting foto di sini (harus diakhiri dengan /) ---
+        // Contoh: 'https://sekolahanda.com/foto-guru/' atau 'https://hostingku.com/images/'
+        const PHOTO_BASE_URL = 'https://maarif1jombang.github.io/foto/foto_guru/'; 
+      
+        let teachers = {}; 
+
+        // Elemen Halaman
+        const loginPage = document.getElementById('loginPage');
+        const absensiPage = document.getElementById('absensiPage');
+        const historyPage = document.getElementById('historyPage');
+
+        // Elemen Input & Tombol
+        const nikInput = document.getElementById('nik');
+        const loginButton = document.getElementById('loginButton');
+        const logoutButton = document.getElementById('logoutButton');
+        const clockInButton = document.getElementById('clockInButton');
+        const clockOutButton = document.getElementById('clockOutButton');
+        const monthlyHistoryButton = document.getElementById('monthlyHistoryButton');
+        const backButton = document.getElementById('backButton');
+        
+        // Elemen Tampilan Data & Status
+        const loginError = document.getElementById('loginError');
+        const teacherName = document.getElementById('teacherName');
+        const historyDate = document.getElementById('historyDate');
+        const historyTableBody = document.getElementById('historyTableBody');
+        const monthlyHistoryTableBody = document.getElementById('monthlyHistoryTableBody');
+        const loadingTodayHistory = document.getElementById('loadingTodayHistory');
+        const loadingMonthlyHistory = document.getElementById('loadingMonthlyHistory');
+        const monthlyHistoryContainer = document.getElementById('monthlyHistoryContainer');
+
+        // Elemen Foto Profil
+        const profileImage = document.getElementById('profileImage');
+        const profileFallback = document.getElementById('profileFallback');
+
+        // Elemen Notifikasi
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+        let notificationTimer;
+
+        let currentUser = null;
+
+        async function loadTeachersData() {
+            try {
+                const response = await fetch(GOOGLE_SHEET_TEACHERS_URL);
+                if (!response.ok) throw new Error('Gagal memuat data guru dari Google Sheet');
+                
+                const csvData = await response.text();
+                const lines = csvData.split('\n');
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line) {
+                        const parts = line.split(',');
+                        if (parts.length >= 2) {
+                            const nik = parts[0].trim();
+                            const name = parts[1].trim();
+                            if (nik && name) {
+                                teachers[nik] = name;
+                            }
+                        }
+                    }
+                }
+
+                console.log('Data guru berhasil dimuat:', teachers);
+                loginButton.disabled = false;
+                nikInput.disabled = false;
+                nikInput.placeholder = "Masukkan No. NIK Anda";
+
+            } catch (error) {
+                console.error('Error loading teacher data:', error);
+                loginError.textContent = 'Gagal mengambil data server.';
+                nikInput.placeholder = "Gagal memuat data";
+                loginButton.disabled = true;
+            }
+        }
+
+        function showPage(page) {
+            loginPage.classList.add('hidden');
+            absensiPage.classList.add('hidden');
+            historyPage.classList.add('hidden');
+
+            if (page === 'login') {
+                loginPage.classList.remove('hidden');
+            } else if (page === 'absensi') {
+                absensiPage.classList.remove('hidden');
+            } else if (page === 'history') {
+                historyPage.classList.remove('hidden');
+            }
+        }
+
+        function showNotification(message, type = 'success') {
+            if (notificationTimer) {
+                clearTimeout(notificationTimer);
+            }
+
+            notificationMessage.textContent = message;
+
+            if (type === 'success') {
+                notification.classList.remove('bg-red-500');
+                notification.classList.add('bg-green-500');
+            } else if (type === 'error') {
+                notification.classList.remove('bg-green-500');
+                notification.classList.add('bg-red-500');
+            }
+
+            notification.classList.add('show');
+
+            notificationTimer = setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        function handleLogin() {
+            const loginInput = nikInput.value.trim().toLowerCase();
+            let userFound = null;
+
+            if (!loginInput) {
+                loginError.textContent = 'Input tidak boleh kosong.';
+                return;
+            }
+
+            for (const nik in teachers) {
+                const name = teachers[nik].toLowerCase();
+                if (nik === loginInput || name.includes(loginInput)) {
+                    userFound = { nik: nik, name: teachers[nik] };
+                    break;
+                }
+            }
+
+            if (userFound) {
+                currentUser = userFound;
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loginError.textContent = '';
+                nikInput.value = '';
+                setupAbsensiPage();
+            } else {
+                loginError.textContent = 'Data tidak ditemukan. Coba lagi.';
+            }
+        }
+
+        loginButton.addEventListener('click', handleLogin);
+        
+        nikInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                handleLogin();
+            }
+        });
+
+        logoutButton.addEventListener('click', () => {
+            currentUser = null;
+            sessionStorage.removeItem('currentUser');
+            showPage('login');
+        });
+
+        // --- UPDATE FUNGSI SETUP ABSENSI UNTUK FOTO PROFIL ---
+        function setupAbsensiPage() {
+            teacherName.textContent = currentUser.name;
+            showPage('absensi');
+            
+            // Logika Foto Profil
+            // 1. Reset ke kondisi default (Icon fallback muncul, Image hidden)
+            profileImage.classList.add('hidden');
+            profileFallback.classList.remove('hidden');
+            
+            // 2. Set URL sumber gambar
+            const photoUrl = `${PHOTO_BASE_URL}${currentUser.nik}.jpg`;
+            profileImage.src = photoUrl;
+
+            // 3. Jika gambar berhasil dimuat
+            profileImage.onload = function() {
+                profileImage.classList.remove('hidden');
+                profileFallback.classList.add('hidden');
+            };
+
+            // 4. Jika gambar gagal dimuat (error 404), biarkan fallback tetap muncul
+            profileImage.onerror = function() {
+                profileImage.classList.add('hidden');
+                profileFallback.classList.remove('hidden');
+            };
+
+            fetchTodayHistory();
+        }
+        // --- END UPDATE SETUP ABSENSI ---
+
+        async function fetchTodayHistory() {
+            historyTableBody.innerHTML = '';
+            historyDate.textContent = '';
+            loadingTodayHistory.classList.remove('hidden');
+            clockInButton.disabled = true;
+            clockOutButton.disabled = true;
+            
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getToday&nik=${currentUser.nik}`);
+                if (!response.ok) throw new Error('Gagal mengambil data');
+                
+                const data = await response.json();
+                
+                if (data.tanggal) {
+                    historyDate.textContent = `${data.hari}, ${data.tanggal}`;
+                    const row = `
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 text-2xl font-bold text-gray-700 text-center border-r border-gray-200">${data.jamMasuk || '-'}</td>
+                            <td class="py-3 px-4 text-2xl font-bold text-gray-700 text-center">${data.jamKeluar || '-'}</td>
+                        </tr>
+                    `;
+                    historyTableBody.innerHTML = row;
+                } else {
+                     historyTableBody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-sm text-gray-500">Belum ada absensi hari ini.</td></tr>';
+                }
+
+                if (data.jamMasuk) {
+                    clockInButton.disabled = true;
+                    clockOutButton.disabled = !!data.jamKeluar;
+                } else {
+                    clockInButton.disabled = false;
+                    clockOutButton.disabled = true;
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                historyTableBody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-sm text-red-500">Gagal memuat riwayat. Coba lagi nanti.</td></tr>';
+            } finally {
+                loadingTodayHistory.classList.add('hidden');
+            }
+        }
+
+        async function fetchMonthlyHistory() {
+            monthlyHistoryTableBody.innerHTML = '';
+            monthlyHistoryContainer.classList.add('hidden');
+            loadingMonthlyHistory.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getMonthly&nik=${currentUser.nik}`);
+                if (!response.ok) throw new Error('Gagal mengambil data riwayat bulanan');
+
+                const records = await response.json();
+
+                if (records.length > 0) {
+                     let tableContent = '';
+                     records.forEach((rec, index) => {
+                         const rowClass = index % 2 === 1 ? 'bg-gray-50' : 'bg-white';
+                         tableContent += `
+                            <tr class="${rowClass} hover:bg-teal-100 border-b border-gray-200">
+                                <td class="py-2 px-2 text-sm text-gray-700 text-center border-r border-gray-200">${rec.hari}</td>
+								<td class="py-2 px-2 text-sm text-gray-700 text-center border-r border-gray-200">${rec.tanggal}</td>
+                                <td class="py-2 px-2 text-sm text-gray-700 text-center border-r border-gray-200">${rec.jamMasuk || '-'}</td>
+                                <td class="py-2 px-2 text-sm text-gray-700 text-center">${rec.jamKeluar || '-'}</td>
+                            </tr>
+                         `;
+                     });
+                     monthlyHistoryTableBody.innerHTML = tableContent;
+                } else {
+                    monthlyHistoryTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-sm text-gray-500">Tidak ada data riwayat absensi ditemukan.</td></tr>';
+                }
+
+            } catch(error) {
+                console.error('Error fetching monthly history:', error);
+                monthlyHistoryTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-sm text-red-500">Gagal memuat riwayat. Periksa koneksi Anda.</td></tr>';
+            } finally {
+                loadingMonthlyHistory.classList.add('hidden');
+                monthlyHistoryContainer.classList.remove('hidden');
+            }
+        }
+
+        async function submitAttendance(action) {
+            const button = action === 'masuk' ? clockInButton : clockOutButton;
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = `<div class="loader !w-5 !h-5 !border-l-white"></div><span class="ml-2">Memproses...</span>`;
+
+            const data = { nik: currentUser.nik, name: currentUser.name, action: action };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                button.innerHTML = originalText;
+                
+                fetchTodayHistory();
+
+                const successMessage = action === 'masuk' ? 'Absen masuk berhasil!!!' : 'Absen pulang berhasil!!!';
+                showNotification(successMessage, 'success');
+
+            } catch (error) {
+                console.error('Error submitting attendance:', error);
+                
+                const errorMessage = `Gagal absen ${action}. Periksa koneksi.`;
+                console.error(errorMessage);
+
+                showNotification(errorMessage, 'error');
+
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+
+        clockInButton.addEventListener('click', () => submitAttendance('masuk'));
+        clockOutButton.addEventListener('click', () => submitAttendance('keluar'));
+        monthlyHistoryButton.addEventListener('click', () => {
+            showPage('history');
+            fetchMonthlyHistory();
+        });
+        backButton.addEventListener('click', () => showPage('absensi'));
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadTeachersData();
+
+            const savedUser = sessionStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                if (teachers[currentUser.nik]) {
+                    setupAbsensiPage();
+                } else {
+                    sessionStorage.removeItem('currentUser');
+                    showPage('login');
+                }
+            } else {
+                showPage('login');
+            }
+        });
+		
+		document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

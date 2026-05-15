@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .input-with-icon {
+            position: relative;
+        }
+        .input-with-icon .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        .input-with-icon input {
+            padding-left: 40px;
+        }
+        .status-lulus {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+        .status-tidak-lulus {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+        .status-pending {
+            background-color: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+        /* Tambahan style untuk foto */
+        #photo-container {
+            transition: all 0.3s ease;
+        }
+        /* Style untuk Tabel */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+		/* --- Kode untuk Sticky Kolom Aksi di HP --- */
+		@media (max-width: 768px) {
+			/* Menargetkan kolom paling kanan (terakhir) pada header dan isi tabel */
+			table th:last-child,
+			table td:last-child {
+				position: sticky !important;
+				right: 0 !important;
+				background-color: #ffffff; /* Harus solid agar teks di belakangnya tidak tembus */
+				z-index: 10;
+				/* Memberikan sedikit bayangan di sisi kiri agar terlihat ada pembatas saat digeser */
+				box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.05); 
+			}
+			
+			/* Z-index lebih tinggi untuk header agar tidak tertimpa baris data yang di-scroll */
+			table thead th:last-child {
+				z-index: 20;
+				background-color: #f9fafb; /* Sesuaikan dengan warna background header tabel Anda (contoh: abu-abu sangat terang) */
+			}
+
+			/* Jika baris tabel Anda memiliki efek hover, pastikan kolom sticky ikut berubah warna */
+			table tbody tr:hover td:last-child {
+				background-color: #f3f4f6; /* Warna hover standar Tailwind */
+			}
+		}
+		/* ------------------------------------------ */
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Container Hitung Mundur -->
+    <div id="countdown-container" class="w-full max-w-sm p-8 space-y-6 card text-center hidden">
+        <div class="text-center">
+             <div class="flex justify-center mx-auto mb-4 text-teal-600">
+                <!-- Icon Topi Wisuda -->
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                   <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                 </svg>
+            </div>
+			<h1 class="text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
+          	<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+        </div>
+        <div id="timer" class="flex justify-center space-x-2 md:space-x-2 text-center pt-0 hidden">
+            <div class="p-4 bg-teal-50 rounded-lg min-w-[75px] md:min-w-[85px]">
+                <span id="days" class="text-4xl md:text-5xl font-bold text-teal-600">--</span>
+                <p class="text-xs md:text-sm text-gray-500">Hari</p>
+            </div>
+            <div class="p-4 bg-teal-50 rounded-lg min-w-[75px] md:min-w-[85px]">
+                <span id="hours" class="text-4xl md:text-5xl font-bold text-teal-600">--</span>
+                <p class="text-xs md:text-sm text-gray-500">Jam</p>
+            </div>
+            <div class="p-4 bg-teal-50 rounded-lg min-w-[75px] md:min-w-[85px]">
+                <span id="minutes" class="text-4xl md:text-5xl font-bold text-teal-600">--</span>
+                <p class="text-xs md:text-sm text-gray-500">Menit</p>
+            </div>
+            <div class="p-4 bg-teal-50 rounded-lg min-w-[75px] md:min-w-[85px]">
+                <span id="seconds" class="text-4xl md:text-5xl font-bold text-teal-600">--</span>
+                <p class="text-xs md:text-sm text-gray-500">Detik</p>
+            </div>
+        </div>		
+        <p id="countdown-message" class="text-red-500 pt-2 text-sm"></p>
+    </div>
+
+    <!-- Container Login/Pencarian -->
+    <div id="login-container" class="w-full max-w-sm p-8 space-y-4 card hidden">
+        <div class="text-center">
+            <div class="flex justify-center mx-auto mb-4 text-teal-600">
+                <!-- Icon Topi Wisuda -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
+            <p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+        </div>
+        <br>
+        <div class="space-y-0">
+			<p class="text-gray-600 mb-1" style="padding-left: 12px">No. Induk / NISN</p>
+            <div class="input-with-icon">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </span>
+                <input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masukkan No. NISN Anda">
+            </div>
+			<p id="error-message" class="text-red-500 text-sm text-center hidden pt-1"></p>
+        </div>
+
+        <button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300">
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+            </svg>
+            <span id="login-button-text">Lihat Hasil Kelulusan</span>
+            <div id="loader" class="loader hidden"></div>
+        </button>
+		<p class="text-xs text-gray-500 text-center pt-0">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+    </div>
+
+    <!-- Container Daftar Pencarian (Baru) -->
+    <div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
+            <div class="flex items-center gap-4 w-full sm:w-auto">
+                 <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-full border">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                     </svg>
+                 </div>
+                 <div>
+                     <h1 class="text-lg md:text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
+                     <p class="text-xs md:text-sm text-gray-500">Hasil Pencarian</p>
+                 </div>
+            </div> 
+            <button id="back-to-search-from-list" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 border rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                <span>Kembali</span>
+            </button>
+        </div>
+        
+        <!-- Updated Table Wrapper: Matches ardis.html style -->
+        <div class="overflow-x-auto rounded-lg border">
+			<table class="w-full text-sm text-left text-gray-500">
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50">
+					<tr>
+						<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">No</th>
+						<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Nama Siswa</th>
+						<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">NISN</th>
+						<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">No Peserta</th>
+						<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">Aksi</th>
+					</tr>
+				</thead>
+				<tbody id="student-list-body" class="divide-y divide-gray-200">
+					<!-- Data akan di-inject lewat JS -->
+				</tbody>
+			</table>
+        </div>
+    </div>
+
+    <!-- Container Detail Hasil -->
+    <div id="detail-container" class="hidden w-full max-w-4xl p-6 md:p-8 card">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4 gap-4">
+            <div class="flex items-center gap-4 w-full sm:w-auto">
+                <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-full border">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
+                    <p class="text-xs md:text-sm text-gray-500">MTs Ma'arif 1 Jombang</p>
+                </div>
+            </div>
+            <button id="logout-button" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 border rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>
+                <span>Kembali</span>
+            </button>
+        </div>
+		
+		<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div id="photo-container" class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-full overflow-hidden border shadow-sm bg-teal-50 flex items-center justify-center">
+                    <svg id="default-icon" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 sm:w-10 sm:h-10 text-white" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                    </svg>
+                    <img id="student-photo" src="" alt="Foto Siswa" class="absolute inset-0 w-full h-full object-cover object-top hidden">
+                </div>
+                <div>
+				    <p class="text-xs sm:text-sm text-gray-500">Nama Siswa</p>
+                    <p id="student-name" class="font-semibold text-sm sm:text-base"></p>
+                </div>
+            </div>
+        </div>
+        
+		<h3 class="font-semibold text-sm sm:text-base mt-4 mb-2">Hasil Pengumuman</h3>
+        <div class="border bg-gray-50 p-6 rounded-lg md:grid md:grid-cols-3 md:gap-2 md:items-center">
+            <div class="md:col-span-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+					<div class="flex items-center gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs sm:text-sm text-gray-500">No. Peserta Ujian</p>
+                            <p id="student-exam-number" class="font-semibold text-sm sm:text-base"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h13.5M5.25 15.75h13.5M8.25 5.25v13.5" /></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs sm:text-sm text-gray-500">No. NISN</p>
+                            <p id="student-nisn" class="font-semibold text-sm sm:text-base"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0h18M-7.5 12h22.5" /></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs sm:text-sm text-gray-500">Tanggal Pengumuman</p>
+                            <p id="announcement-date" class="font-semibold text-sm sm:text-base"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="status-container" class="md:col-span-1 text-center p-4 rounded-lg mt-6 md:mt-0">
+                <div id="status-icon-container" class="mb-0"></div>
+                <p id="student-status" class="font-bold text-2xl uppercase tracking-wider"></p>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- KONFIGURASI ---
+    // URL sheet yang berisi data kelulusan siswa
+    const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7DWAJ5w-6p1EbLSrZoURhHSp0ry2iy89EfO3JMcr1rWhPODr76qvTMr3ai2pvZj1SiFM2N5uAKlGF/pub?gid=0&single=true&output=csv';
+
+    // --- KONFIGURASI FOTO ---
+    // Masukkan URL folder tempat foto disimpan.
+    // Contoh: 'https://website-anda.com/data/foto'
+    // Foto HARUS berekstensi .jpg dan nama filenya adalah NISN siswa. (Contoh: 123456.jpg)
+    const photoBaseUrl = 'https://maarif1jombang.github.io/foto/foto_siswa'; 
+
+    // URL sheet yang berisi waktu pengumuman.
+    const configSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7DWAJ5w-6p1EbLSrZoURhHSp0ry2iy89EfO3JMcr1rWhPODr76qvTMr3ai2pvZj1SiFM2N5uAKlGF/pub?gid=1910672228&single=true&output=csv'; 
+  
+    const columns = {
+        nama: 'Nama Siswa',
+		nisn: 'NISN',
+        noUjian: 'No. Peserta Ujian',        
+        tanggalPengumuman: 'Tanggal Pengumuman',
+        status: 'Status Kelulusan',
+    };
+    // -------------------
+
+    const loginContainer = document.getElementById('login-container');
+    const listContainer = document.getElementById('list-container'); // Container List
+    const detailContainer = document.getElementById('detail-container');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button'); // Tombol kembali di detail
+    const backToSearchFromListButton = document.getElementById('back-to-search-from-list'); // Tombol kembali di list
+    const searchInputElem = document.getElementById('searchInput');
+    const errorMessage = document.getElementById('error-message');
+    const studentListBody = document.getElementById('student-list-body'); // Tbody tabel
+
+    let announcementDataCache = null;
+    let lastView = 'login'; // 'login' atau 'list' untuk navigasi tombol kembali
+
+    function parseCSV(csvText) {
+        const lines = csvText.split(/\r?\n/).filter(line => line);
+        if (lines.length < 2) return [];
+        const headers = lines[0].split(',').map(h => h.trim());
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            if (values.length >= headers.length) {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = values[index] ? values[index].trim() : '';
+                });
+                data.push(obj);
+            }
+        }
+        return data;
+    }
+
+    async function fetchAndProcessData() {
+        if (announcementDataCache) return announcementDataCache;
+        try {
+            const cacheBuster = `&_=${new Date().getTime()}`;
+            const response = await fetch(dataSheetUrl + cacheBuster);
+            if (!response.ok) { throw new Error(`Gagal menghubungi server. Status: ${response.status}`); }
+            const csvText = await response.text();
+             if (csvText.trim().toLowerCase().startsWith('<!doctype html')) {
+                errorMessage.textContent = 'Format data salah. Pastikan URL berasal dari "Publikasikan ke web" (sebagai .csv), bukan dari tombol "Bagikan".';
+                errorMessage.classList.remove('hidden');
+                return null;
+            }
+            const rawData = parseCSV(csvText);
+            announcementDataCache = rawData.map(row => ({
+                nama: row[columns.nama] || '-',
+				nisn: row[columns.nisn] || '-',
+                noUjian: row[columns.noUjian] || '-',                
+                tanggalPengumuman: row[columns.tanggalPengumuman] || '-',
+                status: row[columns.status] || '-',
+            }));
+            return announcementDataCache;
+        } catch (error) {
+            console.error("Gagal mengambil data:", error);
+            errorMessage.textContent = 'Gagal mengambil data server.';
+            errorMessage.classList.remove('hidden');
+            return null;
+        }
+    }
+
+    // Fungsi untuk merender tabel daftar siswa
+    function showStudentList(students) {
+        studentListBody.innerHTML = ''; // Bersihkan isi tabel
+        
+        students.forEach((student, index) => {
+            const tr = document.createElement('tr');
+            // Menghapus border-b dari baris terakhir untuk tampilan yang lebih bersih jika di dalam rounded container
+            tr.className = index === students.length - 1 ? "hover:bg-teal-50" : "border-b border-gray-200 hover:bg-teal-50";
+
+            // URL Foto
+            const photoUrl = student.nisn ? `${photoBaseUrl}/${student.nisn}.jpg` : '';
+            // HTML untuk kolom foto dengan fallback
+            const photoHtml = `
+                <div class="h-10 w-10 mx-auto rounded-full overflow-hidden bg-gray-200 border border-gray-300 relative">
+                     <svg class="h-full w-full text-gray-400 absolute inset-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <img src="${photoUrl}" alt="${student.nama}" class="h-full w-full object-cover relative z-10" onerror="this.style.display='none'">
+                </div>
+            `;
+
+            tr.innerHTML = `
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-900 text-center font-medium">${index + 1}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-900 text-left font-medium">${student.nama}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-left">${student.nisn}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-left">${student.noUjian}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-center">
+                    <button onclick="selectStudentFromList('${student.nisn}')" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+                        Lihat
+                    </button>
+                </td>
+            `;
+            studentListBody.appendChild(tr);
+        });
+
+        loginContainer.classList.add('hidden');
+        listContainer.classList.remove('hidden');
+        lastView = 'list'; // Set history terakhir adalah list
+    }
+
+    // Fungsi global agar bisa dipanggil dari onclick tombol "Lihat" di tabel
+    window.selectStudentFromList = async function(nisn) {
+        // Kita asumsikan data sudah ada di cache karena sudah di fetch saat search
+        if (!announcementDataCache) return;
+        const student = announcementDataCache.find(s => s.nisn === nisn);
+        if (student) {
+            showAnnouncementDetails(student);
+        }
+    };
+    
+    function showAnnouncementDetails(student) {
+        if (!student) return;
+        document.getElementById('student-name').textContent = student.nama;
+        document.getElementById('student-exam-number').textContent = student.noUjian;
+        document.getElementById('student-nisn').textContent = student.nisn;
+        document.getElementById('announcement-date').textContent = student.tanggalPengumuman;
+        
+        // --- LOGIKA MENAMPILKAN FOTO ---
+        const photoContainer = document.getElementById('photo-container');
+        const defaultIcon = document.getElementById('default-icon');
+        const studentPhoto = document.getElementById('student-photo');
+
+        // Reset state awal (sembunyikan foto, tampilkan icon default)
+        studentPhoto.classList.add('hidden');
+        defaultIcon.classList.remove('hidden');
+        photoContainer.classList.add('bg-teal-600'); 
+
+        if (student.nisn) {
+            studentPhoto.src = `${photoBaseUrl}/${student.nisn}.jpg`;
+
+            studentPhoto.onload = function() {
+                studentPhoto.classList.remove('hidden'); 
+                defaultIcon.classList.add('hidden'); 
+                photoContainer.classList.remove('bg-teal-600'); 
+            };
+
+            studentPhoto.onerror = function() {
+                studentPhoto.classList.add('hidden');
+                defaultIcon.classList.remove('hidden');
+                photoContainer.classList.add('bg-teal-600');
+            };
+        }
+        // -------------------------------
+
+        const statusElem = document.getElementById('student-status');
+        const statusContainer = document.getElementById('status-container');
+        const statusIconContainer = document.getElementById('status-icon-container');
+        
+        const statusText = student.status ? student.status.trim().toLowerCase() : '-';
+        
+        statusContainer.classList.remove('status-lulus', 'status-tidak-lulus', 'status-pending');
+        statusElem.classList.remove('text-green-600', 'text-red-600', 'text-gray-600');
+        statusIconContainer.innerHTML = '';
+        
+        if (statusText === 'lulus') {
+            statusElem.textContent = student.status;
+            statusContainer.classList.add('status-lulus');
+            statusElem.classList.add('text-green-600');
+            statusIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+        } else if (statusText === 'tidak lulus') {
+            statusElem.textContent = student.status;
+            statusContainer.classList.add('status-tidak-lulus');
+            statusElem.classList.add('text-red-600');
+            statusIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+        } else {
+            statusElem.textContent = '-'; 
+            statusContainer.classList.add('status-pending');
+            statusElem.classList.add('text-gray-600');
+            statusIconContainer.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+            </svg>`;
+        }
+        
+        loginContainer.classList.add('hidden');
+        listContainer.classList.add('hidden'); // Pastikan list hidden
+        detailContainer.classList.remove('hidden');
+    }
+    
+    function setLoading(isLoading) {
+        if (isLoading) {
+            loginButton.disabled = true;
+            document.getElementById('login-button-text').textContent = 'Mencari...';
+            document.getElementById('loader').classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+        } else {
+            loginButton.disabled = false;
+            document.getElementById('login-button-text').textContent = 'Lihat Hasil Kelulusan';
+            document.getElementById('loader').classList.add('hidden');
+        }
+    }
+
+    async function handleLogin() {
+        const searchInput = searchInputElem.value.trim();
+        if (!searchInput) {
+            errorMessage.textContent = 'Input tidak boleh kosong.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+        setLoading(true);
+        const allStudents = await fetchAndProcessData();
+        setLoading(false);
+        if (!allStudents) return;
+        
+        const searchInputLower = searchInput.toLowerCase();
+        let studentFound = null;
+        let multipleMatches = [];
+
+        // 1. Cek Exact Match NISN
+        const studentByNisn = allStudents.find(s => s.nisn === searchInput);
+        
+        if (studentByNisn) {
+            // Jika ketemu by NISN, langsung detail
+            lastView = 'login';
+            showAnnouncementDetails(studentByNisn);
+            errorMessage.classList.add('hidden');
+        } else {
+            // 2. Jika tidak, cari berdasarkan Nama (contains)
+            const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
+            
+            if (nameMatches.length === 1) {
+                // Satu nama ketemu
+                lastView = 'login';
+                showAnnouncementDetails(nameMatches[0]);
+                errorMessage.classList.add('hidden');
+            } else if (nameMatches.length > 1) {
+                // LEBIH DARI SATU -> TAMPILKAN TABEL
+                showStudentList(nameMatches);
+                errorMessage.classList.add('hidden');
+            } else {
+                errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
+                errorMessage.classList.remove('hidden');
+            }
+        }
+    }
+
+    function handleLogout() {
+        // Tombol Kembali di halaman Detail
+        detailContainer.classList.add('hidden');
+        
+        if (lastView === 'list') {
+            // Jika sebelumnya dari list, kembali ke list
+            listContainer.classList.remove('hidden');
+        } else {
+            // Jika sebelumnya dari login/single result, kembali ke login
+            loginContainer.classList.remove('hidden');
+            searchInputElem.value = '';
+        }
+        errorMessage.classList.add('hidden');
+    }
+    
+    function handleBackToListSearch() {
+        // Tombol Kembali di halaman List
+        listContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        searchInputElem.value = ''; // Bersihkan input saat kembali total
+        errorMessage.classList.add('hidden');
+    }
+
+    loginButton.addEventListener('click', handleLogin);
+    logoutButton.addEventListener('click', handleLogout); // Listener tombol kembali di Detail
+    backToSearchFromListButton.addEventListener('click', handleBackToListSearch); // Listener tombol kembali di List
+    searchInputElem.addEventListener('keyup', (event) => { if (event.key === 'Enter') handleLogin(); });
+    
+    // --- PENGATURAN WAKTU & INISIALISASI ---
+    const countdownContainer = document.getElementById('countdown-container');
+    const countdownMessage = document.getElementById('countdown-message');
+    let countdownInterval;
+
+    function showApp() {
+        countdownContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        if (countdownInterval) clearInterval(countdownInterval);
+        fetchAndProcessData();
+    }
+
+    function updateCountdown(targetDate) {
+		const now = new Date().getTime();
+		const distance = targetDate - now;
+
+		// Mencari otomatis tombol di form Anda
+		const submitBtn = document.querySelector('button[type="submit"]') || document.querySelector('.card button');
+
+		if (distance <= 0) {
+			clearInterval(countdownInterval);
+			if (submitBtn) {
+				// Kembalikan teks dan aktifkan tombol saat waktu habis
+				submitBtn.textContent = 'Lihat Hasil Pengumuman';
+				submitBtn.disabled = false;
+				submitBtn.classList.remove('cursor-not-allowed', 'opacity-50');
+			}
+			showApp();
+			return;
+		}
+
+		// Perhitungan waktu
+		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// Format teks yang akan tampil di tombol
+		let timeString = "";
+		if (days > 0) timeString += `${days} Hari `;
+		timeString += `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+		// Pindahkan teks hitung mundur ke dalam tombol & nonaktifkan tombol untuk sementara
+		if (submitBtn) {
+			submitBtn.innerHTML = `Dibuka dalam <b>${timeString}</b>`;
+			submitBtn.disabled = true;
+			
+			// Tambahkan efek visual (menggunakan class bawaan Tailwind) agar tombol terlihat tidak aktif
+			submitBtn.classList.add('cursor-not-allowed', 'opacity-50');
+		}
+	}
+
+    async function initialize() {
+        try {
+            const cacheBuster = `&_=${new Date().getTime()}`;
+            const response = await fetch(configSheetUrl + cacheBuster);
+            if (!response.ok) throw new Error(`Gagal mengambil konfigurasi waktu. Status: ${response.status}`);
+            const csvText = await response.text();
+            const configData = parseCSV(csvText);
+            const announcementSetting = configData.find(row => row.Setting === 'Waktu Pengumuman');
+            if (!announcementSetting || !announcementSetting.Value) {
+                countdownMessage.textContent = 'Waktu pengumuman belum diatur. Silakan hubungi administrator.';
+                countdownContainer.classList.remove('hidden');
+                throw new Error('Waktu Pengumuman tidak ditemukan di sheet konfigurasi.');
+            }
+            const targetDate = new Date(announcementSetting.Value).getTime();
+            if (isNaN(targetDate)) {
+                 countdownMessage.textContent = 'Format tanggal di Google Sheet salah. Gunakan format: YYYY-MM-DD HH:MM:SS';
+                 countdownContainer.classList.remove('hidden');
+                 throw new Error('Invalid date format');
+            }
+			
+			// Selalu tampilkan form (loginContainer) dan pastikan kotak hitung mundur besar disembunyikan
+            loginContainer.classList.remove('hidden');
+            if (typeof countdownContainer !== 'undefined' && countdownContainer) {
+                countdownContainer.classList.add('hidden');
+                countdownContainer.style.display = 'none'; // Tambahan agar benar-benar tersembunyi
+            }
+
+            if (new Date().getTime() >= targetDate) {
+                showApp();
+            } else {
+                countdownInterval = setInterval(() => updateCountdown(targetDate), 1000);
+                updateCountdown(targetDate);
+            }
+			
+        } catch (error) {
+            console.error("Initialization Error:", error);
+            if (!countdownMessage.textContent) {
+                 countdownMessage.textContent = 'Gagal mengambil data server.';
+            }
+            // Tampilkan container countdown bahkan jika ada error untuk menampilkan pesan error
+            countdownContainer.classList.remove('hidden');
+            loginContainer.classList.add('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initialize);
+	
+	document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrasi Siswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Heroicons -->
+    <script src="https://unpkg.com/heroicons@2.1.1/24/outline/index.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .input-with-icon {
+            position: relative;
+        }
+        .input-with-icon .icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+        .input-with-icon input {
+            padding-left: 40px;
+        }
+        /* Table Styles Khusus untuk Detail Administrasi */
+        .admin-table th, .admin-table td { text-align: center; }
+        .admin-table td:first-child, .admin-table th:first-child { text-align: left; }
+        .table-fixed { table-layout: fixed; }
+        
+        /* Utility agar tampilan HP tidak renggang */
+        @media (max-width: 640px) {
+            .compact-mobile td, .compact-mobile th {
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+        }
+		/* --- Kode untuk Sticky Kolom Aksi di HP --- */
+		@media (max-width: 768px) {
+			/* Menargetkan kolom paling kanan (terakhir) pada header dan isi tabel */
+			table th:last-child,
+			table td:last-child {
+				position: sticky !important;
+				right: 0 !important;
+				background-color: #ffffff; /* Harus solid agar teks di belakangnya tidak tembus */
+				z-index: 10;
+				/* Memberikan sedikit bayangan di sisi kiri agar terlihat ada pembatas saat digeser */
+				box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.05); 
+			}
+			
+			/* Z-index lebih tinggi untuk header agar tidak tertimpa baris data yang di-scroll */
+			table thead th:last-child {
+				z-index: 20;
+				background-color: #f9fafb; /* Sesuaikan dengan warna background header tabel Anda (contoh: abu-abu sangat terang) */
+			}
+
+			/* Jika baris tabel Anda memiliki efek hover, pastikan kolom sticky ikut berubah warna */
+			table tbody tr:hover td:last-child {
+				background-color: #f3f4f6; /* Warna hover standar Tailwind */
+			}
+		}
+		/* ------------------------------------------ */
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- 1. Kontainer Login -->
+    <div id="login-container" class="w-full max-w-sm p-8 space-y-4 card">
+        <div class="text-center">
+            <div class="flex justify-center mx-auto mb-4 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+            <p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+        </div>
+        <br>
+        <div class="space-y-0">
+            <p class="text-gray-600 mb-1" style="padding-left: 12px">No. Induk / NISN</p>
+            <div class="input-with-icon">
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </span>
+                <input type="text" id="nisn" name="nisn" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 transition shadow-sm" placeholder="Masukkan No. NISN Anda">
+            </div>
+			<p id="error-message" class="text-red-500 text-sm text-center hidden pt-1"></p>
+        </div>
+
+        <button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+            </svg>
+            <span id="login-button-text">Cek Administrasi</span>
+            <div id="loader" class="loader hidden"></div>
+        </button>
+		<p class="text-xs text-gray-500 text-center pt-0">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+    </div>
+
+    <!-- 2. Kontainer Hasil Pencarian (List Siswa) -->
+    <div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
+            <div class="flex items-center gap-4">
+                 <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-full border">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                    </svg>
+                 </div>
+                 <div>
+                     <h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+                     <p class="text-xs md:text-sm text-gray-500">Hasil Pencarian</p>
+                 </div>
+            </div>
+            <!-- BUTTON: Dimodifikasi dengan w-full sm:w-auto agar responsif -->
+			<button onclick="handleBackToLogin()" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 border rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                <span>Kembali</span>
+            </button>
+        </div>
+        <div class="overflow-x-auto rounded-lg border mt-2">
+            <table class="w-full text-sm text-left text-gray-500">
+				<thead class="text-xs text-gray-700 uppercase bg-gray-50">
+					<tr>
+						<th scope="col" class="px-4 py-3 sm:px-6 text-center">No</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">Nama Siswa</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">NISN</th>
+						<th scope="col" class="px-4 py-3 sm:px-6">Kelas</th>
+						<th scope="col" class="px-4 py-3 sm:px-6 text-center">Aksi</th>
+					</tr>
+				</thead>
+                <tbody id="student-list-body" class="bg-white divide-y">
+                    <!-- Rows will be injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. Kontainer Detail Administrasi -->
+    <div id="detail-container" class="hidden w-full max-w-5xl p-6 md:p-8 card">
+         <!-- Header & Tombol Kembali -->
+         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 border-b pb-3 md:pb-4 gap-3 md:gap-4">
+            <div class="flex items-center gap-4">
+                 <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-full border">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                    </svg>
+                 </div>
+                 <div>
+                     <h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+                     <p class="text-xs md:text-sm text-gray-500">MTs Ma'arif 1 Jombang</p>
+                 </div>
+            </div>
+            <button id="back-button" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 border rounded-lg hover:bg-red-200 focus:outline-none transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                </svg>
+                <span id="back-button-text">Kembali</span>
+            </button>
+        </div>
+        
+        <!-- INFO SISWA (List Vertikal Rapi dengan Titik Dua Lurus) -->
+        <div class="bg-teal-50 border rounded-lg p-4 md:p-6 mb-6 shadow-sm">
+            <div class="grid grid-cols-[auto_min-content_1fr] gap-x-4 gap-y-2 text-sm md:text-base">
+                
+                <!-- Nama -->
+                <div class="font-semibold text-teal-700 whitespace-nowrap">Nama Siswa</div>
+                <div class="font-semibold text-teal-700">:</div>
+                <div id="student-name" class="font-bold text-gray-900"></div>
+
+                <!-- NISN -->
+                <div class="font-semibold text-teal-700 whitespace-nowrap">NISN</div>
+                <div class="font-semibold text-teal-700">:</div>
+                <div id="student-nisn" class="font-bold text-gray-900"></div>
+
+                <!-- Kelas -->
+                <div class="font-semibold text-teal-700 whitespace-nowrap">Kelas saat ini</div>
+                <div class="font-semibold text-teal-700">:</div>
+                <div id="student-class" class="font-bold text-gray-900"></div>
+
+            </div>
+        </div>
+
+        <!-- TABEL ADMINISTRASI (Grid 3 Kolom) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+            <!-- Fungsi Helper untuk Header Tabel Detail -->
+            <script>
+                const tableHeaderHTML = `
+                    <thead class="text-xs text-gray-500 uppercase bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-2 py-2 md:px-2 md:py-3 w-1/2 text-left font-semibold text-gray-700">Item</th>
+                            <th scope="col" class="px-1 py-2 md:py-3 w-1/6 border-l">Kls 7</th>
+                            <th scope="col" class="px-1 py-2 md:py-3 w-1/6 border-l">Kls 8</th>
+                            <th scope="col" class="px-1 py-2 md:py-3 w-1/6 border-l">Kls 9</th>
+                        </tr>
+                    </thead>
+                `;
+            </script>
+
+            <!-- Kolom 1: BP3 -->
+            <div class="bg-white rounded-lg border shadow-sm flex flex-col">
+                <div class="p-3 md:p-4 bg-gray-50 border-b rounded-t-lg">
+                    <h2 class="font-bold text-gray-800 flex items-center gap-2 text-sm md:text-base">
+                        <span>💰</span> Administrasi BP3
+                    </h2>
+                </div>
+                <div class="overflow-x-auto flex-grow">
+                    <table class="min-w-full text-sm table-fixed admin-table compact-mobile">
+                        <script>document.write(tableHeaderHTML)</script>
+                        <tbody id="monthly-payment-body" class="bg-white divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Kolom 2: Daftar Ulang -->
+            <div class="bg-white rounded-lg border shadow-sm flex flex-col">
+                <div class="p-3 md:p-4 bg-gray-50 border-b rounded-t-lg">
+                    <h2 class="font-bold text-gray-800 flex items-center gap-2 text-sm md:text-base">
+                        <span>📝</span> Daftar Ulang
+                    </h2>
+                </div>
+                <div class="overflow-x-auto flex-grow">
+                    <table class="min-w-full text-sm table-fixed admin-table compact-mobile">
+                         <script>document.write(tableHeaderHTML)</script>
+                        <tbody id="registration-payment-body" class="bg-white divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kolom 3: Ujian -->
+            <div class="bg-white rounded-lg border shadow-sm flex flex-col">
+                <div class="p-3 md:p-4 bg-gray-50 border-b rounded-t-lg">
+                    <h2 class="font-bold text-gray-800 flex items-center gap-2 text-sm md:text-base">
+                        <span>🎓</span> Ujian
+                    </h2>
+                </div>
+                <div class="overflow-x-auto flex-grow">
+                    <table class="min-w-full text-sm table-fixed admin-table compact-mobile">
+                         <script>document.write(tableHeaderHTML)</script>
+                        <tbody id="exam-payment-body" class="bg-white divide-y"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- KONFIGURASI ---
+    const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSs_ubKj8Q0XJYlud3Knnf40Nrl_IUJS482yvU95YLYg_nohrDWs1u2-c7HlzAY4d_AznF8wUvmuT6A/pub?gid=878725199&single=true&output=csv';
+
+    // --- ELEMENT SELECTORS ---
+    const loginContainer = document.getElementById('login-container');
+    const listContainer = document.getElementById('list-container');
+    const detailContainer = document.getElementById('detail-container');
+    const loginButton = document.getElementById('login-button');
+    const backButton = document.getElementById('back-button');
+    const backButtonText = document.getElementById('back-button-text');
+    const nisnInput = document.getElementById('nisn');
+    const errorMessage = document.getElementById('error-message');
+    const studentListBody = document.getElementById('student-list-body');
+
+    // --- Config Data Keys ---
+    const monthlyPaymentKeys = ['Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
+    const registrationPaymentKeys = ['Pendaftaran', 'Daftar Ulang', 'Kaos Olga & Batik', 'MOS', 'LDK', 'Sampul Rapor', 'Osis-PHBI dll', 'Bet/Dasi', 'Kalender'];
+    const examPaymentKeys = ['LKS 1', 'PTS 1', 'PAS', 'LKS 2', 'PTS 2', 'PAT', 'Foto Ijazah', 'Ujian Akhir', 'Akhir Sanah'];
+
+    let studentListCache = null;
+    let isFromSearchList = false; // State untuk melacak asal navigasi
+
+    // --- HELPERS ---
+    function parseCSV(csvText) {
+        const lines = csvText.split(/\r?\n/).filter(line => line);
+        if (lines.length < 2) return [];
+        const headers = lines[0].split(',').map(h => h.trim());
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+            if (values.length === headers.length) {
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let val = values[index] ? values[index].trim() : '';
+                    val = val.replace(/^"|"$/g, ''); 
+                    obj[header] = val;
+                });
+                data.push(obj);
+            }
+        }
+        return data;
+    }
+
+    function parseClassLevel(classString) {
+        if (!classString) return 0;
+        const normalized = classString.toUpperCase();
+        if (normalized.includes('7') || normalized.includes('VII')) return 7;
+        if (normalized.includes('8') || normalized.includes('VIII')) return 8;
+        if (normalized.includes('9') || normalized.includes('IX')) return 9;
+        return 0; 
+    }
+
+    function groupBy(array, key) {
+        return array.reduce((result, currentValue) => {
+            (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
+            return result;
+        }, {});
+    }
+
+    async function fetchAndProcessData() {
+        if (studentListCache) return studentListCache;
+        try {
+            const cacheBuster = `&_=${new Date().getTime()}`;
+            const response = await fetch(dataSheetUrl + cacheBuster);
+            if (!response.ok) throw new Error('Network response was not ok');
+            const csvText = await response.text();
+            
+            const rawData = parseCSV(csvText);
+            studentListCache = rawData.map(row => ({
+                ...row,
+                nisn: row['NISN'],
+                nama: row['Nama Siswa'],
+                kelas: row['Kelas'],
+                tahun_pelajaran: row['TaPel'],
+                classLevel: parseClassLevel(row['Kelas'])
+            })).filter(s => s.nisn);
+
+            return studentListCache;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            errorMessage.textContent = 'Gagal mengambil data server.';
+            errorMessage.classList.remove('hidden');
+            return null;
+        }
+    }
+
+    function renderIcon(status) {
+        // 1. Status Lunas -> Hijau Centang
+        if (status === 'Lunas') {
+            return `<div class="flex justify-center"><div class="bg-green-100 text-green-600 rounded-full p-0.5 md:p-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 md:w-5 md:h-5"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" /></svg></div></div>`;
+        } 
+        
+        // 2. Status "-" (Strip) atau NULL/Undefined (Data tahun itu tidak ada) -> Tetap Strip
+        if (status === '-' || status === null || typeof status === 'undefined') {
+            return `<span class="text-gray-400 font-medium">-</span>`; 
+        }
+
+        // 3. Status Kosong ("") atau teks lain -> Merah Silang
+        return `<div class="flex justify-center"><div class="bg-red-100 text-red-600 rounded-full p-0.5 md:p-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 md:w-5 md:h-5"><path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" /></svg></div></div>`;
+    }
+
+    function showPaymentDetails(studentRecords) {
+        if (!studentRecords || studentRecords.length === 0) return;
+
+        const sortedRecords = [...studentRecords].sort((a, b) => b.classLevel - a.classLevel);
+        const latestRecord = sortedRecords[0];
+
+        document.getElementById('student-name').textContent = latestRecord.nama;
+        document.getElementById('student-class').textContent = latestRecord.kelas;
+        document.getElementById('student-nisn').textContent = latestRecord.nisn;
+        
+        const recordMap = {};
+        studentRecords.forEach(r => {
+            if (r.classLevel) {
+                recordMap[r.classLevel] = r;
+            }
+        });
+
+        function populateGrid(tbodyId, paymentItems) {
+            const tbody = document.getElementById(tbodyId);
+            tbody.innerHTML = '';
+            
+            paymentItems.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+
+                const val7 = recordMap[7] ? recordMap[7][item] : null;
+                const val8 = recordMap[8] ? recordMap[8][item] : null;
+                const val9 = recordMap[9] ? recordMap[9][item] : null;
+
+                tr.innerHTML = `
+                    <td class="px-2 py-2 md:py-3 font-medium text-gray-700 text-left border-r text-xs sm:text-sm">${item}</td>
+                    <td class="px-1 py-1 md:py-2 border-r border-gray-100 align-middle">${renderIcon(val7)}</td>
+                    <td class="px-1 py-1 md:py-2 border-r border-gray-100 align-middle">${renderIcon(val8)}</td>
+                    <td class="px-1 py-1 md:py-2 align-middle">${renderIcon(val9)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        populateGrid('monthly-payment-body', monthlyPaymentKeys);
+        populateGrid('registration-payment-body', registrationPaymentKeys);
+        populateGrid('exam-payment-body', examPaymentKeys);
+
+        if (isFromSearchList) {
+            backButtonText.textContent = "Kembali";
+        } else {
+            backButtonText.textContent = "Kembali";
+        }
+
+        loginContainer.classList.add('hidden');
+        listContainer.classList.add('hidden');
+        detailContainer.classList.remove('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function showStudentList(groupedStudents) {
+        studentListBody.innerHTML = '';
+        const nisnKeys = Object.keys(groupedStudents);
+
+        // MODIFIED: Added index parameter
+        nisnKeys.forEach((nisn, index) => {
+            const records = groupedStudents[nisn];
+            const latestRecord = records.sort((a, b) => b.classLevel - a.classLevel)[0];
+
+            const tr = document.createElement('tr');
+			tr.className = 'bg-white hover:bg-teal-50 transition duration-150 border-b';
+            // MODIFIED: Added Number column (index + 1)
+            tr.innerHTML = `
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-center font-medium">${index + 1}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium ">${latestRecord.nama}</td>
+				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.nisn}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.kelas}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center">
+                    <button class="bg-teal-600 text-white px-3 py-1.5 rounded text-xs hover:bg-teal-700 transition select-student-btn">
+                        Lihat
+                    </button>
+                </td>
+            `;
+            tr.querySelector('.select-student-btn').addEventListener('click', () => {
+                showPaymentDetails(records);
+            });
+            studentListBody.appendChild(tr);
+        });
+
+        isFromSearchList = true; 
+        loginContainer.classList.add('hidden');
+        detailContainer.classList.add('hidden');
+        listContainer.classList.remove('hidden');
+    }
+
+    async function handleLogin() {
+        const query = nisnInput.value.trim().toLowerCase();
+        if (!query) {
+            errorMessage.textContent = 'Input tidak boleh kosong.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        setLoading(true);
+        const allStudents = await fetchAndProcessData();
+        setLoading(false);
+
+        if (!allStudents) return;
+
+        const rawMatches = allStudents.filter(s => 
+            (s.nisn && s.nisn.toString() === query) || 
+            (s.nama && s.nama.toLowerCase().includes(query))
+        );
+
+        if (rawMatches.length === 0) {
+            errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        const groupedMatches = groupBy(rawMatches, 'nisn');
+        const uniqueNisns = Object.keys(groupedMatches);
+
+        errorMessage.classList.add('hidden');
+
+        if (uniqueNisns.length === 1) {
+            isFromSearchList = false;
+            showPaymentDetails(groupedMatches[uniqueNisns[0]]);
+        } else {
+            showStudentList(groupedMatches);
+        }
+    }
+
+    function handleBackNavigation() {
+        if (isFromSearchList) {
+            detailContainer.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+            window.scrollTo(0,0);
+        } else {
+            handleBackToLogin();
+        }
+    }
+
+    function handleBackToLogin() {
+        nisnInput.value = '';
+        listContainer.classList.add('hidden');
+        detailContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        errorMessage.classList.add('hidden');
+        isFromSearchList = false;
+    }
+
+    function setLoading(isLoading) {
+        const btn = loginButton;
+        const loader = document.getElementById('loader');
+        const text = document.getElementById('login-button-text');
+        
+        if (isLoading) {
+            btn.disabled = true;
+            text.textContent = '';
+            loader.classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+        } else {
+            btn.disabled = false;
+            text.textContent = 'Cek Administrasi';
+            loader.classList.add('hidden');
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+    loginButton.addEventListener('click', handleLogin);
+    backButton.addEventListener('click', handleBackNavigation); 
+    nisnInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') handleLogin();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndProcessData(); 
+    });
+
+	document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

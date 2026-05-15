@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murottal Al-Qur'an 30 Juz</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-hover {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+            border-color: #059669;
+            background-color: #f0fdf4;
+        }
+        /* Custom scrollbar matching link-aplikasi-madrasah */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800">
+
+    <!-- STICKY HEADER WRAPPER -->
+    <div class="sticky top-0 z-50 flex flex-col shadow-sm bg-white border-b border-slate-200">
+        
+        <!-- Header Section -->
+        <header class="py-4">
+            <div class="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
+                
+                <!-- Kiri: Ikon & Judul -->
+                <div class="flex items-center gap-3">
+                    <div class="bg-emerald-600 rounded-lg w-10 h-10 flex items-center justify-center text-white shrink-0 shadow-sm">
+                        <i class="fas fa-quran text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-bold text-slate-800 leading-tight">Murottal Al-Qur'an</h1>
+                        <p class="text-slate-500 text-xs font-medium mt-0.5">30 Juz Audio Lengkap</p>
+                    </div>
+                </div>
+
+                <!-- Kanan: Search Bar -->
+                <div class="w-full md:w-72 relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" placeholder="Cari Juz..." 
+                        class="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-1.5 text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all">
+                </div>
+                
+            </div>
+        </header>
+
+        <!-- Audio Player Section -->
+        <div id="playerContainer" class="hidden bg-white border-t border-slate-200 py-2 transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 md:px-8 w-full">
+                <div class="w-full flex flex-col mb-3">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                            <span id="nowPlayingText" class="text-xs font-bold text-emerald-700 tracking-wider">Memutar Audio</span>
+                        </div>
+                        <button id="closePlayer" class="text-slate-400 hover:text-red-500 transition-colors p-1" title="Tutup Player">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <audio id="audioPlayer" controls class="w-full h-8 outline-none shadow-sm rounded-lg">
+                        <source id="audioSource" src="" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 flex-grow w-full">
+        <!-- Responsive Grid -->
+        <div id="juzContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+            <!-- Kartu Juz diinjeksi di sini -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-slate-100 mb-4">
+                <i class="fas fa-search text-slate-400 text-2xl"></i>
+            </div>
+            <h3 class="text-base font-bold text-slate-800">Juz tidak ditemukan</h3>
+            <p class="text-sm text-slate-500 mt-1">Coba masukkan angka juz yang benar.</p>
+        </div>
+    </main>
+
+    <!-- STICKY FOOTER -->
+    <footer class="sticky bottom-0 z-50 bg-white/95 backdrop-blur-sm border-t border-slate-200 shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 text-center text-slate-500 text-[10px] md:text-xs font-medium">
+            <p>&copy; <span id="year"></span> Murottal Al-Qur'an &bull; 30 Juz Audio Lengkap</p>
+        </div>
+    </footer>
+
+    <script>
+        const juzData = [
+            { id: 1, link: "http://j.mp/2b8SiNO" }, { id: 2, link: "http://j.mp/2b8RJmQ" },
+            { id: 3, link: "http://j.mp/2bFSrtF" }, { id: 4, link: "http://j.mp/2b8SXi3" },
+            { id: 5, link: "http://j.mp/2b8RZm3" }, { id: 6, link: "http://j.mp/28MBohs" },
+            { id: 7, link: "http://j.mp/2bFRIZC" }, { id: 8, link: "http://j.mp/2bufF7o" },
+            { id: 9, link: "http://j.mp/2byr1bu" }, { id: 10, link: "http://j.mp/2bHfyUH" },
+            { id: 11, link: "http://j.mp/2bHf80y" }, { id: 12, link: "http://j.mp/2bWnTby" },
+            { id: 13, link: "http://j.mp/2bFTiKQ" }, { id: 14, link: "http://j.mp/2b8SUTA" },
+            { id: 15, link: "http://j.mp/2bFRQIM" }, { id: 16, link: "http://j.mp/2b8SegG" },
+            { id: 17, link: "http://j.mp/2brHsFz" }, { id: 18, link: "http://j.mp/2b8SCfc" },
+            { id: 19, link: "http://j.mp/2bFSq95" }, { id: 20, link: "http://j.mp/2brI1zc" },
+            { id: 21, link: "http://j.mp/2b8VcBO" }, { id: 22, link: "http://j.mp/2bFRxNP" },
+            { id: 23, link: "http://j.mp/2brItxm" }, { id: 24, link: "http://j.mp/2brHKw5" },
+            { id: 25, link: "http://j.mp/2brImlf" }, { id: 26, link: "http://j.mp/2bFRHF2" },
+            { id: 27, link: "http://j.mp/2bFRXno" }, { id: 28, link: "http://j.mp/2brI3ai" },
+            { id: 29, link: "http://j.mp/2bFRyBF" }, { id: 30, link: "http://j.mp/2bFREcc" }
+        ];
+
+        const container = document.getElementById('juzContainer');
+        const searchInput = document.getElementById('searchInput');
+        const emptyState = document.getElementById('emptyState');
+        const playerContainer = document.getElementById('playerContainer');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const nowPlayingText = document.getElementById('nowPlayingText');
+        const closePlayerBtn = document.getElementById('closePlayer');
+
+        function playAudio(juzId, audioLink) {
+            playerContainer.classList.remove('hidden');
+            nowPlayingText.innerHTML = `Memutar: <span class="text-emerald-600 font-bold">Juz ${juzId}</span>`;
+            audioPlayer.src = audioLink;
+            audioPlayer.play().catch(() => console.log("Playback error: Link mungkin tidak tersedia."));
+            // Scroll ke atas sedikit agar player terlihat jika tertutup keyboard mobile
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        closePlayerBtn.addEventListener('click', () => {
+            audioPlayer.pause();
+            playerContainer.classList.add('hidden');
+        });
+
+        function renderCards(data) {
+            container.innerHTML = '';
+            if (data.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            data.forEach(juz => {
+                const card = document.createElement('button');
+                card.type = "button";
+                card.className = "group bg-white rounded-xl border border-slate-200 p-3 md:p-5 card-hover text-left md:text-center";
+                
+                card.innerHTML = `
+                    <div class="flex flex-row md:flex-col items-center md:justify-center gap-3 md:gap-0 pointer-events-none">
+                        <div class="w-9 h-9 md:w-12 md:h-12 shrink-0 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center md:mb-3 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
+                             <i class="fas fa-play text-[11px] md:text-sm pl-0.5"></i>
+                        </div>
+                        <div class="flex flex-col overflow-hidden">
+                            <h3 class="text-sm md:text-base font-bold text-slate-800 leading-none md:leading-normal truncate">Juz ${juz.id}</h3>
+                            <p class="text-[9px] md:text-[10px] text-slate-400 mt-1 md:mt-1 font-bold tracking-widest">Audio Mp3</p>
+                        </div>
+                    </div>
+                `;
+                
+                card.onclick = () => playAudio(juz.id, juz.link);
+                container.appendChild(card);
+            });
+        }
+
+        renderCards(juzData);
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = juzData.filter(juz => juz.id.toString().includes(term));
+            renderCards(filtered);
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
