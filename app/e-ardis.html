@@ -111,7 +111,7 @@
             <span id="login-button-text">Cari Data Siswa</span>
             <div id="loader" class="loader hidden"></div>
         </button>
-		<p class="text-xs text-gray-500 text-center pt-0">Copyright &copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+		<p class="text-xs text-gray-500 text-center pt-0">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
     </div>
 
     <!-- Kontainer Daftar Siswa (Tabel) -->
@@ -160,7 +160,7 @@
 
     <!-- Kontainer Detail Arsip Siswa -->
     <div id="detail-container" class="hidden w-full max-w-4xl p-6 md:p-8 card">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4 gap-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-3 md:pb-4 gap-3 md:gap-4">
             <div class="flex items-center gap-4 w-full sm:w-auto">
                 <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
@@ -467,7 +467,9 @@
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${student.nisn}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${student.kelas}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center">
-                    <button class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 btn-detail" data-nisn="${student.nisn}">Lihat</button>
+                    <button class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 btn-detail" data-nisn="${student.nisn}">
+						Lihat
+					</button>
                 </td>
             `;
             studentTableBody.appendChild(tr);
