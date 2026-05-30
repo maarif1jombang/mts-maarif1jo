@@ -76,218 +76,224 @@
 		/* ------------------------------------------ */
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
 
-    <!-- 1. Kontainer Login -->
-    <div id="login-container" class="w-full max-w-sm p-8 space-y-4 card">
-		<div class="text-center">
-            <div class="flex justify-center mx-auto text-teal-600 mb-0">
-				<svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-					<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
-				</svg>
-            </div>
-			<div class="flex flex-row justify-center mb-4">
-				<p class="font-bold text-red-600">e-</p>
-				<p class="font-bold text-teal-600">Admin</p>
+<body><div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
+
+	<div class="flex items-center justify-center min-h-screen p-4">
+	
+		<!-- 1. Kontainer Login -->
+		<div id="login-container" class="w-full max-w-sm p-8 space-y-2 card">
+			<div class="text-center">
+				<div class="flex justify-center mx-auto text-teal-600 mb-0">
+					<svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
+					</svg>
+				</div>
+				<div class="flex flex-row justify-center mb-4">
+					<p class="font-bold text-red-600">e-</p>
+					<p class="font-bold text-teal-600">Admin</p>
+				</div>
+				<h1 class="text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+				<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
 			</div>
-            <h1 class="text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
-            <p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
-        </div>
-        <br>
-        <div class="space-y-0">
-            <div class="input-with-icon">
-                <span class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-						<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </span>
-                <input type="text" id="nisn" name="nisn" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 transition" placeholder="Masukkan No. NISN Anda">
-            </div>
-			<p id="error-message" class="text-red-500 text-sm text-center hidden pt-1"></p>
-        </div>
-
-        <button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
-            </svg>
-            <span id="login-button-text">Cek Administrasi</span>
-            <div id="loader" class="loader hidden"></div>
-        </button>
-		<p class="text-xs text-gray-500 text-center pt-0">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
-    </div>
-
-    <!-- 2. Kontainer Hasil Pencarian (List Siswa) -->
-    <div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
-            <div class="flex items-center gap-4">
-                <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-						<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
-                    <p class="text-xs md:text-sm text-gray-500">Hasil Pencarian</p>
-                </div>
-            </div>
-            
-			<button onclick="handleBackToLogin()" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                <span>Kembali</span>
-            </button>
-        </div>
-        <div class="overflow-x-auto rounded-lg border mt-2">
-            <table class="w-full text-sm text-left text-gray-500">
-				<thead class="text-xs text-gray-700 uppercase bg-gray-50">
-					<tr>
-						<th scope="col" class="px-4 py-3 sm:px-6 text-center">No</th>
-						<th scope="col" class="px-4 py-3 sm:px-6">Nama Siswa</th>
-						<th scope="col" class="px-4 py-3 sm:px-6">NISN</th>
-						<th scope="col" class="px-4 py-3 sm:px-6">Kelas</th>
-						<th scope="col" class="px-4 py-3 sm:px-6">Administrasi</th>
-						<th scope="col" class="px-4 py-3 sm:px-6 text-center">Aksi</th>
-					</tr>
-				</thead>
-                <tbody id="student-list-body" class="bg-white divide-y">
-                    <!-- Rows will be injected here -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- 3. Kontainer Detail Administrasi -->
-    <div id="detail-container" class="hidden w-full max-w-4xl p-6 md:p-8 card">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-3 md:pb-4 gap-3 md:gap-4">
-            <div class="flex items-center gap-4">
-                <div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-						<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
-                    <p class="text-xs md:text-sm text-gray-500">MTs Ma'arif 1 Jombang</p>
-                </div>
-            </div>
-            <button id="back-button" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 rounded-lg hover:bg-red-200 focus:outline-none transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                </svg>
-                <span id="back-button-text">Kembali</span>
-            </button>
-        </div>
-        
-        <!-- INFO SISWA (List Vertikal Rapi dengan Titik Dua Lurus) -->
-        <div class="bg-gray-50 border rounded-lg p-4 md:p-6 mb-6">
-			<!-- Menggunakan grid 2 kolom utama pada layar besar -->
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-xs sm:text-sm">
-				
-				<!-- Kolom Kiri -->
-				<div class="grid grid-cols-[auto_min-content_1fr] gap-x-4 gap-y-2 items-center">
-					<!-- Nama -->
-					<div class="text-gray-500 whitespace-nowrap">Nama Siswa</div>
-					<div class="text-gray-500">:</div>
-					<div id="student-name" class="font-bold text-gray-800"></div>
-
-					<!-- NISN -->
-					<div class="text-gray-500 whitespace-nowrap">NISN</div>
-					<div class="text-gray-500">:</div>
-					<div id="student-nisn" class="font-bold text-gray-800"></div>
-
-					<!-- Kelas -->
-					<div class="text-gray-500 whitespace-nowrap">Kelas</div>
-					<div class="text-gray-500">:</div>
-					<div id="student-class" class="font-bold text-gray-800"></div>
+			<br><br>
+			<div class="space-y-3 px-4 py-4 bg-gray-100 border border-gray-200 rounded-md">
+				<div class="">
+					<div class="input-with-icon">
+						<span class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+							</svg>
+						</span>
+						<input type="text" id="nisn" name="nisn" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600" placeholder="Masukkan No. NISN Anda">
+					</div>
+					<p id="error-message" class="text-red-500 text-sm text-center hidden pt-1"></p>
 				</div>
 
-				<!-- Kolom Kanan -->
-				<div class="grid grid-cols-[auto_min-content_1fr] gap-x-4 gap-y-2 items-center self-start">
-					<!-- Administrasi -->
-					<div class="text-gray-500 whitespace-nowrap">Administrasi</div>
-					<div class="text-gray-500">:</div>
-					<div class="flex flex-row gap-1">
-						<p class="font-bold text-gray-800">Rp.</p>
-						<p id="student-admin" class="font-bold text-gray-800"></p>
+				<button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+					</svg>
+					<span id="login-button-text">Cek Administrasi</span>
+					<div id="loader" class="loader hidden"></div>
+				</button>
+			</div>
+			<p class="text-xs text-gray-500 text-center pt-0">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+		</div>
+
+		<!-- 2. Kontainer Hasil Pencarian (List Siswa) -->
+		<div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
+			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
+				<div class="flex items-center gap-4">
+					<div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
+						</svg>
 					</div>
+					<div>
+						<h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+						<p class="text-xs md:text-sm text-gray-500">Hasil Pencarian</p>
+					</div>
+				</div>
+				
+				<button onclick="handleBackToLogin()" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+					</svg>
+					<span>Kembali</span>
+				</button>
+			</div>
+			<div class="overflow-x-auto rounded-lg border mt-2">
+				<table class="w-full text-sm text-left text-gray-500">
+					<thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+						<tr>
+							<th scope="col" class="px-4 py-3 sm:px-6 text-center">No</th>
+							<th scope="col" class="px-4 py-3 sm:px-6">Nama Siswa</th>
+							<th scope="col" class="px-4 py-3 sm:px-6">NISN</th>
+							<th scope="col" class="px-4 py-3 sm:px-6">Kelas</th>
+							<th scope="col" class="px-4 py-3 sm:px-6">Administrasi</th>
+							<th scope="col" class="px-4 py-3 sm:px-6 text-center">Aksi</th>
+						</tr>
+					</thead>
+					<tbody id="student-list-body" class="bg-white divide-y">
+						<!-- Rows will be injected here -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- 3. Kontainer Detail Administrasi -->
+		<div id="detail-container" class="hidden w-full max-w-4xl p-6 md:p-8 card">
+			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-3 md:pb-4 gap-3 md:gap-4">
+				<div class="flex items-center gap-4">
+					<div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12.5 14.25l2.25 2.25 4.5-4.5" />
+						</svg>
+					</div>
+					<div>
+						<h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
+						<p class="text-xs md:text-sm text-gray-500">MTs Ma'arif 1 Jombang</p>
+					</div>
+				</div>
+				<button id="back-button" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 rounded-lg hover:bg-red-200 focus:outline-none transition">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+					</svg>
+					<span id="back-button-text">Kembali</span>
+				</button>
+			</div>
+			
+			<!-- INFO SISWA (List Vertikal Rapi dengan Titik Dua Lurus) -->
+			<div class="bg-gray-50 border rounded-lg p-4 md:p-6 mb-6">
+				<!-- Menggunakan grid 2 kolom utama pada layar besar -->
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-xs sm:text-sm">
 					
-					<!-- Update -->
-					<div class="text-gray-500 whitespace-nowrap">Update</div>
-					<div class="text-gray-500">:</div>
-					<div id="student-update" class="font-bold text-gray-800"></div>
+					<!-- Kolom Kiri -->
+					<div class="grid grid-cols-[auto_min-content_1fr] gap-x-4 gap-y-2 items-center">
+						<!-- Nama -->
+						<div class="text-gray-500 whitespace-nowrap">Nama Siswa</div>
+						<div class="text-gray-500">:</div>
+						<div id="student-name" class="font-bold text-gray-800"></div>
+
+						<!-- NISN -->
+						<div class="text-gray-500 whitespace-nowrap">NISN</div>
+						<div class="text-gray-500">:</div>
+						<div id="student-nisn" class="font-bold text-gray-800"></div>
+
+						<!-- Kelas -->
+						<div class="text-gray-500 whitespace-nowrap">Kelas</div>
+						<div class="text-gray-500">:</div>
+						<div id="student-class" class="font-bold text-gray-800"></div>
+					</div>
+
+					<!-- Kolom Kanan -->
+					<div class="grid grid-cols-[auto_min-content_1fr] gap-x-4 gap-y-2 items-center self-start">
+						<!-- Administrasi -->
+						<div class="text-gray-500 whitespace-nowrap">Administrasi</div>
+						<div class="text-gray-500">:</div>
+						<div class="flex flex-row gap-1">
+							<p class="font-bold text-gray-800">Rp.</p>
+							<p id="student-admin" class="font-bold text-gray-800"></p>
+						</div>
+						
+						<!-- Update -->
+						<div class="text-gray-500 whitespace-nowrap">Update</div>
+						<div class="text-gray-500">:</div>
+						<div id="student-update" class="font-bold text-gray-800"></div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- TABEL ADMINISTRASI (Grid 3 Kolom) -->
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+				<!-- Fungsi Helper untuk Header Tabel Detail -->
+				<script>
+					const tableHeaderHTML = `
+						<thead class="text-xs text-gray-700 bg-gray-50 border-b">
+							<tr>
+								<th scope="col" class="w-1/2 px-2" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">RINCIAN</th>
+								<th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 7</th>
+								<th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 8</th>
+								<th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 9</th>
+							</tr>
+						</thead>
+					`;
+				</script>
+
+				<!-- Kolom 1: BP3 -->
+				<div>
+					<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
+						<span>💰</span> Administrasi BP3
+					</h3>
+					<div class="bg-white rounded-lg border flex flex-col">
+						<div class="overflow-x-auto flex-grow">
+							<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
+								<script>document.write(tableHeaderHTML)</script>
+								<tbody id="monthly-payment-body" class="bg-white divide-y"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Kolom 2: Daftar Ulang -->
+				<div>
+					<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
+						<span>📝</span> Daftar Ulang
+					</h3>
+					<div class="bg-white rounded-lg border flex flex-col">
+						<div class="overflow-x-auto flex-grow">
+							<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
+								<script>document.write(tableHeaderHTML)</script>
+								<tbody id="registration-payment-body" class="bg-white divide-y"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<!-- Kolom 3: Ujian -->
+				<div>
+					<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
+						<span>🎓</span> Ujian
+					</h3>
+					<div class="bg-white rounded-lg border flex flex-col">
+						<div class="overflow-x-auto flex-grow">
+							<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
+								<script>document.write(tableHeaderHTML)</script>
+								<tbody id="exam-payment-body" class="bg-white divide-y"></tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 
 			</div>
 		</div>
-
-        <!-- TABEL ADMINISTRASI (Grid 3 Kolom) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-            <!-- Fungsi Helper untuk Header Tabel Detail -->
-            <script>
-                const tableHeaderHTML = `
-                    <thead class="text-xs text-gray-700 bg-gray-50 border-b">
-                        <tr>
-                            <th scope="col" class="w-1/2 px-2" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">RINCIAN</th>
-                            <th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 7</th>
-                            <th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 8</th>
-                            <th scope="col" class="w-1/6 border-l" style="padding-top: 0px;padding-bottom: 0px;height: 38px;">KLS 9</th>
-                        </tr>
-                    </thead>
-                `;
-            </script>
-
-            <!-- Kolom 1: BP3 -->
-			<div>
-				<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
-					<span>💰</span> Administrasi BP3
-				</h3>
-				<div class="bg-white rounded-lg border flex flex-col">
-					<div class="overflow-x-auto flex-grow">
-						<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
-							<script>document.write(tableHeaderHTML)</script>
-							<tbody id="monthly-payment-body" class="bg-white divide-y"></tbody>
-						</table>
-					</div>
-				</div>
-            </div>
-			
-			<!-- Kolom 2: Daftar Ulang -->
-			<div>
-				<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
-					<span>📝</span> Daftar Ulang
-				</h3>
-				<div class="bg-white rounded-lg border flex flex-col">
-					<div class="overflow-x-auto flex-grow">
-						<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
-							<script>document.write(tableHeaderHTML)</script>
-							<tbody id="registration-payment-body" class="bg-white divide-y"></tbody>
-						</table>
-					</div>
-				</div>
-            </div>
-			
-            <!-- Kolom 3: Ujian -->
-			<div>
-				<h3 class="font-bold text-gray-800 flex items-center gap-2 text-sm sm:text-base mb-2">
-					<span>🎓</span> Ujian
-				</h3>
-				<div class="bg-white rounded-lg border flex flex-col">
-					<div class="overflow-x-auto flex-grow">
-						<table class="w-max min-w-full text-sm table-fixed admin-table compact-mobile">
-							<script>document.write(tableHeaderHTML)</script>
-							<tbody id="exam-payment-body" class="bg-white divide-y"></tbody>
-						</table>
-					</div>
-				</div>
-            </div>
-
-        </div>
-    </div>
-
+	</div>
+	
 <script>
     // --- KONFIGURASI ---
     const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSs_ubKj8Q0XJYlud3Knnf40Nrl_IUJS482yvU95YLYg_nohrDWs1u2-c7HlzAY4d_AznF8wUvmuT6A/pub?gid=878725199&single=true&output=csv';
