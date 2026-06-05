@@ -134,7 +134,7 @@
 					</div>
 					<div>
 						<h1 class="text-lg md:text-2xl font-bold text-gray-800">Kartu Administrasi Siswa</h1>
-						<p class="text-xs md:text-sm text-gray-500">Hasil Pencarian</p>
+						<p id="search-result-subtitle" class="text-xs md:text-sm text-gray-500 font-medium">Hasil Pencarian</p>
 					</div>
 				</div>
 				
@@ -187,36 +187,37 @@
 				</button>
 			</div>
 
-			<!-- LAYOUT FOTO SISWA (Gaya Persis Seperti di e-Ardis / image_8c74bb.png) -->
+			<!-- LAYOUT FOTO SISWA -->
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<div class="flex items-center gap-4">
 					<div class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-full overflow-hidden bg-teal-600 flex items-center justify-center">
 						<span id="detail-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
 						<img id="detail-student-photo" src="" alt="Foto Siswa" class="absolute inset-0 w-full h-full object-cover object-top">
 					</div>
-					<div class="mt-2">
+					<div class="mt-1">
 						<p id="student-name" class="font-semibold text-sm sm:text-base"></p>
 						<div class="flex flex-row gap-1 items-center mt-1">
 							<p class="text-xs sm:text-sm text-gray-500">NISN</p>
-							<p id="student-nisn" class="text-xs sm:text-sm text-gray-700 bg-teal-50 px-1.5 py-0.5 rounded"></p>
+							<p class="w-1 h-1 rounded-full bg-gray-400"></p>
+							<p id="student-nisn" class="font-semibold text-xs sm:text-sm text-gray-800"></p>
 						</div>                    
 					</div>
 				</div>
 			</div>
 			
-			<div class="flex flex-row gap-1 mt-4 mb-2">
-				<h3 class="font-semibold text-sm sm:text-base">Administrasi Kelas</h3>
-				<h3 id="student-class" class="font-semibold text-sm sm:text-base"></h3>
-			</div>
-			
-			<!-- INFO SISWA (Layout Identitas Premium dengan Icon di Kiri - Persis Seperti e-Ardis) -->
-			<div class="bg-gray-50 border rounded-lg p-6">
-				<!-- Grid responsif untuk menampung data informasi identitas -->
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 text-gray-700">
+			<!-- INFO SISWA -->
+			<div class="bg-gray-50 border rounded-lg p-6 mt-4" style="padding-top: 10px;padding-bottom: 15px;">
+				
+				<div class="border-b flex flex-row gap-1 mb-4 pb-1">
+					<h3 class="font-semibold text-sm sm:text-base text-teal-700">Administrasi Kelas</h3>
+					<h3 id="student-class" class="font-semibold text-sm sm:text-base text-teal-700"></h3>
+				</div>
+				
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-700">
 					
 					<!-- Tahun Ajaran -->
 					<div class="flex items-center gap-4">
-						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
+						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
 							</svg>
@@ -229,7 +230,7 @@
 					
 					<!-- Update -->
 					<div class="flex items-center gap-4">
-						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
+						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
 							</svg>
@@ -242,7 +243,7 @@
 
 					<!-- Administrasi -->
 					<div class="flex items-center gap-4">
-						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
+						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 4h6m-6 2h3m-3.75 4h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
 							</svg>
@@ -258,9 +259,27 @@
 
 				</div>
 			</div>
+			
+			<!-- Info Pembayaran -->
+			<div class="border border-teal-100 bg-teal-50 p-6 rounded-lg mt-4" style="padding-top: 10px;padding-bottom: 10px;">
+				<p class="border-b font-semibold text-teal-700 text-sm sm:text-base mb-2 pb-1">Informasi Pembayaran</p>
+				
+				<p class="text-xs sm:text-sm text-gray-700 text-justify leading-relaxed">
+					Untuk kelancaran administrasi, berikut pilihan pembayaran yang dapat Bapak/Ibu gunakan:
+				</p>
+				
+				<ul class="list-disc pl-5 text-xs sm:text-sm text-gray-700 leading-relaxed mb-2">
+					<li><strong>Pembayaran Langsung</strong>: Datang langsung ke sekolah pada jam kerja.</li>
+					<li><strong>Pembayaran Transfer</strong>: Silakan hubungi pihak sekolah untuk detail nomor rekening.</li>
+				</ul>
+				
+				<p class="text-xs sm:text-sm text-gray-500 italic text-justify leading-relaxed">
+					Catatan: Status administrasi akan diperbarui setelah bukti pembayaran diterima.
+				</p>
+			</div>
 
 			<!-- TABEL ADMINISTRASI (Grid 3 Kolom) -->
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-5 hidden">
 
 				<!-- Kolom 1: BP3 -->
 				<div><div class="bg-white rounded-lg border flex flex-col">
@@ -331,6 +350,7 @@
     const nisnInput = document.getElementById('nisn');
     const errorMessage = document.getElementById('error-message');
     const studentListBody = document.getElementById('student-list-body');
+    const searchResultSubtitle = document.getElementById('search-result-subtitle');
 
     // --- Config Data Keys ---
     const monthlyPaymentKeys = ['Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'];
@@ -370,13 +390,6 @@
         return 0; 
     }
 
-    function groupBy(array, key) {
-        return array.reduce((result, currentValue) => {
-            (result[currentValue[key]] = result[currentValue[key]] || []).push(currentValue);
-            return result;
-        }, {});
-    }
-
     function getInitials(name) {
         if (!name) return '??';
         const parts = name.trim().split(/\s+/);
@@ -394,14 +407,16 @@
             const csvText = await response.text();
             
             const rawData = parseCSV(csvText);
-            studentListCache = rawData.map(row => ({
+            // Tambahkan originalIndex untuk mempertahankan urutan baris di Google Sheet
+            studentListCache = rawData.map((row, index) => ({
                 ...row,
-                nisn: row['NISN'],
-                nama: row['Nama Siswa'],
-                kelas: row['Kelas'],
-                tapel: row['TaPel'],
-				admin: row['Admin'],
-				update: row['Update'],
+                originalIndex: index,
+                nisn: row['NISN'] ? row['NISN'].trim() : '',
+                nama: row['Nama Siswa'] ? row['Nama Siswa'].trim() : '',
+                kelas: row['Kelas'] ? row['Kelas'].trim() : '',
+                tapel: row['TaPel'] ? row['TaPel'].trim() : '',
+				admin: row['Admin'] ? row['Admin'].trim() : '',
+				update: row['Update'] ? row['Update'].trim() : '',
                 classLevel: parseClassLevel(row['Kelas'])
             })).filter(s => s.nisn);
 
@@ -495,13 +510,13 @@
         window.scrollTo(0,0);
     }
 
-    function showStudentList(groupedStudents) {
+    // Fungsi showStudentList sekarang menerima array objek hasil pengelompokan yang sudah diurutkan sebelumnya
+    function showStudentList(sortedStudentGroups, subtitleText = "Hasil Pencarian") {
         studentListBody.innerHTML = '';
-        const nisnKeys = Object.keys(groupedStudents);
+        searchResultSubtitle.textContent = subtitleText;
 
-        nisnKeys.forEach((nisn, index) => {
-            const records = groupedStudents[nisn];
-            const latestRecord = records.sort((a, b) => b.classLevel - a.classLevel)[0];
+        sortedStudentGroups.forEach((group, index) => {
+            const latestRecord = group.latestRecord;
 
             const tr = document.createElement('tr');
 			tr.className = 'bg-white hover:bg-teal-50 transition duration-150 border-b';
@@ -518,7 +533,7 @@
                 </td>
             `;
             tr.querySelector('.select-student-btn').addEventListener('click', () => {
-                showPaymentDetails(records);
+                showPaymentDetails(group.records);
             });
             studentListBody.appendChild(tr);
         });
@@ -530,7 +545,8 @@
     }
 
     async function handleLogin() {
-        const query = nisnInput.value.trim().toLowerCase();
+        const originalInput = nisnInput.value.trim();
+        const query = originalInput.toLowerCase();
         if (!query) {
             errorMessage.textContent = 'Input tidak boleh kosong.';
             errorMessage.classList.remove('hidden');
@@ -543,10 +559,36 @@
 
         if (!allStudents) return;
 
-        const rawMatches = allStudents.filter(s => 
-            (s.nisn && s.nisn.toString() === query) || 
-            (s.nama && s.nama.toLowerCase().includes(query))
-        );
+        let rawMatches = [];
+        let isGroupSearch = false;
+        let groupTitle = "Hasil Pencarian";
+
+        // Logika Baru: Deteksi Filter Kelas-TaPel (contoh: "9-2025/2026")
+        if (query.includes('-')) {
+            const parts = query.split('-');
+            const targetKelas = parts[0].trim();
+            const targetTaPel = parts.slice(1).join('-').trim(); // Gabungkan sisa jika ada tanda hubung tambahan
+
+            rawMatches = allStudents.filter(s => {
+                const sKelas = s.kelas ? s.kelas.toLowerCase() : '';
+                const sTaPel = s.tapel ? s.tapel.toLowerCase() : '';
+                return sKelas === targetKelas && sTaPel === targetTaPel;
+            });
+            isGroupSearch = true;
+            groupTitle = `Siswa Kelas ${targetKelas.toUpperCase()} (${targetTaPel.toUpperCase()})`;
+        } else {
+            // Logika Lama: Cari berdasarkan NISN atau Nama Siswa
+            rawMatches = allStudents.filter(s => 
+                (s.nisn && s.nisn.toString() === query) || 
+                (s.nama && s.nama.toLowerCase().includes(query))
+            );
+            // Bedakan apakah input user dominan angka (NISN) atau teks (Nama)
+            if (/^\d+$/.test(query)) {
+                groupTitle = `Hasil Pencarian NISN: "${originalInput}"`;
+            } else {
+                groupTitle = `Hasil Pencarian Nama: "${originalInput}"`;
+            }
+        }
 
         if (rawMatches.length === 0) {
             errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
@@ -554,16 +596,56 @@
             return;
         }
 
-        const groupedMatches = groupBy(rawMatches, 'nisn');
-        const uniqueNisns = Object.keys(groupedMatches);
+        // Kelompokkan data yang cocok berdasarkan NISN
+        const grouped = {};
+        rawMatches.forEach(record => {
+            const nisn = record.nisn;
+            if (!grouped[nisn]) {
+                grouped[nisn] = [];
+            }
+            grouped[nisn].push(record);
+        });
+
+        // Strukturkan hasil grouping menjadi array objek untuk memudahkan proses pengurutan yang kompleks
+        const studentGroups = Object.keys(grouped).map(nisn => {
+            const records = grouped[nisn];
+            // Urutkan records di dalam tiap siswa berdasarkan tingkat kelas tertinggi
+            const sortedRecords = [...records].sort((a, b) => b.classLevel - a.classLevel);
+            const latestRecord = sortedRecords[0];
+            // Cari indeks baris asli terkecil di Google Sheet untuk siswa bersangkutan
+            const minOriginalIndex = Math.min(...records.map(r => r.originalIndex));
+            return {
+                nisn: nisn,
+                records: sortedRecords,
+                latestRecord: latestRecord,
+                minOriginalIndex: minOriginalIndex,
+                nama: latestRecord.nama
+            };
+        });
 
         errorMessage.classList.add('hidden');
 
-        if (uniqueNisns.length === 1) {
-            isFromSearchList = false;
-            showPaymentDetails(groupedMatches[uniqueNisns[0]]);
+        // Pengurutan sesuai preferensi pencarian:
+        if (isGroupSearch) {
+            // 1. Pencarian Angkatan: Urutkan persis sesuai urutan Google Sheet (originalIndex)
+            studentGroups.sort((a, b) => a.minOriginalIndex - b.minOriginalIndex);
+            
+            showStudentList(studentGroups, groupTitle);
         } else {
-            showStudentList(groupedMatches);
+            // 2. Pencarian Nama: Urutkan dari tingkat kelas tertinggi dahulu, lalu urutkan nama secara alfabetis jika kelasnya sama
+            studentGroups.sort((a, b) => {
+                const classDiff = b.latestRecord.classLevel - a.latestRecord.classLevel;
+                if (classDiff !== 0) return classDiff;
+                return a.nama.localeCompare(b.nama, 'id');
+            });
+
+            // Jika hasil pencarian hanya menyisakan 1 siswa, langsung buka detailnya
+            if (studentGroups.length === 1) {
+                isFromSearchList = false;
+                showPaymentDetails(studentGroups[0].records);
+            } else {
+                showStudentList(studentGroups, groupTitle);
+            }
         }
     }
 
