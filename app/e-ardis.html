@@ -32,7 +32,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-		/* --- Kode untuk Sticky Kolom Aksi di HP --- */
+		/* --- Sticky Kolom Aksi di HP --- */
 		@media (max-width: 768px) {
 			table th:last-child,
 			table td:last-child {
@@ -52,12 +52,11 @@
 				background-color: #f3f4f6;
 			}
 		}
-		/* ------------------------------------------ */
     </style>
 </head>
 
 <body>
-<div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
+	<div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
 
 	<div class="flex items-center justify-center min-h-screen p-4">
 
@@ -117,7 +116,6 @@
 					
 					<div>
 						<h1 class="text-lg md:text-2xl font-bold text-gray-800">Arsip Digital Data Siswa</h1>
-						<!-- Teks dinamis hasil pencarian saja (menggantikan keterangan 'Ditemukan X data siswa') -->
 						<p class="text-xs md:text-sm text-gray-500" id="search-query-display">
 							Hasil Pencarian Nama: "<span id="search-query-value"></span>"
 						</p>
@@ -178,10 +176,13 @@
 			<!-- LAYOUT FOTO SISWA -->
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<div class="flex items-center gap-4">
-					<div class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-full overflow-hidden bg-teal-600 flex items-center justify-center">
-						<span id="detail-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
-						<img id="detail-student-photo" src="" alt="Foto Siswa" class="absolute inset-0 w-full h-full object-cover object-top">
+					<div class="relative w-16 h-16 sm:w-20 sm:h-20">
+						<div class="w-full h-full rounded-full bg-teal-600 flex items-center justify-center border-2 border-white shadow-sm">
+							<span id="detail-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
+							<img id="detail-student-photo" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-2 border-white shadow-sm">
+						</div>
 					</div>
+					
 					<div class="mt-1">
 						<p id="student-name" class="font-semibold text-sm sm:text-base"></p>
 						<div class="flex flex-row gap-1 items-center mt-1">
@@ -287,18 +288,10 @@
 	</div>
 
 <script>
-    // =========================================================================
-    // 1. PENGATURAN DATA SPREADSHEET
-    // =========================================================================
     const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS51SPigUdsaQalGMPtTJ6O2KR0pEkWYvHvrnPKsDM4CN7ggbCioUtnGK5l6v-v_wXflCAqKaiKGGq9/pub?gid=0&single=true&output=csv';
-
-    // =========================================================================
-    // 2. PENGATURAN LINK HOSTING FOTO (SANGAT PENTING!)
-    // =========================================================================
     const URL_FOLDER_FOTO = 'https://maarif1jombang.github.io/foto/foto_siswa/'; 
     const FORMAT_FOTO = '.jpg'; 
 
-    // Konfigurasi Kolom
     const columns = {
         nama: 'Nama Siswa',
         tempatLahir: 'Tempat Lahir',
@@ -315,14 +308,15 @@
     };
     // =========================================================================
 
+    // Elemen DOM Kontainer Utama
     const loginContainer = document.getElementById('login-container');
     const detailContainer = document.getElementById('detail-container');
     const listContainer = document.getElementById('list-container');
     
+    // Elemen DOM Tombol & Input
     const loginButton = document.getElementById('login-button');
     const backButton = document.getElementById('back-button');
     const backToSearchButton = document.getElementById('back-to-search-button');
-    
     const searchInputElem = document.getElementById('searchInput');
     const errorMessage = document.getElementById('error-message');
     const studentTableBody = document.getElementById('student-table-body');
@@ -331,23 +325,42 @@
     let studentListCache = null;
     let currentSearchResults = [];
 
-    // FUNGSI PARSER CSV: Menangani kutip dua dan koma di dalam kalimat
+    // FUNGSI PARSER CSV: Menangani tanda kutip ganda dan koma dalam kalimat
     function parseCSV(str) {
         const arr = [];
         let quote = false;  
         let row = 0, col = 0;
 
         for (let c = 0; c < str.length; c++) {
-            let cc = str[c], nc = str[c+1];
+            const cc = str[c];
+            const nc = str[c+1];
             arr[row] = arr[row] || [];
             arr[row][col] = arr[row][col] || '';
 
-            if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-            if (cc == '"') { quote = !quote; continue; }
-            if (cc == ',' && !quote) { ++col; continue; }
-            if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
-            if (cc == '\n' && !quote) { ++row; col = 0; continue; }
-            if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+            if (cc === '"' && quote && nc === '"') { 
+                arr[row][col] += cc; 
+                ++c; 
+                continue; 
+            }
+            if (cc === '"') { 
+                quote = !quote; 
+                continue; 
+            }
+            if (cc === ',' && !quote) { 
+                ++col; 
+                continue; 
+            }
+            if (cc === '\r' && nc === '\n' && !quote) { 
+                ++row; 
+                col = 0; 
+                ++c; 
+                continue; 
+            }
+            if ((cc === '\n' || cc === '\r') && !quote) { 
+                ++row; 
+                col = 0; 
+                continue; 
+            }
 
             arr[row][col] += cc;
         }
@@ -369,13 +382,14 @@
         return data;
     }
 
+    // Mengambil dan memproses data dari spreadsheet Google
     async function fetchAndProcessData() {
         if (studentListCache) return studentListCache;
 
         try {
             const cacheBuster = `&_=${new Date().getTime()}`;
             const response = await fetch(dataSheetUrl + cacheBuster);
-            if (!response.ok) { throw new Error(`Gagal menghubungi server.`); }
+            if (!response.ok) { throw new Error('Gagal menghubungi server.'); }
             
             const csvText = await response.text();
             const rawData = parseCSV(csvText);
@@ -403,6 +417,7 @@
         }
     }
     
+    // Membuat inisial nama siswa jika foto profil gagal dimuat
     function getInitials(name) {
         if (!name) return '??';
         const parts = name.trim().split(/\s+/);
@@ -411,6 +426,7 @@
         return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
+    // Menampilkan panel detail data siswa terpilih
     function showStudentDetails(student) {
         if (!student) return;
         
@@ -443,10 +459,10 @@
         detailContainer.classList.remove('hidden');
     }
 
+    // Menampilkan panel daftar tabel siswa hasil pencarian nama/kelas yang mirip
     function showStudentList(students) {
         studentTableBody.innerHTML = '';
         
-        // Memasukkan input kata kunci pencarian ke dalam label "Hasil Pencarian Nama:"
         const searchInputText = searchInputElem.value.trim();
         searchQueryValue.textContent = searchInputText;
 
@@ -468,6 +484,7 @@
             studentTableBody.appendChild(tr);
         });
 
+        // Event listener delegatif khusus tombol detail di baris tabel
         document.querySelectorAll('.btn-detail').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const nisn = e.target.getAttribute('data-nisn');
@@ -481,6 +498,7 @@
         listContainer.classList.remove('hidden');
     }
     
+    // Efek loading tombol cari data
     function setLoading(isLoading) {
         if (isLoading) {
             loginButton.disabled = true;
@@ -494,6 +512,7 @@
         }
     }
 
+    // Melakukan filter pencarian data berdasarkan kata kunci input
     async function handleLogin() {
         const searchInput = searchInputElem.value.trim();
         if (!searchInput) {
@@ -531,6 +550,7 @@
         }
     }
 
+    // Navigasi Kembali ke halaman/tabel sebelumnya
     function handleBack() {
         if (currentSearchResults && currentSearchResults.length > 1) {
              showStudentList(currentSearchResults);
@@ -539,6 +559,7 @@
         }
     }
 
+    // Reset formulir kembali ke halaman awal pencarian utama
     function resetToSearch() {
         searchInputElem.value = '';
         detailContainer.classList.add('hidden');
@@ -548,6 +569,7 @@
         currentSearchResults = [];
     }
 
+    // Inisialisasi Event Listeners
     loginButton.addEventListener('click', handleLogin);
     backButton.addEventListener('click', handleBack);
     backToSearchButton.addEventListener('click', resetToSearch);

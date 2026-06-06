@@ -45,13 +45,11 @@
         .input-with-icon input {
             padding-left: 40px;
         }
-        /* Tambahan style untuk foto */
         #photo-container {
             transition: all 0.3s ease;
         }
-		/* --- Kode untuk Sticky Kolom Aksi di HP --- */
+		/* --- Sticky Kolom Aksi di HP --- */
 		@media (max-width: 768px) {
-			/* Menargetkan kolom paling kanan (terakhir) pada header dan isi tabel */
 			table th:last-child,
 			table td:last-child {
 				position: sticky !important;
@@ -61,18 +59,15 @@
 				box-shadow: -4px 0 6px -2px rgba(0, 0, 0, 0.05); 
 			}
 			
-			/* Z-index lebih tinggi untuk header agar tidak tertimpa baris data yang di-scroll */
 			table thead th:last-child {
 				z-index: 20;
 				background-color: #f9fafb; 
 			}
 
-			/* Jika baris tabel Anda memiliki efek hover, pastikan kolom sticky ikut berubah warna */
 			table tbody tr:hover td:last-child {
 				background-color: #f3f4f6; 
 			}
 		}
-		/* ------------------------------------------ */
     </style>
 </head>
 
@@ -80,24 +75,6 @@
     <div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
 
 	<div class="flex items-center justify-center min-h-screen p-4">
-
-		<!-- Container Hitung Mundur -->
-		<div id="countdown-container" class="w-full max-w-sm p-8 space-y-6 card text-center hidden">
-			<div class="text-center">
-				<div class="flex justify-center mx-auto text-teal-600 mb-0">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-					</svg>
-				</div>
-				<div class="flex flex-row justify-center mb-4">
-					<p class="font-bold text-red-600">e-</p>
-					<p class="font-bold text-teal-600">SKL</p>
-				</div>
-				<h1 class="text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
-				<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
-			</div>	
-			<p id="countdown-message" class="text-red-500 pt-2 text-sm"></p>
-		</div>
 
 		<!-- Container Login/Pencarian -->
 		<div id="login-container" class="w-full max-w-sm p-8 space-y-2 card hidden">
@@ -146,7 +123,7 @@
 					<div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-8 md:h-8">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.627 48.627 0 0 1 12 20.904a48.627 48.627 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.57 50.57 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.906 59.906 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-					</svg>
+						</svg>
 					</div>
 					<div>
 						<h1 class="text-lg md:text-2xl font-bold text-gray-800">Pengumuman Kelulusan</h1>
@@ -173,7 +150,7 @@
 						</tr>
 					</thead>
 					<tbody id="student-list-body" class="divide-y divide-gray-200">
-						<!-- Data akan di-inject lewat JS -->
+						<!-- Data di-inject lewat JS -->
 					</tbody>
 				</table>
 			</div>
@@ -204,10 +181,13 @@
 			<!-- LAYOUT FOTO SISWA -->
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 				<div class="flex items-center gap-4">
-					<div id="photo-container" class="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-full overflow-hidden bg-teal-600 flex items-center justify-center">
-                        <span id="student-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
-						<img id="student-photo" src="" alt="Foto Siswa" class="absolute inset-0 w-full h-full object-cover object-top hidden">
+					<div class="relative w-16 h-16 sm:w-20 sm:h-20">
+						<div id="photo-container" class="w-full h-full rounded-full bg-teal-600 flex items-center justify-center border-2 border-white shadow-sm">
+							<span id="student-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
+							<img id="student-photo" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-2 border-white shadow-sm">
+						</div>
 					</div>
+					
 					<div class="mt-1">
 						<p id="student-name" class="font-semibold text-sm sm:text-base"></p>
 						<div class="flex flex-row gap-1 items-center mt-1">
@@ -285,10 +265,9 @@
 	</div>
 
 <script>
-    // --- KONFIGURASI ---
     const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7DWAJ5w-6p1EbLSrZoURhHSp0ry2iy89EfO3JMcr1rWhPODr76qvTMr3ai2pvZj1SiFM2N5uAKlGF/pub?gid=0&single=true&output=csv';
-    const photoBaseUrl = 'https://maarif1jombang.github.io/foto/foto_siswa'; 
     const configSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT7DWAJ5w-6p1EbLSrZoURhHSp0ry2iy89EfO3JMcr1rWhPODr76qvTMr3ai2pvZj1SiFM2N5uAKlGF/pub?gid=1910672228&single=true&output=csv'; 
+	const photoBaseUrl = 'https://maarif1jombang.github.io/foto/foto_siswa'; 
   
     const columns = {
         nama: 'Nama Siswa',
@@ -299,7 +278,6 @@
 		tahunPelajaran: 'Tahun Pelajaran',
         status: 'Status Kelulusan',
     };
-    // -------------------
 
     const loginContainer = document.getElementById('login-container');
     const listContainer = document.getElementById('list-container');
@@ -314,10 +292,11 @@
 
     let announcementDataCache = null;
     let lastView = 'login';
+    let countdownInterval;
 
     function parseCSV(str) {
         const arr = [];
-        let quote = false;  // Penanda jika sedang berada di dalam teks yang diapit "..."
+        let quote = false;  
         let row = 0, col = 0;
 
         for (let c = 0; c < str.length; c++) {
@@ -325,18 +304,13 @@
             arr[row] = arr[row] || [];
             arr[row][col] = arr[row][col] || '';
 
-            // Jika ketemu dua buah kutip dua ("") di dalam kutip, anggap sebagai satu karakter kutip
             if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-            // Toggle mode kutip
             if (cc == '"') { quote = !quote; continue; }
-            // Koma di luar mode kutip berarti pindah kolom
             if (cc == ',' && !quote) { ++col; continue; }
-            // Enter (CRLF atau LF) di luar mode kutip berarti pindah baris
             if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
             if (cc == '\n' && !quote) { ++row; col = 0; continue; }
             if (cc == '\r' && !quote) { ++row; col = 0; continue; }
 
-            // Selain kondisi di atas, tambahkan karakternya ke sel yang sedang aktif
             arr[row][col] += cc;
         }
         
@@ -346,7 +320,6 @@
         
         for (let i = 1; i < arr.length; i++) {
             const values = arr[i];
-            // Abaikan baris kosong
             if (values.length === 1 && values[0].trim() === '') continue;
             
             const obj = {};
@@ -365,7 +338,7 @@
             const response = await fetch(dataSheetUrl + cacheBuster);
             if (!response.ok) { throw new Error(`Gagal menghubungi server. Status: ${response.status}`); }
             const csvText = await response.text();
-             if (csvText.trim().toLowerCase().startsWith('<!doctype html')) {
+            if (csvText.trim().toLowerCase().startsWith('<!doctype html')) {
                 errorMessage.textContent = 'Format data salah. Pastikan URL berasal dari "Publikasikan ke web" (sebagai .csv), bukan dari tombol "Bagikan".';
                 errorMessage.classList.remove('hidden');
                 return null;
@@ -445,10 +418,7 @@
         const initialsElem = document.getElementById('student-initials');
         const studentPhoto = document.getElementById('student-photo');
 
-        // Set inisial nama siswa
         initialsElem.textContent = getInitials(student.nama);
-
-        // Reset state awal (sembunyikan foto rill, tampilkan inisial teks)
         studentPhoto.classList.add('hidden');
         initialsElem.classList.remove('hidden');
 
@@ -511,14 +481,9 @@
         
         const searchInputLower = searchInput.toLowerCase();
         
-        // 1. Cek apakah input adalah Tahun Pelajaran (misal mengandung karakter '/' seperti '2025/2026' atau '2025/26')
-        // Atau cocok dengan field tahunPelajaran apa pun di sheet secara presisi
         const isYearFormat = searchInput.includes('/');
         if (isYearFormat) {
-            // Filter siswa berdasarkan Tahun Pelajaran dengan mencocokkan input secara case-insensitive
-            // Urutan sesuai baris asli Google Sheet tetap dipertahankan karena allStudents dibaca berurutan
             const matchByYear = allStudents.filter(student => student.tahunPelajaran && student.tahunPelajaran.toLowerCase() === searchInputLower);
-            
             if (matchByYear.length > 0) {
                 showStudentList(matchByYear, `Tahun Pelajaran ${searchInput}`);
                 errorMessage.classList.add('hidden');
@@ -526,7 +491,6 @@
             }
         }
 
-        // 2. Pencarian Berdasarkan NISN (Cocok Presisi)
         const studentByNisn = allStudents.find(s => s.nisn === searchInput);
         if (studentByNisn) {
             lastView = 'login';
@@ -535,7 +499,6 @@
             return;
         }
 
-        // 3. Pencarian Berdasarkan Nama (Cocok Sebagian)
         const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
         if (nameMatches.length === 1) {
             lastView = 'login';
@@ -545,7 +508,6 @@
             showStudentList(nameMatches, `Hasil Pencarian Nama: "${searchInput}"`);
             errorMessage.classList.add('hidden');
         } else {
-            // 4. Fallback jika format tahun diinput tanpa garis miring namun berniat mencari angkatan tahun pelajaran
             const yearMatchesFallback = allStudents.filter(student => student.tahunPelajaran && student.tahunPelajaran.toLowerCase().includes(searchInputLower));
             if (yearMatchesFallback.length > 0) {
                 showStudentList(yearMatchesFallback, `Tahun Pelajaran ${searchInput}`);
@@ -580,13 +542,7 @@
     backToSearchFromListButton.addEventListener('click', handleBackToListSearch);
     searchInputElem.addEventListener('keyup', (event) => { if (event.key === 'Enter') handleLogin(); });
     
-    // --- PENGATURAN WAKTU & INISIALISASI ---
-    const countdownContainer = document.getElementById('countdown-container');
-    const countdownMessage = document.getElementById('countdown-message');
-    let countdownInterval;
-
     function showApp() {
-        countdownContainer.classList.add('hidden');
         loginContainer.classList.remove('hidden');
         if (countdownInterval) clearInterval(countdownInterval);
         fetchAndProcessData();
@@ -595,14 +551,19 @@
     function updateCountdown(targetDate) {
 		const now = new Date().getTime();
 		const distance = targetDate - now;
-		const submitBtn = document.querySelector('button[type="submit"]') || document.querySelector('.card button');
 
 		if (distance <= 0) {
 			clearInterval(countdownInterval);
-			if (submitBtn) {
-				submitBtn.textContent = 'Lihat Hasil Pengumuman';
-				submitBtn.disabled = false;
-				submitBtn.classList.remove('cursor-not-allowed', 'opacity-50');
+			if (loginButton) {
+				loginButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+                    </svg>
+                    <span id="login-button-text">Lihat Hasil Kelulusan</span>
+                    <div id="loader" class="loader hidden"></div>
+                `;
+				loginButton.disabled = false;
+				loginButton.classList.remove('cursor-not-allowed', 'opacity-50');
 			}
 			showApp();
 			return;
@@ -617,15 +578,16 @@
 		if (days > 0) timeString += `${days} Hari `;
 		timeString += `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-		if (submitBtn) {
-			submitBtn.innerHTML = `Dibuka dalam <b>${timeString}</b>`;
-			submitBtn.disabled = true;
-			submitBtn.classList.add('cursor-not-allowed');
+		if (loginButton) {
+			loginButton.innerHTML = `Dibuka dalam <b>${timeString}</b>`;
+			loginButton.disabled = true;
+			loginButton.classList.add('cursor-not-allowed');
 		}
 	}
 
     async function initialize() {
         try {
+            loginContainer.classList.remove('hidden');
             const cacheBuster = `&_=${new Date().getTime()}`;
             const response = await fetch(configSheetUrl + cacheBuster);
             if (!response.ok) throw new Error(`Gagal mengambil konfigurasi waktu. Status: ${response.status}`);
@@ -633,21 +595,15 @@
             const configData = parseCSV(csvText);
             const announcementSetting = configData.find(row => row.Setting === 'Waktu Pengumuman');
             if (!announcementSetting || !announcementSetting.Value) {
-                countdownMessage.textContent = 'Waktu pengumuman belum diatur. Silakan hubungi administrator.';
-                countdownContainer.classList.remove('hidden');
+                errorMessage.textContent = 'Waktu pengumuman belum diatur. Silakan hubungi administrator.';
+                errorMessage.classList.remove('hidden');
                 throw new Error('Waktu Pengumuman tidak ditemukan di sheet konfigurasi.');
             }
             const targetDate = new Date(announcementSetting.Value).getTime();
             if (isNaN(targetDate)) {
-                 countdownMessage.textContent = 'Format tanggal di Google Sheet salah. Gunakan format: YYYY-MM-DD HH:MM:SS';
-                 countdownContainer.classList.remove('hidden');
+                 errorMessage.textContent = 'Format tanggal di Google Sheet salah. Gunakan format: YYYY-MM-DD HH:MM:SS';
+                 errorMessage.classList.remove('hidden');
                  throw new Error('Invalid date format');
-            }
-			
-            loginContainer.classList.remove('hidden');
-            if (typeof countdownContainer !== 'undefined' && countdownContainer) {
-                countdownContainer.classList.add('hidden');
-                countdownContainer.style.display = 'none';
             }
 
             if (new Date().getTime() >= targetDate) {
@@ -659,11 +615,10 @@
 			
         } catch (error) {
             console.error("Initialization Error:", error);
-            if (!countdownMessage.textContent) {
-                 countdownMessage.textContent = 'Gagal mengambil data server.';
+            if (!errorMessage.textContent) {
+                 errorMessage.textContent = 'Gagal mengambil data server.';
             }
-            countdownContainer.classList.remove('hidden');
-            loginContainer.classList.add('hidden');
+            errorMessage.classList.remove('hidden');
         }
     }
 
