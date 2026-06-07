@@ -37,13 +37,13 @@
         }
         .input-with-icon .icon {
             position: absolute;
-            left: 12px;
+            left: 0px;
             top: 50%;
             transform: translateY(-50%);
             color: #9ca3af;
         }
         .input-with-icon input {
-            padding-left: 40px;
+            padding-left: 58px;
         }
         #photo-container {
             transition: all 0.3s ease;
@@ -76,8 +76,8 @@
 
 	<div class="flex items-center justify-center min-h-screen p-4">
 
-		<!-- Container Login/Pencarian -->
-		<div id="login-container" class="w-full max-w-sm p-8 space-y-2 card hidden">
+		<!-- 1. Kontainer Login -->
+		<div id="login-container" class="w-full max-w-sm p-8 space-y-3 card hidden">
 			<div class="text-center">
 				<div class="flex justify-center mx-auto text-teal-600 mb-0">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
@@ -92,31 +92,32 @@
 				<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
 			</div>
 			<br><br>
-			<div class="space-y-3 px-4 py-4 bg-gray-100 border border-gray-200 rounded-md">
-				<div class="space-y-0">
-					<div class="input-with-icon">
-						<span class="icon">
-							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-								<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-							</svg>
-						</span>
-						<input type="text" id="searchInput" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600" placeholder="Masukkan No. NISN Anda">
-					</div>
-					<p id="error-message" class="text-red-500 text-sm text-center hidden pt-1"></p>
-				</div>
-
-				<button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m-3-3-3 3m0 0 3 3m-3-3H16.5" />
+				
+			<div class="input-with-icon relative flex items-center">
+				<span class="icon bg-teal-600 text-white p-3 rounded-l-md flex items-center justify-center h-full absolute left-0 top-0">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white w-5 h-5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 					</svg>
+				</span>
+				<input type="text" id="searchInput" class="w-full pl-12 pr-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600" placeholder="Masukkan No. NISN Anda">
+			</div>
+			
+			<div>
+				<button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
 					<span id="login-button-text">Lihat Hasil TKA</span>
 					<div id="loader" class="loader hidden"></div>
 				</button>
+				<div class="flex text-[13px] items-center pt-2 w-full">
+					<p id="error-message" class="text-red-500 text-left hidden"></p>
+					<a href="https://api.whatsapp.com/send?phone=6285748408728&text=Assalamu%27alaikum.%0APak+saya+lupa+nomor+NISN+saya,+mohon+bantuannya+ya +pak%21" target="_blank" class="font-semibold text-teal-600 ml-auto hover:underline cursor-pointer">Lupa No. NISN ?</a>
+				</div>
 			</div>
-			<p class="text-xs text-gray-500 text-center pt-0">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+			
+			<p class="border-b w-1/3 pt-6 mx-auto"></p>
+			<p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
-		<!-- Container Daftar Pencarian -->
+		<!-- 2. Kontainer Hasil Pencarian -->
 		<div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
 				<div class="flex items-center gap-4 w-full sm:w-auto">
@@ -156,7 +157,7 @@
 			</div>
 		</div>
 
-		<!-- Container Detail Hasil -->
+		<!-- 3. Kontainer Detail Hasil -->
 		<div id="detail-container" class="hidden w-full max-w-4xl p-6 md:p-8 card">
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-3 md:pb-4 gap-3 md:gap-4">
 				<div class="flex items-center gap-4 w-full sm:w-auto">
