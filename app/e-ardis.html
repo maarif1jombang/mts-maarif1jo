@@ -32,19 +32,7 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-		.input-with-icon {
-            position: relative;
-        }
-        .input-with-icon .icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-        }
-        .input-with-icon input {
-            padding-left: 40px;
-        }
+
 		/* --- Sticky Kolom Aksi di HP --- */
 		@media (max-width: 768px) {
 			table th:last-child,
@@ -73,7 +61,7 @@
 
 	<div class="flex items-center justify-center min-h-screen p-4">
 
-		<!-- 1. Kontainer Login -->
+		<!-- 1. Kontainer Login / Pencarian Utama -->
 		<div id="login-container" class="w-full max-w-sm p-8 space-y-3 card">
 			<div class="text-center pb-8">
 				<div class="flex justify-center mx-auto text-teal-600 mb-0">
@@ -102,8 +90,8 @@
 					</svg>
 				</span>
 
-				<!-- Label yang akan otomatis naik ke atas garis -->
-				<label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85" >Masukkan 10 digit NISN</label>
+				<!-- Label dinamis yang akan otomatis naik ke atas garis saat input terisi atau difokuskan -->
+				<label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85">Masukkan 10 digit NISN</label>
 			</div>
 
 			<div>
@@ -113,7 +101,7 @@
 				</button>
 				<div class="flex text-[13px] items-center pt-2 w-full">
 					<p id="error-message" class="text-red-500 text-left hidden"></p>
-					<a href="https://api.whatsapp.com/send?phone=6285748408728&text=Assalamu%27alaikum.%0APak+saya+lupa+nomor+NISN+saya,+mohon+bantuannya+ya +pak%21" target="_blank" class="font-semibold text-teal-600 ml-auto hover:underline cursor-pointer">Lupa No. NISN ?</a>
+					<a href="https://api.whatsapp.com/send?phone=6285748408728&text=Assalamu%27alaikum.%0APak+saya+lupa+nomor+NISN+saya,+mohon+bantuannya+ya+pak%21" target="_blank" class="font-semibold text-teal-600 ml-auto hover:underline cursor-pointer">Lupa No. NISN ?</a>
 				</div>
 			</div>
 			
@@ -130,7 +118,7 @@
 				<div class="flex-1 border-t border-gray-300"></div>
 			</div>
 			
-			<!-- 5 Tombol dalam 1 Baris (Full Width) -->
+			<!-- 5 Tombol Menu Utama -->
 			<div class="flex gap-1 w-full">
 				<a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
 					e-Absensi
@@ -152,7 +140,7 @@
 			<p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
-		<!-- 2. Kontainer Hasil Pencarian -->
+		<!-- 2. Kontainer Hasil Pencarian (Multiple Results) -->
 		<div id="list-container" class="hidden w-full max-w-4xl p-6 md:p-8 space-y-4 md:space-y-6 card">
 			<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
 				<div class="flex items-center gap-4 w-full sm:w-auto">
@@ -172,7 +160,7 @@
 					</div>
 				</div>
 
-				<!-- Tombol Cari Ulang -->
+				<!-- Tombol Kembali -->
 				<button id="back-to-search-button" class="w-full sm:w-auto flex-shrink-0 flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-red-700 bg-red-100 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -193,7 +181,7 @@
 						</tr>
 					</thead>
 					<tbody id="student-table-body" class="divide-y divide-gray-200">
-						<!-- Data akan diisi lewat JavaScript -->
+						<!-- Data diisi via JavaScript -->
 					</tbody>
 				</table>
 			</div>
@@ -229,7 +217,7 @@
 					<div class="relative w-16 h-16 sm:w-20 sm:h-20">
 						<div class="w-full h-full rounded-full bg-teal-600 flex items-center justify-center border-2 border-white shadow-sm">
 							<span id="detail-initials" class="text-white text-xl sm:text-2xl font-bold uppercase select-none"></span>
-							<img id="detail-student-photo" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-2 border-white shadow-sm">
+							<img id="detail-student-photo" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-2 border-white shadow-sm" alt="Foto Siswa">
 						</div>
 					</div>
 					
@@ -246,9 +234,7 @@
 			
 			<!-- Identitas Pribadi Siswa -->
 			<div class="bg-gray-50 border rounded-lg p-6 mt-4" style="padding-top: 10px;padding-bottom: 15px;">
-				
 				<h3 class="border-b font-semibold text-sm sm:text-base text-teal-700 mb-4 pb-1">Identitas Siswa</h3>
-				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-700">
 					<div class="flex items-center gap-4">
 						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center">
@@ -300,9 +286,7 @@
 
 			<!-- Identitas Orangtua & Alamat -->
 			<div class="bg-gray-50 border rounded-lg p-6 mt-4" style="padding-top: 10px;padding-bottom: 15px;">
-				
 				<h3 class="border-b font-semibold text-sm sm:text-base text-teal-700 mb-4 pb-1">Identitas Orangtua & Alamat</h3>	
-				
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-700">
 					<div class="flex items-center gap-4">
 						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center">
@@ -356,7 +340,6 @@
         namaIbu: 'Nama Ibu',
         alamat: 'Alamat'
     };
-    // =========================================================================
 
     // Elemen DOM Kontainer Utama
     const loginContainer = document.getElementById('login-container');
@@ -534,7 +517,7 @@
             studentTableBody.appendChild(tr);
         });
 
-        // Event listener delegatif khusus tombol detail di baris tabel
+        // Event listener khusus tombol detail di baris tabel
         document.querySelectorAll('.btn-detail').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const nisn = e.target.getAttribute('data-nisn');

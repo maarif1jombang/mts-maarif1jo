@@ -23,19 +23,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-		.input-with-icon {
-            position: relative;
-        }
-        .input-with-icon .icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-        }
-        .input-with-icon input {
-            padding-left: 540px;
-        }
 		.card {
             background-color: white;
             border-radius: 12px;
@@ -79,7 +66,8 @@
     </style>
 </head>
 
-<body><div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
+<body>
+<div style="background-image:url('https://maarif1jombang.github.io/maarif1jbg/web/img/bg.jpg');background-size: cover;background-repeat: no-repeat;background-position: center;background-attachment: fixed;height: 100%;width: 100%;">
 
 	<div class="flex items-center justify-center min-h-screen p-4">
 
@@ -156,7 +144,7 @@
 				</a>
 			</div>
 			
-			<p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+			<p class="text-xs text-gray-500 text-center">&copy; <span class="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
 		<!-- Halaman Absensi -->
@@ -181,7 +169,7 @@
 			</div>
 			<hr class="mb-5">
 
-			<!-- FOTO PROFIL (Fitur Baru) -->
+			<!-- FOTO PROFIL -->
 			<div class="flex justify-center -mt-2 mb-4">
 				<div class="relative w-24 h-24">
 					<!-- Fallback Icon (Ditampilkan jika gambar tidak ada/error) -->
@@ -190,7 +178,7 @@
 							<path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clip-rule="evenodd" />
 						</svg>
 					</div>
-					<!-- Image Asli (Ditampilkan lewat JS jika berhasil diload) -->
+					<!-- Image Asli -->
 					<img id="profileImage" class="absolute inset-0 w-full h-full rounded-full object-cover object-top border-4 border-white shadow-md hidden" alt="Foto Profil">
 				</div>
 			</div>
@@ -249,7 +237,7 @@
 					<span>Riwayat Absensi Bulan Ini</span>
 				</button>
 			</div>
-			<p class="text-xs text-gray-500 text-center mt-3.5">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+			<p class="text-xs text-gray-500 text-center mt-3.5">&copy; <span class="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
 		<!-- Halaman Riwayat Bulanan -->
@@ -297,25 +285,25 @@
 					</tbody>
 				</table>
 			</div>
-			<p class="text-xs text-gray-500 text-center mt-3.5">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+			<p class="text-xs text-gray-500 text-center mt-3.5">&copy; <span class="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
-		<!-- --- ELEMEN HTML NOTIFIKASI --- -->
+		<!-- ELEMEN HTML NOTIFIKASI -->
 		<div id="notification" class="fixed top-5 left-1/2 bg-green-500 text-white py-3 px-5 rounded-lg shadow-lg whitespace-nowrap">
 			<span id="notificationMessage"></span>
 		</div>
 	</div>
+</div>
 
 <script>
 	// --- KONFIGURASI URL ---
 	const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIhSNgEbe_hmmu2sq2EcLbKCWicqEaEWlIyfuiIxK1s_JQBV_lrSGyPAuPgyGL_LQ5/exec'; 
 	const GOOGLE_SHEET_TEACHERS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTpF1RPHJAMaYj9u56dqTf1UtF8gp57yuuSxI993tnalTMEav-3HWjLC2VWS3eAe1aozkUKxwmzq69n/pub?gid=1270339686&single=true&output=csv';
-	
-	// --- Ganti link folder hosting foto di sini (harus diakhiri dengan /) ---
-	// Contoh: 'https://sekolahanda.com/foto-guru/' atau 'https://hostingku.com/images/'
 	const PHOTO_BASE_URL = 'https://maarif1jombang.github.io/foto/foto_guru/'; 
   
 	let teachers = {}; 
+	let currentUser = null;
+	let notificationTimer;
 
 	// Elemen Halaman
 	const loginPage = document.getElementById('loginPage');
@@ -348,14 +336,11 @@
 	// Elemen Notifikasi
 	const notification = document.getElementById('notification');
 	const notificationMessage = document.getElementById('notificationMessage');
-	let notificationTimer;
-
-	let currentUser = null;
 
 	async function loadTeachersData() {
 		try {
 			const response = await fetch(GOOGLE_SHEET_TEACHERS_URL);
-			if (!response.ok) throw new Error('Gagal memuat data guru dari Google Sheet');
+			if (!response.ok) throw new Error('Gagal memuat data guru');
 			
 			const csvData = await response.text();
 			const lines = csvData.split('\n');
@@ -374,7 +359,6 @@
 				}
 			}
 
-			console.log('Data guru berhasil dimuat:', teachers);
 			loginButton.disabled = false;
 			nikInput.disabled = false;
 			nikInput.placeholder = " ";
@@ -411,7 +395,7 @@
 		if (type === 'success') {
 			notification.classList.remove('bg-red-500');
 			notification.classList.add('bg-green-500');
-		} else if (type === 'error') {
+		} else {
 			notification.classList.remove('bg-green-500');
 			notification.classList.add('bg-red-500');
 		}
@@ -451,42 +435,23 @@
 		}
 	}
 
-	loginButton.addEventListener('click', handleLogin);
-	
-	nikInput.addEventListener('keypress', function(event) {
-		if (event.key === 'Enter') {
-			event.preventDefault(); 
-			handleLogin();
-		}
-	});
-
-	logoutButton.addEventListener('click', () => {
-		currentUser = null;
-		sessionStorage.removeItem('currentUser');
-		showPage('login');
-	});
-
-	// --- UPDATE FUNGSI SETUP ABSENSI UNTUK FOTO PROFIL ---
 	function setupAbsensiPage() {
 		teacherName.textContent = currentUser.name;
 		showPage('absensi');
 		
-		// Logika Foto Profil
-		// 1. Reset ke kondisi default (Icon fallback muncul, Image hidden)
+		// Reset tampilan Foto Profil ke default
 		profileImage.classList.add('hidden');
 		profileFallback.classList.remove('hidden');
 		
-		// 2. Set URL sumber gambar
+		// Set URL Sumber Foto
 		const photoUrl = `${PHOTO_BASE_URL}${currentUser.nik}.jpg`;
 		profileImage.src = photoUrl;
 
-		// 3. Jika gambar berhasil dimuat
 		profileImage.onload = function() {
 			profileImage.classList.remove('hidden');
 			profileFallback.classList.add('hidden');
 		};
 
-		// 4. Jika gambar gagal dimuat (error 404), biarkan fallback tetap muncul
 		profileImage.onerror = function() {
 			profileImage.classList.add('hidden');
 			profileFallback.classList.remove('hidden');
@@ -494,7 +459,6 @@
 
 		fetchTodayHistory();
 	}
-	// --- END UPDATE SETUP ABSENSI ---
 
 	async function fetchTodayHistory() {
 		historyTableBody.innerHTML = '';
@@ -511,13 +475,12 @@
 			
 			if (data.tanggal) {
 				historyDate.textContent = `${data.hari}, ${data.tanggal}`;
-				const row = `
+				historyTableBody.innerHTML = `
 					<tr class="hover:bg-gray-50">
 						<td class="py-3 px-4 text-2xl font-bold text-gray-700 text-center border-r border-gray-200">${data.jamMasuk || '-'}</td>
 						<td class="py-3 px-4 text-2xl font-bold text-gray-700 text-center">${data.jamKeluar || '-'}</td>
 					</tr>
 				`;
-				historyTableBody.innerHTML = row;
 			} else {
 				 historyTableBody.innerHTML = '<tr><td colspan="2" class="text-center py-3 text-sm text-gray-500">Belum ada absensi hari ini.</td></tr>';
 			}
@@ -582,21 +545,18 @@
 		button.disabled = true;
 		button.innerHTML = `<div class="loader !w-5 !h-5 !border-l-white"></div><span class="ml-2">Memproses...</span>`;
 
-		const data = { nik: currentUser.nik, name: currentUser.name, action: action };
-
 		try {
 			await fetch(GOOGLE_SCRIPT_URL, {
 				method: 'POST',
 				mode: 'no-cors',
 				cache: 'no-cache',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
+				body: JSON.stringify({ nik: currentUser.nik, name: currentUser.name, action: action })
 			});
 			
 			await new Promise(resolve => setTimeout(resolve, 1500));
 			
 			button.innerHTML = originalText;
-			
 			fetchTodayHistory();
 
 			const successMessage = action === 'masuk' ? 'Absen masuk berhasil!!!' : 'Absen pulang berhasil!!!';
@@ -604,16 +564,26 @@
 
 		} catch (error) {
 			console.error('Error submitting attendance:', error);
-			
-			const errorMessage = `Gagal absen ${action}. Periksa koneksi.`;
-			console.error(errorMessage);
-
-			showNotification(errorMessage, 'error');
-
+			showNotification(`Gagal absen ${action}. Periksa koneksi.`, 'error');
 			button.disabled = false;
 			button.innerHTML = originalText;
 		}
 	}
+
+	// Event Listeners
+	loginButton.addEventListener('click', handleLogin);
+	nikInput.addEventListener('keypress', (event) => {
+		if (event.key === 'Enter') {
+			event.preventDefault(); 
+			handleLogin();
+		}
+	});
+
+	logoutButton.addEventListener('click', () => {
+		currentUser = null;
+		sessionStorage.removeItem('currentUser');
+		showPage('login');
+	});
 
 	clockInButton.addEventListener('click', () => submitAttendance('masuk'));
 	clockOutButton.addEventListener('click', () => submitAttendance('keluar'));
@@ -623,7 +593,12 @@
 	});
 	backButton.addEventListener('click', () => showPage('absensi'));
 
+	// Inisialisasi awal aplikasi
 	document.addEventListener('DOMContentLoaded', async () => {
+		// Mengisi tahun secara dinamis ke semua elemen ber-class "year"
+		const currentYear = new Date().getFullYear();
+		document.querySelectorAll('.year').forEach(el => el.textContent = currentYear);
+
 		await loadTeachersData();
 
 		const savedUser = sessionStorage.getItem('currentUser');
@@ -639,8 +614,6 @@
 			showPage('login');
 		}
 	});
-	
-	document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
