@@ -24,8 +24,8 @@
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top: 4px solid #ffffff;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
@@ -37,13 +37,13 @@
         }
         .input-with-icon .icon {
             position: absolute;
-            left: 0px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: #9ca3af;
         }
         .input-with-icon input {
-            padding-left: 58px;
+            padding-left: 40px;
         }
 		/* --- Sticky Kolom Aksi di HP --- */
 		@media (max-width: 768px) {
@@ -75,7 +75,7 @@
 
 		<!-- 1. Kontainer Login -->
 		<div id="login-container" class="w-full max-w-sm p-8 space-y-3 card">
-			<div class="text-center">
+			<div class="text-center pb-8">
 				<div class="flex justify-center mx-auto text-teal-600 mb-0">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.75v8.25a2.25 2.25 0 0 0 2.25 2.25h12a2.25 2.25 0 0 0 2.25-2.25V9.75m-16.5 0a2.25 2.25 0 0 1 2.25-2.25h12a2.25 2.25 0 0 1 2.25 2.25m-16.5 0V6a2.25 2.25 0 0 1 2.25-2.25h4.161c.596 0 1.168.238 1.59.661l1.72 1.72a.75.75 0 0 0 .53.22h5.132A2.25 2.25 0 0 1 20.25 8.25v1.5" />
@@ -90,19 +90,24 @@
 				<h1 class="text-2xl font-bold text-gray-800">Arsip Digital Data Siswa</h1>
 				<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
 			</div>
-			<br><br>
 			
-			<div class="input-with-icon relative flex items-center">
-				<span class="icon bg-teal-600 text-white p-3 rounded-l-md flex items-center justify-center h-full absolute left-0 top-0">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white w-5 h-5">
+			<div class="relative">
+				<!-- Input menggunakan placeholder kosong " " agar :placeholder-shown bekerja -->
+				<input type="text" id="searchInput" name="searchInput" placeholder=" " class="peer w-full pl-12 pr-4 py-2 border rounded-md text-gray-900 bg-transparent focus:outline-none focus:ring-1 focus:ring-teal-600 focus:border-teal-600" />
+
+				<!-- Ikon Kaca Pembesar (Search) -->
+				<span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 peer-focus:text-teal-600">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
 						<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 					</svg>
 				</span>
-				<input type="text" id="searchInput" class="w-full pl-12 pr-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600" placeholder="Masukkan No. NISN Anda">
+
+				<!-- Label yang akan otomatis naik ke atas garis -->
+				<label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85" >Masukkan 10 digit NISN</label>
 			</div>
 
 			<div>
-				<button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
+				<button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
 					<span id="login-button-text">Cari Data Siswa</span>
 					<div id="loader" class="loader hidden"></div>
 				</button>
@@ -112,7 +117,38 @@
 				</div>
 			</div>
 			
-			<p class="border-b w-1/3 pt-6 mx-auto"></p>
+			<div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px;padding-right: 15px;">
+                <p class="text-xs text-teal-700 text-justify">
+                    Transformasi Digital Arsip Data Siswa, temukan data siswa lebih Cepat, Tepat dan Akurat.
+                </p>
+            </div>
+			
+			<!-- Pemisah Garis - Teks - Garis -->
+			<div class="flex items-center pt-4">
+				<div class="flex-1 border-t border-gray-300"></div>
+				<span class="px-3 text-xs text-gray-400 font-medium whitespace-nowrap">more app</span>
+				<div class="flex-1 border-t border-gray-300"></div>
+			</div>
+			
+			<!-- 5 Tombol dalam 1 Baris (Full Width) -->
+			<div class="flex gap-1 w-full">
+				<a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Absensi
+				</a>
+				<a href="e-ardis.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Ardis
+				</a>
+				<a href="e-admin.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Admin
+				</a>
+				<a href="e-skl.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-SKL
+				</a>
+				<a href="e-tka.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-TKA
+				</a>
+			</div>
+			
 			<p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 

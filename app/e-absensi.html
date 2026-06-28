@@ -28,13 +28,13 @@
         }
         .input-with-icon .icon {
             position: absolute;
-            left: 0px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: #9ca3af;
         }
         .input-with-icon input {
-            padding-left: 58px;
+            padding-left: 540px;
         }
 		.card {
             background-color: white;
@@ -85,7 +85,7 @@
 
 		<!-- Halaman Login -->
 		<div id="loginPage" class="w-full max-w-sm p-8 space-y-3 card">
-			<div class="text-center">
+			<div class="text-center pb-8">
 				<div class="flex justify-center mx-auto text-teal-600 mb-0">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
 						<path id="primary" d="M20,21H4a1,1,0,0,1-1-1V9H21V20A1,1,0,0,1,20,21ZM21,5a1,1,0,0,0-1-1H4A1,1,0,0,0,3,5V9H21Z" style="fill: none; stroke: rgb(0, 150, 136); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path><polyline id="secondary" points="7 15 9 17 13 13" style="fill: none; stroke: rgb(0, 150, 136); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline><path id="secondary-2" data-name="secondary" d="M16,3V6M8,3V6m5,11,4-4" style="fill: none; stroke: rgb(0, 150, 136); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
@@ -98,19 +98,24 @@
 				<h1 class="text-2xl font-bold text-gray-800">Aplikasi Absensi Online</h1>
 				<p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
 			</div>
-			<br><br>
-				
-			<div class="input-with-icon relative flex items-center">
-				<span class="icon bg-teal-600 text-white p-3 rounded-l-md flex items-center justify-center h-full absolute left-0 top-0">
-					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white w-5 h-5">
+			
+			<div class="relative">
+				<!-- Input menggunakan placeholder kosong " " agar :placeholder-shown bekerja -->
+				<input type="text" id="nik" name="nik" placeholder=" " class="peer w-full pl-12 pr-4 py-2 border rounded-md text-gray-900 bg-transparent focus:outline-none focus:ring-1 focus:ring-teal-600 focus:border-teal-600" />
+
+				<!-- Ikon Kaca Pembesar (Search) -->
+				<span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 peer-focus:text-teal-600">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
 						<path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
 					</svg>
 				</span>
-				<input type="text" id="nik" name="nik" placeholder="Memuat data guru..." class="w-full pl-12 pr-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-teal-600" disabled>
+
+				<!-- Label yang akan otomatis naik ke atas garis -->
+				<label for="nik" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85" >Masukkan 16 digit NIK</label>
 			</div>
 				
 			<div>
-				<button id="loginButton" class="w-full btn bg-teal-600 text-white rounded-md px-4 py-2.5 hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300" disabled>
+				<button id="loginButton" class="w-full btn bg-teal-600 text-white rounded-md px-4 py-2 hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300" disabled>
 					<span>Masuk untuk Absensi</span>
 				</button>
 				<div class="flex text-[13px] items-center pt-2 w-full">
@@ -119,7 +124,38 @@
 				</div>
 			</div>
 			
-			<p class="border-b w-1/3 pt-6 mx-auto"></p>
+			<div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px;padding-right: 15px;">
+                <p class="text-xs text-teal-700 text-justify">
+                    Tingkatkan efisiensi kerja dengan sistem absensi online yang cepat dan akurat.
+                </p>
+            </div>
+			
+			<!-- Pemisah Garis - Teks - Garis -->
+			<div class="flex items-center pt-4">
+				<div class="flex-1 border-t border-gray-300"></div>
+				<span class="px-3 text-xs text-gray-400 font-medium whitespace-nowrap">more app</span>
+				<div class="flex-1 border-t border-gray-300"></div>
+			</div>
+			
+			<!-- 5 Tombol dalam 1 Baris (Full Width) -->
+			<div class="flex gap-1 w-full">
+				<a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Absensi
+				</a>
+				<a href="e-ardis.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Ardis
+				</a>
+				<a href="e-admin.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-Admin
+				</a>
+				<a href="e-skl.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-SKL
+				</a>
+				<a href="e-tka.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[10.5px]">
+					e-TKA
+				</a>
+			</div>
+			
 			<p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
 		</div>
 
@@ -341,12 +377,12 @@
 			console.log('Data guru berhasil dimuat:', teachers);
 			loginButton.disabled = false;
 			nikInput.disabled = false;
-			nikInput.placeholder = "Masukkan No. NIK Anda";
+			nikInput.placeholder = " ";
 
 		} catch (error) {
 			console.error('Error loading teacher data:', error);
 			loginError.textContent = 'Gagal mengambil data server.';
-			nikInput.placeholder = "Gagal memuat data";
+			nikInput.placeholder = " ";
 			loginButton.disabled = true;
 		}
 	}
