@@ -73,7 +73,7 @@
     <div class="flex items-center justify-center min-h-screen p-4 sm:p-6">
 
         <!-- Halaman Login -->
-        <div id="loginPage" class="w-full max-w-sm p-8 space-y-3 card">
+        <div id="loginPage" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card">
             <div class="text-center pb-8">
                 <div class="flex justify-center mx-auto text-teal-600 mb-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
@@ -115,11 +115,26 @@
                 </div>
             </div>
             
-            <div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 px-3.5 space-x-2">
+			<div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px; padding-right: 15px;">
                 <p class="text-xs text-teal-700 text-justify">
                     Tingkatkan efisiensi kerja dengan sistem absensi online yang cepat dan akurat.
                 </p>
             </div>
+			
+			<fieldset class="border border-gray-300 rounded-lg px-3 pb-3 pt-1.5">
+                <legend class="ml-0.5 px-2 text-xs text-teal-600 font-semibold whitespace-nowrap">
+                    more app
+                </legend>
+
+                <div class="flex gap-1 w-full">
+                    <a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                        e-Absensi
+                    </a>
+                    <a href="e-user.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                        e-User
+                    </a>
+                </div>
+            </fieldset>
             
             <p class="text-xs text-gray-500 text-center">&copy; <span class="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>

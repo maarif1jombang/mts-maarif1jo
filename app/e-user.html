@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-User</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #photo-container {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex items-center justify-center min-h-screen p-4">
+
+        <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
+            <div class="text-center pb-8">
+                <div class="flex justify-center mx-auto text-teal-600 mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                </div>
+                <div class="flex flex-row justify-center mb-4">
+                    <p class="font-bold text-red-600">e-</p>
+                    <p class="font-bold text-teal-600">User</p>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Portal User Akun Guru</h1>
+                <p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+            </div>
+            
+            <div class="relative">
+                <input type="text" id="searchInput" name="searchInput" placeholder=" " class="peer w-full pl-12 pr-4 py-2 border rounded-md text-gray-900 bg-transparent focus:outline-none focus:ring-1 focus:ring-teal-600 focus:border-teal-600" />
+
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 peer-focus:text-teal-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </span>
+
+                <label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85">Masukkan 16 digit NIK</label>
+            </div>
+            
+            <div>
+                <button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
+                    <span id="login-button-text">Lihat User Akun</span>
+                    <div id="loader" class="loader hidden"></div>
+                </button>
+                <div class="flex text-[13px] items-center pt-2 w-full">
+                    <p id="error-message" class="text-red-500 text-left hidden"></p>
+                    <a href="https://api.whatsapp.com/send?phone=6285748408728&text=Assalamu%27alaikum.%0APak+saya+lupa+nomor+NIK+saya,+mohon+bantuannya+ya+pak%21" target="_blank" class="font-semibold text-teal-600 ml-auto hover:underline cursor-pointer">Lupa No. NIK ?</a>
+                </div>
+            </div>
+            
+            <div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px; padding-right: 15px;">
+                <p class="text-xs text-teal-700 text-justify">
+                    Hadir memberikan kemudahan untuk melihat User & Password Akun Guru dengan Cepat.
+                </p>
+            </div>
+            
+            <fieldset class="border border-gray-300 rounded-lg px-3 pb-3 pt-1.5">
+                <legend class="ml-0.5 px-2 text-xs text-teal-600 font-semibold whitespace-nowrap">
+                    more app
+                </legend>
+
+                <div class="flex gap-1 w-full">
+                    <a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                        e-Absensi
+                    </a>
+                    <a href="e-user.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                        e-User
+                    </a>
+                </div>
+            </fieldset>
+            
+            <p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+        </div>
+
+        <div id="detail-container" class="hidden w-full max-w-4xl p-8 card">
+            <!-- LAYOUT FOTO GURU -->
+            <div class="card bg-base-100 overflow-hidden shadow-sm rounded-lg relative">
+                <div class="w-full bg-[#009675]" style="height: 65px;"></div>
+                <div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative">
+                    
+                    <!-- Avatar Bulat Sempurna -->
+                    <div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;">
+                        <div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;">
+                            <span id="student-initials" class="text-[#007A5E] font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
+                            <img id="student-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Guru">
+                        </div>
+                    </div>
+                    
+                    <!-- NAMA GURU -->
+                    <div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;">
+                        <h1 id="student-name" class="text-gray-900 sm:text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1>
+                    </div>
+
+                    <!-- NIK GURU -->
+                    <div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10">
+                        <div class="flex flex-row gap-1 items-center justify-center sm:justify-start">
+                            <p class="text-gray-400 font-medium" style="font-size: 14px;">NIK</p>
+                            <p class="w-1 h-1 rounded-full bg-gray-400"></p>
+                            <p id="student-nisn" class="text-gray-400 font-medium" style="font-size: 14px;"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- STATUS BADGE & TOMBOL -->
+                    <div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4">
+                        <div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">
+                                <div class="flex flex-row">
+                                    <p class="text-red-600">e-</p>
+                                    <p class="text-teal-600">User</p>
+                                </div>
+                            </span>
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10">
+                            <button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                <span class="ml-1 hidden sm:inline">Kembali</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <div class="mt-6 space-y-6">
+                
+                <!-- 1. Emis GTK -->
+                <div class="border-t-4 border-teal-600 card p-4">
+                    <div class="border-b flex flex-row gap-1 mb-1.5 pb-1">
+                        <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Emis GTK</h3>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-500 text-justify mb-4">Link: https://emisgtk.kemenag.go.id/login</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Username</p>
+                                <p id="student-exam-number" class="font-semibold text-sm sm:text-base"></p>
+                            </div>
+                        </div>               
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Password</p>
+                                <p id="student-average" class="font-semibold text-sm sm:text-base"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+                <!-- 2. Emis 4.0 -->
+                <div class="border-t-4 border-teal-600 card p-4">
+                    <div class="border-b flex flex-row gap-1 mb-1.5 pb-1">
+                        <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Emis 4.0</h3>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-500 text-justify mb-4">Link: https://emis.kemenag.go.id</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Username</p>
+                                <p id="student-mtk" class="font-semibold text-sm sm:text-base break-all"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Password</p>
+                                <p id="student-bin" class="font-semibold text-sm sm:text-base"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Akun GWS -->
+                <div class="border-t-4 border-teal-600 card p-4">
+                    <div class="border-b flex flex-row gap-1 mb-1.5 pb-1">
+                        <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun GWS</h3>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-500 text-justify mb-4">Link: https://workspace.google.com</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Username</p>
+                                <p id="student-gws" class="font-semibold text-sm sm:text-base break-all"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Password</p>
+                                <p id="pass-gws" class="font-semibold text-sm sm:text-base"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+<script>
+    const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqIP2LAiNip-tF7YPt6MQYe0E2ZzdTdUbObJa-ybfQ9cEOINq02WGCzhoQVImqSvgbvBe3jouFP32z/pub?gid=0&single=true&output=csv';
+    const photoBaseUrl = 'https://maarif1jombang.github.io/file/foto_guru'; 
+  
+    const columns = {
+        nama: 'NAMA GURU',
+        nik: 'NIK',
+        userEmisGtk: 'USER EMIS GTK',
+        passEmisGtk: 'PASS EMIS GTK',
+        userEmis4: 'USER EMIS 4.0',
+        passEmis4: 'PASS EMIS 4.0',
+        userGws: 'USER AKUN GWS',
+        passGws: 'PASS AKUN GWS'
+    };
+
+    const loginContainer = document.getElementById('login-container');
+    const detailContainer = document.getElementById('detail-container');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button'); 
+    const searchInputElem = document.getElementById('searchInput');
+    const errorMessage = document.getElementById('error-message');
+
+    let announcementDataCache = null;
+
+    function parseCSV(str) {
+        const arr = [];
+        let quote = false;  
+        let row = 0, col = 0;
+
+        for (let c = 0; c < str.length; c++) {
+            let cc = str[c], nc = str[c+1];
+            arr[row] = arr[row] || [];
+            arr[row][col] = arr[row][col] || '';
+
+            if (cc === '"' && quote && nc === '"') { arr[row][col] += cc; ++c; continue; }
+            if (cc === '"') { quote = !quote; continue; }
+            if (cc === ',' && !quote) { ++col; continue; }
+            if (cc === '\r' && nc === '\n' && !quote) { ++row; col = 0; ++c; continue; }
+            if (cc === '\n' && !quote) { ++row; col = 0; continue; }
+            if (cc === '\r' && !quote) { ++row; col = 0; continue; }
+
+            arr[row][col] += cc;
+        }
+        
+        if (arr.length < 2) return [];
+        const headers = arr[0].map(h => h.trim());
+        const data = [];
+        
+        for (let i = 1; i < arr.length; i++) {
+            const values = arr[i];
+            if (values.length === 1 && values[0].trim() === '') continue;
+            
+            const obj = {};
+            headers.forEach((header, index) => {
+                obj[header] = values[index] ? values[index].trim() : '';
+            });
+            data.push(obj);
+        }
+        return data;
+    }
+
+    async function fetchAndProcessData() {
+        if (announcementDataCache) return announcementDataCache;
+        try {
+            const cacheBuster = `&_=${new Date().getTime()}`;
+            const response = await fetch(dataSheetUrl + cacheBuster);
+            if (!response.ok) throw new Error(`Gagal menghubungi server. Status: ${response.status}`);
+            const csvText = await response.text();
+            if (csvText.trim().toLowerCase().startsWith('<!doctype html')) {
+                errorMessage.textContent = 'Format data salah. Pastikan URL berasal dari "Publikasikan ke web" (sebagai .csv).';
+                errorMessage.classList.remove('hidden');
+                return null;
+            }
+            const rawData = parseCSV(csvText);
+            announcementDataCache = rawData.map(row => ({
+                nama: row[columns.nama] || '-',
+                nik: row[columns.nik] || '-',
+                userEmisGtk: row[columns.userEmisGtk] || '-',
+                passEmisGtk: row[columns.passEmisGtk] || '-',
+                userEmis4: row[columns.userEmis4] || '-',
+                passEmis4: row[columns.passEmis4] || '-',
+                userGws: row[columns.userGws] || '-',
+                passGws: row[columns.passGws] || '-'
+            }));
+            return announcementDataCache;
+        } catch (error) {
+            console.error("Gagal mengambil data:", error);
+            errorMessage.textContent = 'Gagal mengambil data server.';
+            errorMessage.classList.remove('hidden');
+            return null;
+        }
+    }
+
+    function getInitials(name) {
+        if (!name) return '??';
+        const parts = name.trim().split(/\s+/);
+        if (parts.length === 0) return '??';
+        if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+
+    function showAnnouncementDetails(student) {
+        if (!student) return;
+
+        document.getElementById('student-name').textContent = student.nama;
+        document.getElementById('student-nisn').textContent = student.nik;
+        
+        document.getElementById('student-exam-number').textContent = student.userEmisGtk;
+        document.getElementById('student-average').textContent = student.passEmisGtk;
+        
+        document.getElementById('student-mtk').textContent = student.userEmis4;
+        document.getElementById('student-bin').textContent = student.passEmis4;
+
+        document.getElementById('student-gws').textContent = student.userGws;
+        document.getElementById('pass-gws').textContent = student.passGws;
+        
+        const photoContainer = document.getElementById('photo-container');
+        const studentInitials = document.getElementById('student-initials');
+        const studentPhoto = document.getElementById('student-photo');
+
+        studentInitials.textContent = getInitials(student.nama);
+        studentPhoto.classList.add('hidden');
+        studentInitials.classList.remove('hidden');
+        photoContainer.classList.add('bg-teal-600'); 
+
+        if (student.nik) {
+            studentPhoto.src = `${photoBaseUrl}/${student.nik}.jpg`;
+            studentPhoto.onload = function() {
+                studentPhoto.classList.remove('hidden'); 
+                studentInitials.classList.add('hidden'); 
+                photoContainer.classList.remove('bg-teal-600'); 
+            };
+            studentPhoto.onerror = function() {
+                studentPhoto.classList.add('hidden');
+                studentInitials.classList.remove('hidden');
+                photoContainer.classList.add('bg-teal-600');
+            };
+        }
+
+        loginContainer.classList.add('hidden');
+        detailContainer.classList.remove('hidden');
+    }
+    
+    function setLoading(isLoading) {
+        if (isLoading) {
+            loginButton.disabled = true;
+            document.getElementById('login-button-text').textContent = 'Mencari...';
+            document.getElementById('loader').classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+        } else {
+            loginButton.disabled = false;
+            document.getElementById('login-button-text').textContent = 'Lihat User & Pass';
+            document.getElementById('loader').classList.add('hidden');
+        }
+    }
+
+    async function handleLogin() {
+        const searchInput = searchInputElem.value.trim();
+        if (!searchInput) {
+            errorMessage.textContent = 'Input tidak boleh kosong.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+        setLoading(true);
+        const allStudents = await fetchAndProcessData();
+        setLoading(false);
+        if (!allStudents) return;
+        
+        const searchInputLower = searchInput.toLowerCase();
+        const studentByNik = allStudents.find(s => s.nik === searchInput);
+        
+        if (studentByNik) {
+            showAnnouncementDetails(studentByNik);
+            errorMessage.classList.add('hidden');
+        } else {
+            const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
+            
+            if (nameMatches.length === 1) {
+                showAnnouncementDetails(nameMatches[0]);
+                errorMessage.classList.add('hidden');
+            } else if (nameMatches.length > 1) {
+                errorMessage.textContent = 'Ditemukan beberapa data. Silakan masukkan 16 digit NIK lengkap.';
+                errorMessage.classList.remove('hidden');
+            } else {
+                errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
+                errorMessage.classList.remove('hidden');
+            }
+        }
+    }
+
+    function handleLogout() {
+        detailContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        searchInputElem.value = '';
+        errorMessage.classList.add('hidden');
+    }
+
+    loginButton.addEventListener('click', handleLogin);
+    logoutButton.addEventListener('click', handleLogout);
+    searchInputElem.addEventListener('keyup', (event) => { if (event.key === 'Enter') handleLogin(); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loginContainer.classList.remove('hidden');
+        fetchAndProcessData();
+        document.getElementById('year').textContent = new Date().getFullYear();
+    });
+</script>
+</body>
+</html>
