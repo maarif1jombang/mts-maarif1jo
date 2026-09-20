@@ -143,8 +143,8 @@
         <div id="absensiPage" class="hidden w-full max-w-4xl p-8 space-y-4 md:space-y-6 card">
             
             <!-- HEADER PROFIL (Struktur Asli Dipertahankan) -->
-            <div class="card bg-base-100 overflow-hidden shadow-sm rounded-lg relative mb-6">
-                <div class="w-full bg-[#009675]" style="height: 65px;"></div>
+            <div class="card overflow-hidden relative mb-6">
+                <div class="w-full bg-teal-600" style="height: 65px;"></div>
                 <div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative">
                     
                     <!-- Avatar Bulat Sempurna -->
@@ -208,12 +208,12 @@
                 <div class="lg:col-span-5 flex flex-col justify-between border-r-0 lg:border-r border-gray-200 lg:pr-6">
                     <div>
                         <!-- Informasi Waktu Real-Time Hari Ini -->
-                        <div class="rounded-xl border border-gray-200 p-3.5 mb-7 text-center">
+                        <div class="card rounded-xl border border-gray-200 p-3.5 mb-7 text-center">
                             <p id="liveDayDate" class="text-sm text-teal-600 tracking-wide"></p>
                             <p id="liveClock" class="text-2xl sm:text-3xl font-extrabold text-teal-600 tracking-wider mt-0.5">00:00:00</p>
-                        </div>
-
-                        <!-- Tombol Aksi Masuk & Pulang -->
+                        </div>                        
+						
+						<!-- Tombol Aksi Masuk & Pulang -->
                         <div class="grid grid-cols-2 gap-3 mb-7">
                             <button id="clockInButton" class="btn rounded-full bg-green-500 text-white px-4 py-2.5 hover:bg-green-600 disabled:bg-green-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
@@ -228,9 +228,9 @@
                                 <span>Pulang</span>
                             </button>
                         </div>
-
-                        <!-- Riwayat Hari Ini -->
-                        <div class="p-4 rounded-xl border border-gray-200">
+						
+						<!-- Riwayat Hari Ini -->
+                        <div class="card p-4 rounded-xl border border-gray-200">
                             <h3 class="text-xm font-semibold text-gray-800 text-center">Absensi Hari Ini</h3>
                             <div id="loadingTodayHistory" class="flex justify-center items-center py-2 hidden">
                                 <div class="loader"></div>
@@ -268,7 +268,7 @@
                             <div class="loader"></div>
                         </div>
 
-                        <div id="monthlyHistoryContainer" class="max-h-[340px] overflow-y-auto rounded-lg border border-gray-200 shadow-sm">
+                        <div id="monthlyHistoryContainer" class="max-h-[340px] overflow-y-auto rounded-lg border border-gray-200 card">
                             <table class="min-w-full bg-white text-xs sm:text-sm">
                                 <thead class="bg-gray-50 sticky top-0 shadow-sm z-10">
                                     <tr>
