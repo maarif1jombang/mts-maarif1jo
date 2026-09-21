@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <!-- STREAMING_CHUNK:Configuring metadata and loading resources... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-User</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- STREAMING_CHUNK:Styling the layout... -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -48,6 +50,7 @@
 </head>
 
 <body>
+    <!-- STREAMING_CHUNK:Rendering the login container... -->
     <div class="flex items-center justify-center min-h-screen p-4">
 
         <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
@@ -94,6 +97,7 @@
                 </p>
             </div>
             
+            <!-- STREAMING_CHUNK:Rendering the additional apps menu... -->
             <fieldset class="border border-gray-300 rounded-lg px-3 pb-3 pt-1.5">
                 <legend class="ml-0.5 px-2 text-xs text-teal-600 font-semibold whitespace-nowrap">
                     more app
@@ -112,6 +116,7 @@
             <p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>
 
+        <!-- STREAMING_CHUNK:Rendering the detailed user profile container... -->
         <div id="detail-container" class="hidden w-full max-w-4xl p-8 card">
             <!-- LAYOUT FOTO GURU -->
             <div class="card overflow-hidden relative">
@@ -121,14 +126,14 @@
                     <!-- Avatar Bulat Sempurna -->
                     <div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;">
                         <div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;">
-                            <span id="student-initials" class="text-[#007A5E] font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
-                            <img id="student-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Guru">
+                            <span id="teacher-initials" class="text-[#007A5E] font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
+                            <img id="teacher-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Guru">
                         </div>
                     </div>
                     
                     <!-- NAMA GURU -->
                     <div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;">
-                        <h1 id="student-name" class="text-gray-900 sm:text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1>
+                        <h1 id="teacher-name" class="text-gray-900 sm:text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1>
                     </div>
 
                     <!-- NIK GURU -->
@@ -136,7 +141,7 @@
                         <div class="flex flex-row gap-1 items-center justify-center sm:justify-start">
                             <p class="text-gray-400 font-medium" style="font-size: 14px;">NIK</p>
                             <p class="w-1 h-1 rounded-full bg-gray-400"></p>
-                            <p id="student-nisn" class="text-gray-400 font-medium" style="font-size: 14px;"></p>
+                            <p id="teacher-nik" class="text-gray-400 font-medium" style="font-size: 14px;"></p>
                         </div>
                     </div>
                     
@@ -153,47 +158,54 @@
                         </div>
                         
                         <div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10">
-                            <button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                                </svg>
-                                <span class="ml-1 hidden sm:inline">Kembali</span>
-                            </button>
+							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors">
+								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>
+								</svg>
+							  <span class="ml-1 hidden sm:inline">Keluar</span>
+							</button>
                         </div>
                     </div>
 
                 </div>
             </div>
 
+            <!-- STREAMING_CHUNK:Rendering the tab navigation menu... -->
             <!-- TAB MENU USER AKUN DI BAWAH LAYOUT FOTO GURU -->
             <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
-                <button onclick="switchTab('gtk', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                <!-- Tab Emis GTK diubah jadi default -->
+                <button onclick="switchTab('gtk', this)" id="tab-btn-gtk" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>Emis GTK</span>
                 </button>
-                <button onclick="switchTab('emis4', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Emis 4.0</span>
-                </button>                
-                <button onclick="switchTab('akgtk', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Akun AKGTK</span>
+				<button onclick="switchTab('akgtk', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                    <span>AKGTK</span>
                 </button>
 				<button onclick="switchTab('gws', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>Akun GWS</span>
                 </button>
+                <button onclick="switchTab('emis4', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                    <span>Emis 4.0</span>
+                </button>
                 <button onclick="switchTab('simpatika', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Akun Simpatika</span>
+                    <span>Simpatika</span>
                 </button>
                 <button onclick="switchTab('pintar', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Akun Pintar</span>
+                    <span>Pintar</span>
                 </button>
                 <button onclick="switchTab('pajak', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Akun Pajak</span>
+                    <span>Pajak</span>
+                </button>
+                <!-- Tab Semua dipindahkan ke posisi paling akhir -->
+                <button onclick="switchTab('semua', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                    <span>Semua</span>
                 </button>
             </div>
             
-            <div class="mt-6 space-y-6">
+            <!-- STREAMING_CHUNK:Rendering the detailed tab panes... -->
+            <div class="mt-8 space-y-8">
                 
-                <!-- 1. Emis GTK (Default visible) -->
-                <div id="pane-gtk" class="tab-pane border-t-4 border-teal-600 card p-4">
+                <!-- 1. Emis GTK -->
+                <div id="pane-gtk" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Emis GTK</h3>
                     </div>
@@ -208,7 +220,7 @@
                             </div>
                             <div>
                                 <p class="text-xs sm:text-sm text-gray-500">Username</p>
-                                <p id="student-exam-number" class="font-semibold text-sm sm:text-base break-all"></p>
+                                <p id="teacher-gtk-user" class="font-semibold text-sm sm:text-base break-all"></p>
                             </div>
                         </div>               
                         <div class="flex items-center gap-4">
@@ -219,47 +231,14 @@
                             </div>
                             <div>
                                 <p class="text-xs sm:text-sm text-gray-500">Password</p>
-                                <p id="student-average" class="font-semibold text-sm sm:text-base break-all"></p>
+                                <p id="teacher-gtk-pass" class="font-semibold text-sm sm:text-base break-all"></p>
                             </div>
                         </div>
                     </div>
-                </div>
-                    
-                <!-- 2. Emis 4.0 (Hidden by default) -->
-                <div id="pane-emis4" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
-                    <div class="border-b flex flex-row mb-1 pb-1">
-                        <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Emis 4.0</h3>
-                    </div>
-                    <p class="text-xs md:text-sm text-gray-500 text-justify mb-4">https://emis.kemenag.go.id/login</p>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs sm:text-sm text-gray-500">Username</p>
-                                <p id="student-mtk" class="font-semibold text-sm sm:text-base break-all"></p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-xs sm:text-sm text-gray-500">Password</p>
-                                <p id="student-bin" class="font-semibold text-sm sm:text-base break-all"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>                
+                </div>          
 
-                <!-- 3. Akun AKGTK (Hidden by default) -->
-                <div id="pane-akgtk" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
+                <!-- 2. AKGTK -->
+                <div id="pane-akgtk" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun AKGTK</h3>
                     </div>
@@ -291,8 +270,8 @@
                     </div>
                 </div>
 				
-				<!-- 4. Akun GWS (Hidden by default) -->
-                <div id="pane-gws" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
+				<!-- 3. Akun GWS -->
+                <div id="pane-gws" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun GWS</h3>
                     </div>
@@ -307,7 +286,7 @@
                             </div>
                             <div>
                                 <p class="text-xs sm:text-sm text-gray-500">Username</p>
-                                <p id="student-gws" class="font-semibold text-sm sm:text-base break-all"></p>
+                                <p id="teacher-gws-user" class="font-semibold text-sm sm:text-base break-all"></p>
                             </div>
                         </div>
                         <div class="flex items-center gap-4">
@@ -323,9 +302,42 @@
                         </div>
                     </div>
                 </div>
+				
+				<!-- 4. Emis 4.0 -->
+                <div id="pane-emis4" class="tab-pane">
+                    <div class="border-b flex flex-row mb-1 pb-1">
+                        <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Emis 4.0</h3>
+                    </div>
+                    <p class="text-xs md:text-sm text-gray-500 text-justify mb-4">https://emis.kemenag.go.id/login</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Username</p>
+                                <p id="teacher-emis4-user" class="font-semibold text-sm sm:text-base break-all"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-teal-50 border border-teal-600 rounded-lg flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm text-gray-500">Password</p>
+                                <p id="teacher-emis4-pass" class="font-semibold text-sm sm:text-base break-all"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- 5. Akun Simpatika (Hidden by default) -->
-                <div id="pane-simpatika" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
+                <!-- 5. Simpatika -->
+                <div id="pane-simpatika" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Simpatika</h3>
                     </div>
@@ -357,8 +369,8 @@
                     </div>
                 </div>
 
-                <!-- 6. Akun Pintar (Hidden by default) -->
-                <div id="pane-pintar" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
+                <!-- 6. Pintar -->
+                <div id="pane-pintar" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Pintar</h3>
                     </div>
@@ -390,8 +402,8 @@
                     </div>
                 </div>
 
-                <!-- 7. Akun Pajak (Hidden by default) -->
-                <div id="pane-pajak" class="tab-pane border-t-4 border-teal-600 card p-4 hidden">
+                <!-- 7. Pajak -->
+                <div id="pane-pajak" class="tab-pane">
                     <div class="border-b flex flex-row mb-1 pb-1">
                         <h3 class="font-semibold text-sm sm:text-base text-teal-700">User Akun Pajak</h3>
                     </div>
@@ -428,6 +440,7 @@
         </div>
     </div>
 
+<!-- STREAMING_CHUNK:Initializing JavaScript logic and variables... -->
 <script>
     const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqIP2LAiNip-tF7YPt6MQYe0E2ZzdTdUbObJa-ybfQ9cEOINq02WGCzhoQVImqSvgbvBe3jouFP32z/pub?gid=0&single=true&output=csv';
     const photoBaseUrl = 'https://maarif1jombang.github.io/file/foto_guru'; 
@@ -460,18 +473,25 @@
 
     let announcementDataCache = null;
 
+    /* STREAMING_CHUNK:Defining tab switching and data parsing functions... */
     // Function to handle switching tabs
     function switchTab(tabId, btnElement) {
-        // Hide all tab panes
         const panes = ['gtk', 'emis4', 'gws', 'akgtk', 'simpatika', 'pintar', 'pajak'];
-        panes.forEach(p => {
-            const paneElem = document.getElementById(`pane-${p}`);
-            if (paneElem) paneElem.classList.add('hidden');
-        });
-
-        // Show selected tab pane
-        const targetPane = document.getElementById(`pane-${tabId}`);
-        if (targetPane) targetPane.classList.remove('hidden');
+        
+        // Show all if 'semua' is selected, else show only specific tab
+        if (tabId === 'semua') {
+            panes.forEach(p => {
+                const paneElem = document.getElementById(`pane-${p}`);
+                if (paneElem) paneElem.classList.remove('hidden');
+            });
+        } else {
+            panes.forEach(p => {
+                const paneElem = document.getElementById(`pane-${p}`);
+                if (paneElem) paneElem.classList.add('hidden');
+            });
+            const targetPane = document.getElementById(`pane-${tabId}`);
+            if (targetPane) targetPane.classList.remove('hidden');
+        }
 
         // Reset all tab buttons style
         const buttons = document.querySelectorAll('.tab-btn');
@@ -524,6 +544,7 @@
         return data;
     }
 
+    /* STREAMING_CHUNK:Defining data fetching and displaying functions... */
     async function fetchAndProcessData() {
         if (announcementDataCache) return announcementDataCache;
         try {
@@ -572,64 +593,65 @@
         return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
-    function showAnnouncementDetails(student) {
-        if (!student) return;
+    function showAnnouncementDetails(teacher) {
+        if (!teacher) return;
 
-        document.getElementById('student-name').textContent = student.nama;
-        document.getElementById('student-nisn').textContent = student.nik;
+        document.getElementById('teacher-name').textContent = teacher.nama;
+        document.getElementById('teacher-nik').textContent = teacher.nik;
         
-        document.getElementById('student-exam-number').textContent = student.userEmisGtk;
-        document.getElementById('student-average').textContent = student.passEmisGtk;
+        document.getElementById('teacher-gtk-user').textContent = teacher.userEmisGtk;
+        document.getElementById('teacher-gtk-pass').textContent = teacher.passEmisGtk;
         
-        document.getElementById('student-mtk').textContent = student.userEmis4;
-        document.getElementById('student-bin').textContent = student.passEmis4;
+        document.getElementById('teacher-emis4-user').textContent = teacher.userEmis4;
+        document.getElementById('teacher-emis4-pass').textContent = teacher.passEmis4;
 
-        document.getElementById('student-gws').textContent = student.userGws;
-        document.getElementById('pass-gws').textContent = student.passGws;
+        document.getElementById('teacher-gws-user').textContent = teacher.userGws;
+        document.getElementById('pass-gws').textContent = teacher.passGws;
 
-        document.getElementById('user-akgtk').textContent = student.userAkGtk;
-        document.getElementById('pass-akgtk').textContent = student.passAkGtk;
+        document.getElementById('user-akgtk').textContent = teacher.userAkGtk;
+        document.getElementById('pass-akgtk').textContent = teacher.passAkGtk;
 
-        document.getElementById('user-simpatika').textContent = student.userSimpatika;
-        document.getElementById('pass-simpatika').textContent = student.passSimpatika;
+        document.getElementById('user-simpatika').textContent = teacher.userSimpatika;
+        document.getElementById('pass-simpatika').textContent = teacher.passSimpatika;
 
-        document.getElementById('user-pintar').textContent = student.userPintar;
-        document.getElementById('pass-pintar').textContent = student.passPintar;
+        document.getElementById('user-pintar').textContent = teacher.userPintar;
+        document.getElementById('pass-pintar').textContent = teacher.passPintar;
 
-        document.getElementById('user-pajak').textContent = student.userPajak;
-        document.getElementById('pass-pajak').textContent = student.passPajak;
+        document.getElementById('user-pajak').textContent = teacher.userPajak;
+        document.getElementById('pass-pajak').textContent = teacher.passPajak;
         
         const photoContainer = document.getElementById('photo-container');
-        const studentInitials = document.getElementById('student-initials');
-        const studentPhoto = document.getElementById('student-photo');
+        const teacherInitials = document.getElementById('teacher-initials');
+        const teacherPhoto = document.getElementById('teacher-photo');
 
-        studentInitials.textContent = getInitials(student.nama);
-        studentPhoto.classList.add('hidden');
-        studentInitials.classList.remove('hidden');
+        teacherInitials.textContent = getInitials(teacher.nama);
+        teacherPhoto.classList.add('hidden');
+        teacherInitials.classList.remove('hidden');
         photoContainer.classList.add('bg-teal-600'); 
 
-        if (student.nik) {
-            studentPhoto.src = `${photoBaseUrl}/${student.nik}.jpg`;
-            studentPhoto.onload = function() {
-                studentPhoto.classList.remove('hidden'); 
-                studentInitials.classList.add('hidden'); 
+        if (teacher.nik) {
+            teacherPhoto.src = `${photoBaseUrl}/${teacher.nik}.jpg`;
+            teacherPhoto.onload = function() {
+                teacherPhoto.classList.remove('hidden'); 
+                teacherInitials.classList.add('hidden'); 
                 photoContainer.classList.remove('bg-teal-600'); 
             };
-            studentPhoto.onerror = function() {
-                studentPhoto.classList.add('hidden');
-                studentInitials.classList.remove('hidden');
+            teacherPhoto.onerror = function() {
+                teacherPhoto.classList.add('hidden');
+                teacherInitials.classList.remove('hidden');
                 photoContainer.classList.add('bg-teal-600');
             };
         }
 
-        // Reset to default tab (Emis GTK) when showing details
-        const defaultTabBtn = document.querySelector('.tab-btn');
+        // Mengatur tab 'Emis GTK' sebagai tab aktif secara default ketika detail muncul
+        const defaultTabBtn = document.getElementById('tab-btn-gtk'); 
         switchTab('gtk', defaultTabBtn);
 
         loginContainer.classList.add('hidden');
         detailContainer.classList.remove('hidden');
     }
     
+    /* STREAMING_CHUNK:Adding final event listeners and initializing app... */
     function setLoading(isLoading) {
         if (isLoading) {
             loginButton.disabled = true;
@@ -638,7 +660,7 @@
             errorMessage.classList.add('hidden');
         } else {
             loginButton.disabled = false;
-            document.getElementById('login-button-text').textContent = 'Lihat User & Pass';
+            document.getElementById('login-button-text').textContent = 'Lihat User Akun';
             document.getElementById('loader').classList.add('hidden');
         }
     }
@@ -651,18 +673,18 @@
             return;
         }
         setLoading(true);
-        const allStudents = await fetchAndProcessData();
+        const allTeachers = await fetchAndProcessData();
         setLoading(false);
-        if (!allStudents) return;
+        if (!allTeachers) return;
         
         const searchInputLower = searchInput.toLowerCase();
-        const studentByNik = allStudents.find(s => s.nik === searchInput);
+        const teacherByNik = allTeachers.find(s => s.nik === searchInput);
         
-        if (studentByNik) {
-            showAnnouncementDetails(studentByNik);
+        if (teacherByNik) {
+            showAnnouncementDetails(teacherByNik);
             errorMessage.classList.add('hidden');
         } else {
-            const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
+            const nameMatches = allTeachers.filter(teacher => teacher.nama && teacher.nama.toLowerCase().includes(searchInputLower));
             
             if (nameMatches.length === 1) {
                 showAnnouncementDetails(nameMatches[0]);
