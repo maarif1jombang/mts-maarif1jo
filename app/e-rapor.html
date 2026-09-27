@@ -87,7 +87,7 @@
                     </svg>
                 </span>
 
-                <label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85">Masukkan 10 digit NISN</label>
+                <label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-focus:scale-85">Masukkan 10 digit NISN</label>
             </div>
             
             <div>
@@ -103,7 +103,7 @@
             
             <div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px; padding-right: 15px;">
                 <p class="text-xs text-teal-700 text-justify">
-                    Hadir memberikan kemudahan untuk melihat Capaian Hasil Belajar secara online dan mandiri.
+                    Hadir memberikan kemudahan untuk melihat Hasil Belajar siswa secara online dan mandiri.
                 </p>
             </div>
 			
@@ -133,7 +133,7 @@
             <p class="text-xs text-gray-500 text-center mt-6">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>
 
-        <div id="list-container" class="hidden w-full max-w-4xl p-4 sm:p-8 card space-y-6">
+        <div id="list-container" class="hidden w-full max-w-4xl p-6 sm:p-8 space-y-4 md:space-y-6 card">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
 				<div class="flex items-center gap-4">
 					<div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
@@ -159,11 +159,12 @@
 				<table class="w-full text-sm text-left text-gray-500">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
 						<tr>
-							<th scope="col" class="px-4 py-3 sm:px-6 text-center">No</th>
-							<th scope="col" class="px-4 py-3 sm:px-6">Nama Siswa</th>
-							<th scope="col" class="px-4 py-3 sm:px-6">NISN</th>
-							<th scope="col" class="px-4 py-3 sm:px-6">Kelas</th>
-							<th scope="col" class="px-4 py-3 sm:px-6 text-center">Aksi</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">No</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Nama Siswa</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">NISN</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Kelas</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Tahun Ajaran</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">Aksi</th>
 						</tr>
 					</thead>
 					<tbody id="student-list-tbody" class="bg-white divide-y">
@@ -172,14 +173,14 @@
 			</div>
         </div>
 
-        <div id="detail-container" class="hidden w-full max-w-4xl p-4 sm:p-8 card">
+        <div id="detail-container" class="hidden w-full max-w-4xl p-6 sm:p-8 card">
             <div class="card overflow-hidden relative">
                 <div class="w-full bg-teal-600" style="height: 65px;"></div>
                 <div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative">
                     
                     <div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;">
                         <div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;">
-                            <span id="student-initials" class="text-[#007A5E] font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
+                            <span id="student-initials" class="text-teal-600 font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
                             <img id="student-photo" class="absolute inset-0 w-full h-full object-cover object-top hidden" alt="Foto Siswa">
                         </div>
                     </div>
@@ -217,11 +218,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="bg-gray-100 px-4 py-3 flex justify-between items-center">
-                    <span class="text-sm font-semibold text-teal-800">Capaian Akademik</span>
-                    <span class="text-sm font-bold bg-teal-600 text-white px-3 py-1 rounded-full shadow-sm" id="student-rank">Peringkat: -</span>
-                </div>
+                <!-- Capaian Akademik block has been removed from here -->
             </div>
 
             <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
@@ -243,45 +240,45 @@
                 <div id="pane-sts" class="tab-pane">
                     <div class="border-b mb-4 pb-2">
                         <h2 class="text-center text-lg font-bold text-gray-800">CAPAIAN HASIL BELAJAR</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-gray-800 mt-3 mb-2 gap-x-1 gap-y-0">
-                            <div>
+                        <div class="flex flex-row justify-between text-[11px] sm:text-sm text-gray-800 mt-3 mb-2 gap-1 sm:gap-2">
+                            <div class="flex-1">
                                 <table class="w-full">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">N a m a</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 uppercase" id="info-nama-sts"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">N a m a</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 uppercase align-top pl-1 sm:pl-2" id="info-nama-sts"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">NISN</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-nisn-sts"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">NISN</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-nisn-sts"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Kelas</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-kelas-sts"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">Kelas</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-kelas-sts"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="flex md:justify-end">
-                                <table class="w-full md:w-auto">
+                            <div class="flex-shrink-0 flex justify-end">
+                                <table class="w-auto">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">Ujian</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">STS Ganjil</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Jenis Ujian</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">STS Ganjil</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Semester</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">Ganjil</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Semester</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">Ganjil</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Tahun Ajaran</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-tapel-sts"></td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Tahun Ajaran</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-tapel-sts"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -293,13 +290,13 @@
                         <table class="w-full rapor-table text-[11px] sm:text-sm text-gray-800 bg-white leading-tight">
                             <thead>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-8 sm:w-12" rowspan="2">No</th>
+                                    <th class="p-1 sm:p-2 w-7 sm:w-12" rowspan="2">No</th>
                                     <th class="p-1 sm:p-2" rowspan="2">Mata Pelajaran</th>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-16" rowspan="2">KKTP</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-16" rowspan="2">KKTP</th>
                                     <th class="p-1 sm:p-2" colspan="2">Nilai Akhir</th>
                                 </tr>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-20">Nilai</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
                                     <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
                                 </tr>
                             </thead>
@@ -312,45 +309,45 @@
                 <div id="pane-sas" class="tab-pane hidden">
                     <div class="border-b mb-4 pb-2">
                         <h2 class="text-center text-lg font-bold text-gray-800">CAPAIAN HASIL BELAJAR</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-gray-800 mt-3 mb-2 gap-x-1 gap-y-0">
-                            <div>
+                        <div class="flex flex-row justify-between text-[11px] sm:text-sm text-gray-800 mt-3 mb-2 gap-1 sm:gap-2">
+                            <div class="flex-1">
                                 <table class="w-full">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">N a m a</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 uppercase" id="info-nama-sas"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">N a m a</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 uppercase align-top pl-1 sm:pl-2" id="info-nama-sas"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">NISN</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-nisn-sas"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">NISN</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-nisn-sas"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Kelas</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-kelas-sas"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">Kelas</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-kelas-sas"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="flex md:justify-end">
-                                <table class="w-full md:w-auto">
+                            <div class="flex-shrink-0 flex justify-end">
+                                <table class="w-auto">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">Ujian</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">SAS</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Jenis Ujian</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">SAS</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Semester</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">Ganjil</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Semester</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">Ganjil</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Tahun Ajaran</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-tapel-sas"></td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Tahun Ajaran</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-tapel-sas"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -362,13 +359,13 @@
                         <table class="w-full rapor-table text-[11px] sm:text-sm text-gray-800 bg-white leading-tight">
                             <thead>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-8 sm:w-12" rowspan="2">No</th>
+                                    <th class="p-1 sm:p-2 w-7 sm:w-12" rowspan="2">No</th>
                                     <th class="p-1 sm:p-2" rowspan="2">Mata Pelajaran</th>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-16" rowspan="2">KKTP</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-16" rowspan="2">KKTP</th>
                                     <th class="p-1 sm:p-2" colspan="2">Nilai Akhir</th>
                                 </tr>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-20">Nilai</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
                                     <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
                                 </tr>
                             </thead>
@@ -381,45 +378,45 @@
                 <div id="pane-sts-genap" class="tab-pane hidden">
                     <div class="border-b mb-4 pb-2">
                         <h2 class="text-center text-lg font-bold text-gray-800">CAPAIAN HASIL BELAJAR</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-gray-800 mt-3 mb-2 gap-x-1 gap-y-0">
-                            <div>
+                        <div class="flex flex-row justify-between text-[11px] sm:text-sm text-gray-800 mt-3 mb-2 gap-1 sm:gap-2">
+                            <div class="flex-1">
                                 <table class="w-full">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">N a m a</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 uppercase" id="info-nama-sts-genap"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">N a m a</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 uppercase align-top pl-1 sm:pl-2" id="info-nama-sts-genap"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">NISN</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-nisn-sts-genap"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">NISN</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-nisn-sts-genap"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Kelas</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-kelas-sts-genap"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">Kelas</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-kelas-sts-genap"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="flex md:justify-end">
-                                <table class="w-full md:w-auto">
+                            <div class="flex-shrink-0 flex justify-end">
+                                <table class="w-auto">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">Ujian</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">STS Genap</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Jenis Ujian</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">STS Genap</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Semester</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">Genap</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Semester</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">Genap</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Tahun Ajaran</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-tapel-sts-genap"></td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Tahun Ajaran</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-tapel-sts-genap"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -431,13 +428,13 @@
                         <table class="w-full rapor-table text-[11px] sm:text-sm text-gray-800 bg-white leading-tight">
                             <thead>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-8 sm:w-12" rowspan="2">No</th>
+                                    <th class="p-1 sm:p-2 w-7 sm:w-12" rowspan="2">No</th>
                                     <th class="p-1 sm:p-2" rowspan="2">Mata Pelajaran</th>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-16" rowspan="2">KKTP</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-16" rowspan="2">KKTP</th>
                                     <th class="p-1 sm:p-2" colspan="2">Nilai Akhir</th>
                                 </tr>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-20">Nilai</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
                                     <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
                                 </tr>
                             </thead>
@@ -450,45 +447,45 @@
                 <div id="pane-sat" class="tab-pane hidden">
                     <div class="border-b mb-4 pb-2">
                         <h2 class="text-center text-lg font-bold text-gray-800">CAPAIAN HASIL BELAJAR</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 text-sm text-gray-800 mt-3 mb-2 gap-x-1 gap-y-0">
-                            <div>
+                        <div class="flex flex-row justify-between text-[11px] sm:text-sm text-gray-800 mt-3 mb-2 gap-1 sm:gap-2">
+                            <div class="flex-1">
                                 <table class="w-full">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">N a m a</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 uppercase" id="info-nama-sat"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">N a m a</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 uppercase align-top pl-1 sm:pl-2" id="info-nama-sat"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">NISN</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-nisn-sat"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">NISN</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-nisn-sat"></td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Kelas</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-kelas-sat"></td>
+                                            <td class="py-0.5 whitespace-nowrap w-11 sm:w-20 align-top">Kelas</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-kelas-sat"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="flex md:justify-end">
-                                <table class="w-full md:w-auto">
+                            <div class="flex-shrink-0 flex justify-end">
+                                <table class="w-auto">
                                     <tbody>
                                         <tr>
-                                            <td class="py-0.5 w-28">Ujian</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">SAT</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Jenis Ujian</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">SAT</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Semester</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5 font-medium">Genap</td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Semester</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 font-medium align-top pl-1 sm:pl-2">Genap</td>
                                         </tr>
                                         <tr>
-                                            <td class="py-0.5 w-28">Tahun Ajaran</td>
-                                            <td class="py-0.5 w-4">:</td>
-                                            <td class="py-0.5" id="info-tapel-sat"></td>
+                                            <td class="py-0.5 whitespace-nowrap pr-1 sm:pr-2 align-top">Tahun Ajaran</td>
+                                            <td class="py-0.5 w-2 align-top">:</td>
+                                            <td class="py-0.5 align-top pl-1 sm:pl-2" id="info-tapel-sat"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -500,13 +497,13 @@
                         <table class="w-full rapor-table text-[11px] sm:text-sm text-gray-800 bg-white leading-tight">
                             <thead>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-8 sm:w-12" rowspan="2">No</th>
+                                    <th class="p-1 sm:p-2 w-7 sm:w-12" rowspan="2">No</th>
                                     <th class="p-1 sm:p-2" rowspan="2">Mata Pelajaran</th>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-16" rowspan="2">KKTP</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-16" rowspan="2">KKTP</th>
                                     <th class="p-1 sm:p-2" colspan="2">Nilai Akhir</th>
                                 </tr>
                                 <tr>
-                                    <th class="p-1 sm:p-2 w-10 sm:w-20">Nilai</th>
+                                    <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
                                     <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
                                 </tr>
                             </thead>
@@ -515,10 +512,17 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="mt-4 text-xs text-gray-500 italic">
-                    <p>* Keterangan: Jika nilai di bawah KKTP (75), maka siswa dinyatakan <span class="text-red-600 font-semibold">Belum Tuntas</span>.</p>
+				
+				<div class="mt-2 text-xs text-gray-600 italic">
+                    <p>* Keterangan: Jika nilai akhir di bawah KKTP (75), maka siswa dinyatakan <span class="text-red-600 font-semibold">Belum Tuntas</span>.</p>
                 </div>
+
+                <!-- Capaian Akademik dipindahkan ke sini (Di bawah tabel rapor) -->
+                <div class="bg-gray-50 px-4 py-3 flex justify-between items-center rounded-lg mt-6 border">
+                    <span class="text-sm font-semibold text-teal-800">Capaian Akademik</span>
+                    <span class="text-sm font-bold bg-teal-600 text-white px-3 py-1 rounded-lg shadow-sm" id="student-rank">Peringkat: -</span>
+                </div>
+
             </div>
             
         </div>
@@ -587,15 +591,20 @@
             if (!dataset) return;
             dataset.forEach(s => {
                 if (s && s.nisn) {
-                    if (!map.has(s.nisn)) {
-                        map.set(s.nisn, {
+                    const tapel = s.tapel || '';
+                    // Gabungkan NISN dan TAPEL sebagai kunci unik 
+                    // agar record nama/NISN yg sama dengan tahun ajaran berbeda tetap terpisah
+                    const key = `${s.nisn}_${tapel}`; 
+                    
+                    if (!map.has(key)) {
+                        map.set(key, {
                             nama: s.nama || '',
                             nisn: s.nisn || '',
                             kelas: s.kelas || '',
-                            tapel: s.tapel || ''
+                            tapel: tapel
                         });
                     } else {
-                        const existing = map.get(s.nisn);
+                        const existing = map.get(key);
                         if (!existing.nama && s.nama) existing.nama = s.nama;
                         if (!existing.kelas && s.kelas) existing.kelas = s.kelas;
                         if (!existing.tapel && s.tapel) existing.tapel = s.tapel;
@@ -614,7 +623,7 @@
         tbody.innerHTML = '';
 
         if (students.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-500">Tidak ada data siswa ditemukan.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Tidak ada data siswa ditemukan.</td></tr>`;
             return;
         }
 
@@ -626,8 +635,9 @@
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium">${s.nama}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.nisn}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.kelas}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.tapel}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center">
-                    <button onclick="selectStudentFromList('${s.nisn}')" class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300">
+                    <button onclick="selectStudentFromList('${s.nisn}', '${s.tapel}')" class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300">
                         Lihat
                     </button>
                 </td>
@@ -640,11 +650,12 @@
         listContainer.classList.remove('hidden');
     }
 
-    function selectStudentFromList(nisn) {
-        const studentSTS = studentDataSTS ? studentDataSTS.find(s => s.nisn === nisn) : null;
-        const studentSAS = studentDataSAS ? studentDataSAS.find(s => s.nisn === nisn) : null;
-        const studentSTSGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === nisn) : null;
-        const studentSAT = studentDataSAT ? studentDataSAT.find(s => s.nisn === nisn) : null;
+    function selectStudentFromList(nisn, tapel) {
+        // Cari spesifik berdasarkan NISN dan Tahun Ajaran
+        const studentSTS = studentDataSTS ? studentDataSTS.find(s => s.nisn === nisn && s.tapel === tapel) : null;
+        const studentSAS = studentDataSAS ? studentDataSAS.find(s => s.nisn === nisn && s.tapel === tapel) : null;
+        const studentSTSGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === nisn && s.tapel === tapel) : null;
+        const studentSAT = studentDataSAT ? studentDataSAT.find(s => s.nisn === nisn && s.tapel === tapel) : null;
 
         isNavigatedFromList = true;
 
@@ -662,12 +673,10 @@
         const buttons = document.querySelectorAll('.tab-btn');
         buttons.forEach(btn => {
             btn.classList.remove('bg-teal-600', 'text-white');
-            // Pastikan class hover ditambahkan saat tab menjadi tidak aktif (abu-abu)
             btn.classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
         });
 
         if (element) {
-            // Hapus class hover saat tab menjadi aktif (hijau) agar tidak menimpa warna hijau di HP
             element.classList.remove('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
             element.classList.add('bg-teal-600', 'text-white');
         }
@@ -912,7 +921,6 @@
         document.getElementById('student-name').textContent = primaryStudent.nama;
         document.getElementById('student-nisn').textContent = primaryStudent.nisn;
         
-        // Memetakan data 2 Kolom (Nama, NISN, Kelas, Tapel) di setiap tab rapor
         const panes = ['sts', 'sas', 'sts-genap', 'sat'];
         panes.forEach(pane => {
             const elNama = document.getElementById(`info-nama-${pane}`);
@@ -1040,6 +1048,7 @@
         const allStudents = getUniqueStudentsMap();
         const searchInputLower = searchInput.toLowerCase();
 
+        // Cek pencarian format Kelas-Tapel (misal: "7-2024/2025")
         const dashIndex = searchInput.indexOf('-');
         if (dashIndex !== -1) {
             const reqKelas = searchInput.substring(0, dashIndex).trim().toLowerCase();
@@ -1062,41 +1071,61 @@
             }
         }
         
-        const studentStsByNisn = studentDataSTS ? studentDataSTS.find(s => s.nisn === searchInput) : null;
-        const studentSasByNisn = studentDataSAS ? studentDataSAS.find(s => s.nisn === searchInput) : null;
-        const studentStsGenapByNisn = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === searchInput) : null;
-        const studentSatByNisn = studentDataSAT ? studentDataSAT.find(s => s.nisn === searchInput) : null;
-        
-        if (studentStsByNisn || studentSasByNisn || studentStsGenapByNisn || studentSatByNisn) {
-            isNavigatedFromList = false;
-            showStudentDetails(studentStsByNisn, studentSasByNisn, studentStsGenapByNisn, studentSatByNisn);
-            errorMessage.classList.add('hidden');
+        // 1. Cek Exact Matches berdasarkan NISN
+        const nisnMatches = allStudents.filter(s => s.nisn === searchInput);
+        if (nisnMatches.length > 0) {
+            if (nisnMatches.length === 1) {
+                // Hanya 1 record, langsung tampilkan detail
+                const matched = nisnMatches[0];
+                const sts = studentDataSTS ? studentDataSTS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const sas = studentDataSAS ? studentDataSAS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const stsGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const sat = studentDataSAT ? studentDataSAT.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                
+                isNavigatedFromList = false;
+                showStudentDetails(sts, sas, stsGenap, sat);
+                errorMessage.classList.add('hidden');
+            } else {
+                // Jika > 1 (Siswa sama, NISN sama, tapi Tahun Ajaran berbeda), tampilkan List
+                errorMessage.classList.add('hidden');
+                renderStudentListTable(
+                    nisnMatches,
+                    'Aplikasi Rapor Digital',
+                    `Ditemukan data ganda untuk NISN: ${searchInput}`
+                );
+            }
             return;
         }
 
+        // 2. Cek Matches berdasarkan Nama
         const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
-        
-        if (nameMatches.length === 1) {
-            const matchedNisn = nameMatches[0].nisn;
-            const stsMatch = studentDataSTS ? studentDataSTS.find(s => s.nisn === matchedNisn) : null;
-            const sasMatch = studentDataSAS ? studentDataSAS.find(s => s.nisn === matchedNisn) : null;
-            const stsGenapMatch = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === matchedNisn) : null;
-            const satMatch = studentDataSAT ? studentDataSAT.find(s => s.nisn === matchedNisn) : null;
-            
-            isNavigatedFromList = false;
-            showStudentDetails(stsMatch, sasMatch, stsGenapMatch, satMatch);
-            errorMessage.classList.add('hidden');
-        } else if (nameMatches.length > 1) {
-            errorMessage.classList.add('hidden');
-            renderStudentListTable(
-                nameMatches,
-                'Aplikasi Rapor Digital',
-                `Hasil Pencarian Nama: "${searchInput}" (${nameMatches.length} siswa ditemukan)`
-            );
-        } else {
-            errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
-            errorMessage.classList.remove('hidden');
+        if (nameMatches.length > 0) {
+            if (nameMatches.length === 1) {
+                // Hanya 1 record, langsung tampilkan detail
+                const matched = nameMatches[0];
+                const sts = studentDataSTS ? studentDataSTS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const sas = studentDataSAS ? studentDataSAS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const stsGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                const sat = studentDataSAT ? studentDataSAT.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
+                
+                isNavigatedFromList = false;
+                showStudentDetails(sts, sas, stsGenap, sat);
+                errorMessage.classList.add('hidden');
+            } else {
+                // Lebih dari 1 (termasuk jika 3 nama persis namun beda Tapel), tampilkan List
+                errorMessage.classList.add('hidden');
+                renderStudentListTable(
+                    nameMatches,
+                    'Aplikasi Rapor Digital',
+                    `Hasil Pencarian Nama: "${searchInput}" (${nameMatches.length} data ditemukan)`
+                );
+            }
+            return;
         }
+
+        // Jika tidak ditemukan apa pun
+        errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
+        errorMessage.classList.remove('hidden');
     }
 
     function handleLogout() {
