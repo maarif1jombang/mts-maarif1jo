@@ -63,7 +63,8 @@
 <body>
     <div class="flex items-center justify-center min-h-screen p-4">
 
-        <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
+        <!-- Tampilkan login-container secara default saat halaman dimuat -->
+        <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card">
             <div class="text-center pb-8">
                 <div class="flex justify-center mx-auto text-teal-600 mb-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
@@ -158,13 +159,13 @@
 			<div class="overflow-x-auto rounded-lg border mt-2">
 				<table class="w-full text-sm text-left text-gray-500">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
-						<tr>
+						<tr id="list-header-row">
 							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">No</th>
 							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Nama Siswa</th>
 							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">NISN</th>
 							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Kelas</th>
 							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Tahun Ajaran</th>
-							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">Aksi</th>
+							<th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center sticky right-0 bg-gray-50 z-10">Aksi</th>
 						</tr>
 					</thead>
 					<tbody id="student-list-tbody" class="bg-white divide-y">
@@ -218,20 +219,30 @@
                         </div>
                     </div>
                 </div>
-                <!-- Capaian Akademik block has been removed from here -->
             </div>
 
-            <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
-                <button onclick="switchTab('sts', this)" id="tab-btn-sts" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+            <div id="class-tabs-wrapper" class="mt-8 hidden border-b border-gray-200 pb-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <span class="text-xs sm:text-sm font-bold text-teal-700 uppercase tracking-wider">RIWAYAT KELAS</span>
+                </div>
+                <div id="class-tabs-container" class="flex overflow-x-auto gap-2 py-1 no-scrollbar">
+                </div>
+            </div>
+
+            <div class="mt-0 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
+                <button onclick="switchTab('sts', this)" id="tab-btn-sts" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>STS Ganjil</span>
                 </button>
-                <button onclick="switchTab('sas', this)" id="tab-btn-sas" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                <button onclick="switchTab('sas', this)" id="tab-btn-sas" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>SAS</span>
                 </button>
-                <button onclick="switchTab('sts-genap', this)" id="tab-btn-sts-genap" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                <button onclick="switchTab('sts-genap', this)" id="tab-btn-sts-genap" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>STS Genap</span>
                 </button>
-                <button onclick="switchTab('sat', this)" id="tab-btn-sat" class="tab-btn px-4 py-2 text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                <button onclick="switchTab('sat', this)" id="tab-btn-sat" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>SAT</span>
                 </button>
             </div>
@@ -517,7 +528,6 @@
                     <p>* Keterangan: Jika nilai akhir di bawah KKTP (75), maka siswa dinyatakan <span class="text-red-600 font-semibold">Belum Tuntas</span>.</p>
                 </div>
 
-                <!-- Capaian Akademik dipindahkan ke sini (Di bawah tabel rapor) -->
                 <div class="bg-gray-50 px-4 py-3 flex justify-between items-center rounded-lg mt-6 border">
                     <span class="text-sm font-semibold text-teal-800">Capaian Akademik</span>
                     <span class="text-sm font-bold bg-teal-600 text-white px-3 py-1 rounded-lg shadow-sm" id="student-rank">Peringkat: -</span>
@@ -582,7 +592,102 @@
     let currentStudentSTSGenap = null;
     let currentStudentSAT = null;
 
+    let currentClassRecords = [];
+    let currentActiveRecordIndex = 0;
+    let currentActiveExamTab = 'sts';
     let isNavigatedFromList = false;
+
+    function getClassLevel(kelasStr) {
+        if (!kelasStr) return 0;
+        const str = kelasStr.toString().trim().toUpperCase();
+        
+        const numMatch = str.match(/\d+/);
+        if (numMatch) return parseInt(numMatch[0], 10);
+        
+        if (str.includes('IX')) return 9;
+        if (str.includes('VIII')) return 8;
+        if (str.includes('VII')) return 7;
+        if (str.includes('VI')) return 6;
+        
+        return 0;
+    }
+
+    function getStudentClassRecords(nisn) {
+        if (!nisn) return [];
+        const classMap = new Map();
+
+        const processDataset = (dataset, type) => {
+            if (!dataset) return;
+            dataset.forEach(item => {
+                if (item && item.nisn && item.nisn.toString().trim() === nisn.toString().trim()) {
+                    const key = item.tapel ? `${item.kelas || ''}_${item.tapel}` : (item.kelas || 'default');
+                    if (!classMap.has(key)) {
+                        classMap.set(key, {
+                            kelas: item.kelas || '',
+                            tapel: item.tapel || '',
+                            nama: item.nama || '',
+                            sts: null,
+                            sas: null,
+                            stsGenap: null,
+                            sat: null
+                        });
+                    }
+                    const entry = classMap.get(key);
+                    if (!entry.nama && item.nama) entry.nama = item.nama;
+                    if (!entry.kelas && item.kelas) entry.kelas = item.kelas;
+                    if (!entry.tapel && item.tapel) entry.tapel = item.tapel;
+                    entry[type] = item;
+                }
+            });
+        };
+
+        processDataset(studentDataSTS, 'sts');
+        processDataset(studentDataSAS, 'sas');
+        processDataset(studentDataSTSGenap, 'stsGenap');
+        processDataset(studentDataSAT, 'sat');
+
+        const records = Array.from(classMap.values());
+
+        records.sort((a, b) => {
+            const levelA = getClassLevel(a.kelas);
+            const levelB = getClassLevel(b.kelas);
+            if (levelA !== levelB) {
+                return levelB - levelA;
+            }
+            return (b.tapel || '').localeCompare(a.tapel || '');
+        });
+
+        return records;
+    }
+
+    function getUniqueStudentsList() {
+        const uniqueNisns = new Set();
+        const datasets = [studentDataSTS, studentDataSAS, studentDataSTSGenap, studentDataSAT];
+        
+        datasets.forEach(ds => {
+            if (!ds) return;
+            ds.forEach(s => {
+                if (s && s.nisn) uniqueNisns.add(s.nisn.toString().trim());
+            });
+        });
+
+        const result = [];
+        uniqueNisns.forEach(nisn => {
+            const records = getStudentClassRecords(nisn);
+            if (records.length > 0) {
+                const primary = records[0];
+                result.push({
+                    nisn: nisn,
+                    nama: primary.nama,
+                    kelas: primary.kelas,
+                    tapel: primary.tapel,
+                    classRecords: records
+                });
+            }
+        });
+
+        return result;
+    }
 
     function getUniqueStudentsMap() {
         const map = new Map();
@@ -592,8 +697,6 @@
             dataset.forEach(s => {
                 if (s && s.nisn) {
                     const tapel = s.tapel || '';
-                    // Gabungkan NISN dan TAPEL sebagai kunci unik 
-                    // agar record nama/NISN yg sama dengan tahun ajaran berbeda tetap terpisah
                     const key = `${s.nisn}_${tapel}`; 
                     
                     if (!map.has(key)) {
@@ -615,10 +718,32 @@
         return Array.from(map.values());
     }
 
-    function renderStudentListTable(students, titleText, subtitleText) {
+    function renderStudentListTable(students, titleText, subtitleText, isAdmin = false) {
         document.getElementById('list-title').textContent = titleText;
         document.getElementById('list-subtitle').textContent = subtitleText;
         
+        const headerRow = document.getElementById('list-header-row');
+        
+        if (isAdmin) {
+            headerRow.innerHTML = `
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">No</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Nama Siswa</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">NISN</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Kelas</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Peringkat</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center sticky right-0 bg-gray-50 z-10 shadow-sm">Aksi</th>
+            `;
+        } else {
+            headerRow.innerHTML = `
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center">No</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Nama Siswa</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">NISN</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Kelas</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6">Tahun Ajaran</th>
+                <th scope="col" class="whitespace-nowrap px-4 py-3 sm:px-6 text-center sticky right-0 bg-gray-50 z-10 shadow-sm">Aksi</th>
+            `;
+        }
+
         const tbody = document.getElementById('student-list-tbody');
         tbody.innerHTML = '';
 
@@ -628,15 +753,32 @@
         }
 
         students.forEach((s, index) => {
+            let rankHtml = '';
+            let tapelHtml = '';
+            
+            if (isAdmin) {
+                const dsSAT = studentDataSAT ? studentDataSAT.find(ds => ds.nisn === s.nisn && ds.tapel === s.tapel) : null;
+                const dsSTSGenap = studentDataSTSGenap ? studentDataSTSGenap.find(ds => ds.nisn === s.nisn && ds.tapel === s.tapel) : null;
+                const dsSAS = studentDataSAS ? studentDataSAS.find(ds => ds.nisn === s.nisn && ds.tapel === s.tapel) : null;
+                const dsSTS = studentDataSTS ? studentDataSTS.find(ds => ds.nisn === s.nisn && ds.tapel === s.tapel) : null;
+                
+                let rank = dsSAT?.rangk || dsSTSGenap?.rangk || dsSAS?.rangk || dsSTS?.rangk || '-';
+                
+                rankHtml = `<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-bold">${rank}</td>`;
+            } else {
+                tapelHtml = `<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.tapel}</td>`;
+            }
+
             const tr = document.createElement('tr');
-            tr.className = 'hover:bg-gray-50/80 transition-colors';
+            tr.className = 'hover:bg-gray-50 transition-colors group';
             tr.innerHTML = `
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-center font-medium">${index + 1}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium">${s.nama}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.nisn}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.kelas}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${s.tapel}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center">
+                ${tapelHtml}
+                ${rankHtml}
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center sticky right-0 bg-white group-hover:bg-gray-50 z-10 transition-colors">
                     <button onclick="selectStudentFromList('${s.nisn}', '${s.tapel}')" class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300">
                         Lihat
                     </button>
@@ -651,19 +793,208 @@
     }
 
     function selectStudentFromList(nisn, tapel) {
-        // Cari spesifik berdasarkan NISN dan Tahun Ajaran
-        const studentSTS = studentDataSTS ? studentDataSTS.find(s => s.nisn === nisn && s.tapel === tapel) : null;
-        const studentSAS = studentDataSAS ? studentDataSAS.find(s => s.nisn === nisn && s.tapel === tapel) : null;
-        const studentSTSGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === nisn && s.tapel === tapel) : null;
-        const studentSAT = studentDataSAT ? studentDataSAT.find(s => s.nisn === nisn && s.tapel === tapel) : null;
+        const records = getStudentClassRecords(nisn);
+        if (records.length === 0) return;
 
         isNavigatedFromList = true;
-
         listContainer.classList.add('hidden');
-        showStudentDetails(studentSTS, studentSAS, studentSTSGenap, studentSAT);
+
+        let targetIndex = 0;
+        if (tapel) {
+            const idx = records.findIndex(r => r.tapel === tapel);
+            if (idx !== -1) targetIndex = idx;
+        }
+
+        showStudentDetailsForRecords(records, targetIndex);
+    }
+
+    function renderClassTabs() {
+        const classTabsWrapper = document.getElementById('class-tabs-wrapper');
+        const classTabsContainer = document.getElementById('class-tabs-container');
+
+        if (!classTabsWrapper || !classTabsContainer) return;
+
+        if (!currentClassRecords || currentClassRecords.length === 0) {
+            classTabsWrapper.classList.add('hidden');
+            return;
+        }
+
+        classTabsWrapper.classList.remove('hidden');
+        classTabsContainer.innerHTML = '';
+
+        currentClassRecords.forEach((rec, index) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.id = `class-tab-btn-${index}`;
+            
+            let labelText = rec.kelas || 'Kelas';
+            if (!labelText.toLowerCase().startsWith('kelas')) {
+                labelText = 'Kelas ' + labelText;
+            }
+            if (rec.tapel) {
+                labelText += ` (${rec.tapel})`;
+            }
+
+            btn.className = index === currentActiveRecordIndex
+                ? 'class-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-700 text-white shadow-sm transition-all whitespace-nowrap flex items-center gap-1.5'
+                : 'class-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-50 text-teal-800 hover:bg-teal-100 border border-teal-200 shadow-sm transition-all whitespace-nowrap flex items-center gap-1.5';
+
+            btn.innerHTML = `<span>${labelText}</span>`;
+            btn.onclick = () => {
+                currentActiveRecordIndex = index;
+                updateClassTabsStyle();
+                selectClassRecord(index);
+            };
+
+            classTabsContainer.appendChild(btn);
+        });
+    }
+
+    function updateClassTabsStyle() {
+        const buttons = document.querySelectorAll('.class-tab-btn');
+        buttons.forEach((btn, index) => {
+            if (index === currentActiveRecordIndex) {
+                btn.className = 'class-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-700 text-white shadow-sm transition-all whitespace-nowrap flex items-center gap-1.5';
+            } else {
+                btn.className = 'class-tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-50 text-teal-800 hover:bg-teal-100 border border-teal-200 shadow-sm transition-all whitespace-nowrap flex items-center gap-1.5';
+            }
+        });
+    }
+
+    function selectClassRecord(index) {
+        if (!currentClassRecords || !currentClassRecords[index]) return;
+
+        const currentRec = currentClassRecords[index];
+        const studentSTS = currentRec.sts;
+        const studentSAS = currentRec.sas;
+        const studentSTSGenap = currentRec.stsGenap;
+        const studentSAT = currentRec.sat;
+
+        currentStudentSTS = studentSTS;
+        currentStudentSAS = studentSAS;
+        currentStudentSTSGenap = studentSTSGenap;
+        currentStudentSAT = studentSAT;
+
+        const primaryStudent = studentSTS || studentSAS || studentSTSGenap || studentSAT || {
+            nama: currentRec.nama,
+            nisn: currentClassRecords[0]?.nisn || '',
+            kelas: currentRec.kelas,
+            tapel: currentRec.tapel
+        };
+
+        document.getElementById('student-name').textContent = primaryStudent.nama || currentRec.nama || '';
+        document.getElementById('student-nisn').textContent = primaryStudent.nisn || currentClassRecords[0]?.nisn || '';
+
+        const panes = ['sts', 'sas', 'sts-genap', 'sat'];
+        panes.forEach(pane => {
+            const elNama = document.getElementById(`info-nama-${pane}`);
+            const elNisn = document.getElementById(`info-nisn-${pane}`);
+            if (elNama) elNama.textContent = primaryStudent.nama || currentRec.nama || '-';
+            if (elNisn) elNisn.textContent = primaryStudent.nisn || currentClassRecords[0]?.nisn || '-';
+        });
+
+        document.getElementById('info-kelas-sts').textContent = studentSTS?.kelas || currentRec.kelas || '-';
+        document.getElementById('info-tapel-sts').textContent = studentSTS?.tapel || currentRec.tapel || '-';
+
+        document.getElementById('info-kelas-sas').textContent = studentSAS?.kelas || currentRec.kelas || '-';
+        document.getElementById('info-tapel-sas').textContent = studentSAS?.tapel || currentRec.tapel || '-';
+
+        document.getElementById('info-kelas-sts-genap').textContent = studentSTSGenap?.kelas || currentRec.kelas || '-';
+        document.getElementById('info-tapel-sts-genap').textContent = studentSTSGenap?.tapel || currentRec.tapel || '-';
+
+        document.getElementById('info-kelas-sat').textContent = studentSAT?.kelas || currentRec.kelas || '-';
+        document.getElementById('info-tapel-sat').textContent = studentSAT?.tapel || currentRec.tapel || '-';
+
+        if (studentSTS) {
+            renderRaporTable(studentSTS, 'rapor-sts-tbody');
+        } else {
+            document.getElementById('rapor-sts-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data STS Ganjil belum tersedia untuk siswa ini.</td></tr>';
+        }
+
+        if (studentSAS) {
+            renderRaporTable(studentSAS, 'rapor-sas-tbody');
+        } else {
+            document.getElementById('rapor-sas-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data SAS belum tersedia untuk siswa ini.</td></tr>';
+        }
+
+        if (studentSTSGenap) {
+            renderRaporTable(studentSTSGenap, 'rapor-sts-genap-tbody');
+        } else {
+            document.getElementById('rapor-sts-genap-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data STS Genap belum tersedia untuk siswa ini.</td></tr>';
+        }
+
+        if (studentSAT) {
+            renderRaporTable(studentSAT, 'rapor-sat-tbody');
+        } else {
+            document.getElementById('rapor-sat-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data SAT belum tersedia untuk siswa ini.</td></tr>';
+        }
+
+        const photoContainer = document.getElementById('photo-container');
+        const studentInitials = document.getElementById('student-initials');
+        const studentPhoto = document.getElementById('student-photo');
+        const studentNisn = primaryStudent.nisn || currentClassRecords[0]?.nisn;
+
+        studentInitials.textContent = getInitials(primaryStudent.nama || currentRec.nama);
+        studentPhoto.classList.add('hidden');
+        studentInitials.classList.remove('hidden');
+        photoContainer.classList.add('bg-teal-600'); 
+
+        if (studentNisn) {
+            studentPhoto.src = `${photoBaseUrl}/${studentNisn}.jpg`;
+            studentPhoto.onload = function() {
+                studentPhoto.classList.remove('hidden'); 
+                studentInitials.classList.add('hidden'); 
+                photoContainer.classList.remove('bg-teal-600'); 
+            };
+            studentPhoto.onerror = function() {
+                studentPhoto.classList.add('hidden');
+                studentInitials.classList.remove('hidden');
+                photoContainer.classList.add('bg-teal-600');
+            };
+        }
+
+        switchTab(currentActiveExamTab || 'sts', document.getElementById(`tab-btn-${currentActiveExamTab || 'sts'}`));
+
+        const logoutBtn = document.getElementById('logout-button');
+        const logoutText = document.getElementById('logout-text');
+        const logoutIcon = document.getElementById('logout-icon');
+
+        if (isNavigatedFromList) {
+            if (logoutText) logoutText.textContent = 'Kembali';
+            if (logoutBtn) {
+                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
+            }
+            if (logoutIcon) {
+                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
+                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>';
+            }
+        } else {
+            if (logoutText) logoutText.textContent = 'Keluar';
+            if (logoutBtn) {
+                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
+            }
+            if (logoutIcon) {
+                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
+                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>';
+            }
+        }
+    }
+
+    function showStudentDetailsForRecords(records, initialIndex = 0) {
+        if (!records || records.length === 0) return;
+
+        currentClassRecords = records;
+        currentActiveRecordIndex = initialIndex >= 0 && initialIndex < records.length ? initialIndex : 0;
+
+        renderClassTabs();
+        selectClassRecord(currentActiveRecordIndex);
+
+        loginContainer.classList.add('hidden');
+        detailContainer.classList.remove('hidden');
     }
 
     function switchTab(tabId, element) {
+        currentActiveExamTab = tabId;
         const panes = document.querySelectorAll('.tab-pane');
         panes.forEach(pane => pane.classList.add('hidden'));
 
@@ -789,10 +1120,10 @@
         
         const subjects = [
             { type: 'header-sub', no: '1', title: 'Pendidikan Agama Islam' },
-            { type: 'subject', no: '', title: "a. Al Qur'an Hadits", key: 'qh', isSub: true },
-            { type: 'subject', no: '', title: 'b. Aqidah Akhlaq', key: 'aa', isSub: true },
-            { type: 'subject', no: '', title: 'c. Fiqih', key: 'fq', isSub: true },
-            { type: 'subject', no: '', title: 'd. Sejarah Kebudayaan Islam', key: 'ski', isSub: true },
+            { type: 'subject', no: '', title: "a. Al Qur'an Hadits", key: 'qh' },
+            { type: 'subject', no: '', title: 'b. Aqidah Akhlaq', key: 'aa' },
+            { type: 'subject', no: '', title: 'c. Fiqih', key: 'fq' },
+            { type: 'subject', no: '', title: 'd. Sejarah Kebudayaan Islam', key: 'ski' },
             { type: 'subject', no: '2', title: 'Bahasa Arab', key: 'bar' },
             { type: 'subject', no: '3', title: 'Pendidikan Pancasila', key: 'pkn' },
             { type: 'subject', no: '4', title: 'Bahasa Indonesia', key: 'bind' },
@@ -804,23 +1135,17 @@
             { type: 'subject', no: '10', title: 'Informatika', key: 'tik' },
             { type: 'subject', no: '11', title: 'Seni dan Budaya', key: 'sbp' },
             { type: 'header-sub', no: '12', title: 'Muatan Lokal *)' },
-            { type: 'subject', no: '', title: 'a. Aswaja', key: 'aswj', isSub: true },
-            { type: 'subject', no: '', title: 'b. Bahasa Daerah', key: 'bd', isSub: true },
-            { type: 'subject', no: '', title: 'c. Nahwu', key: 'nhw', isSub: true },
-            { type: 'subject', no: '', title: "d. Ta'lim", key: 'talim', isSub: true },
+            { type: 'subject', no: '', title: 'a. Aswaja', key: 'aswj' },
+            { type: 'subject', no: '', title: 'b. Bahasa Daerah', key: 'bd' },
+            { type: 'subject', no: '', title: 'c. Nahwu', key: 'nhw' },
+            { type: 'subject', no: '', title: "d. Ta'lim", key: 'talim' },
         ];
 
         let html = '';
         let totalKktp = 0;
 
         subjects.forEach(sub => {
-            if (sub.type === 'header') {
-                html += `
-                    <tr class="bg-gray-100 font-semibold">
-                        <td class="p-1 sm:p-2"></td>
-                        <td class="p-1 sm:p-2" colspan="4">${sub.title}</td>
-                    </tr>`;
-            } else if (sub.type === 'header-sub') {
+            if (sub.type === 'header-sub') {
                 html += `
                     <tr>
                         <td class="p-1 sm:p-2 text-center align-top">${sub.no}</td>
@@ -847,12 +1172,10 @@
                     nilaiStr = ''; 
                 }
 
-                let paddingClass = 'pl-1 sm:pl-2';
-
                 html += `
                     <tr>
                         <td class="p-1 sm:p-2 text-center align-top">${sub.no}</td>
-                        <td class="p-1 sm:p-2 ${paddingClass}">${sub.title}</td>
+                        <td class="p-1 sm:p-2 pl-1 sm:pl-2">${sub.title}</td>
                         <td class="p-1 sm:p-2 text-center">${kktp}</td>
                         <td class="p-1 sm:p-2 text-center ${textClass}">${nilaiStr}</td>
                         <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${textClass}">${predikat}</td>
@@ -872,12 +1195,11 @@
             }
         }
 
-        const avgKktp = kktp; 
         const rataVal = parseFloat(student.rata2 ? student.rata2.toString().replace(',', '.') : '');
         let rataPredikat = '';
         let rataTextClass = 'text-gray-900';
         if (!isNaN(rataVal)) {
-            if (rataVal < avgKktp) {
+            if (rataVal < kktp) {
                 rataPredikat = 'Belum Tuntas';
                 rataTextClass = 'text-red-600 font-bold';
             } else {
@@ -894,7 +1216,7 @@
             </tr>
             <tr class="font-bold bg-gray-50">
                 <td class="p-1 sm:p-2 text-center" colspan="2">Rata-rata</td>
-                <td class="p-1 sm:p-2 text-center">${avgKktp}</td>
+                <td class="p-1 sm:p-2 text-center">${kktp}</td>
                 <td class="p-1 sm:p-2 text-center ${rataTextClass}">${student.rata2 || ''}</td>
                 <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${rataTextClass}">${rataPredikat}</td>
             </tr>`;
@@ -907,115 +1229,6 @@
         const parts = name.trim().split(/\s+/);
         if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
         return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-
-    function showStudentDetails(studentSTS, studentSAS, studentSTSGenap, studentSAT) {
-        const primaryStudent = studentSTS || studentSAS || studentSTSGenap || studentSAT;
-        if (!primaryStudent) return;
-
-        currentStudentSTS = studentSTS;
-        currentStudentSAS = studentSAS;
-        currentStudentSTSGenap = studentSTSGenap;
-        currentStudentSAT = studentSAT;
-
-        document.getElementById('student-name').textContent = primaryStudent.nama;
-        document.getElementById('student-nisn').textContent = primaryStudent.nisn;
-        
-        const panes = ['sts', 'sas', 'sts-genap', 'sat'];
-        panes.forEach(pane => {
-            const elNama = document.getElementById(`info-nama-${pane}`);
-            const elNisn = document.getElementById(`info-nisn-${pane}`);
-            if (elNama) elNama.textContent = primaryStudent.nama || '-';
-            if (elNisn) elNisn.textContent = primaryStudent.nisn || '-';
-        });
-
-        document.getElementById('info-kelas-sts').textContent = studentSTS?.kelas || '-';
-        document.getElementById('info-tapel-sts').textContent = studentSTS?.tapel || '-';
-
-        document.getElementById('info-kelas-sas').textContent = studentSAS?.kelas || '-';
-        document.getElementById('info-tapel-sas').textContent = studentSAS?.tapel || '-';
-
-        document.getElementById('info-kelas-sts-genap').textContent = studentSTSGenap?.kelas || '-';
-        document.getElementById('info-tapel-sts-genap').textContent = studentSTSGenap?.tapel || '-';
-
-        document.getElementById('info-kelas-sat').textContent = studentSAT?.kelas || '-';
-        document.getElementById('info-tapel-sat').textContent = studentSAT?.tapel || '-';
-
-        if (studentSTS) {
-            renderRaporTable(studentSTS, 'rapor-sts-tbody');
-        } else {
-            document.getElementById('rapor-sts-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data STS Ganjil belum tersedia untuk siswa ini.</td></tr>';
-        }
-
-        if (studentSAS) {
-            renderRaporTable(studentSAS, 'rapor-sas-tbody');
-        } else {
-            document.getElementById('rapor-sas-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data SAS belum tersedia untuk siswa ini.</td></tr>';
-        }
-
-        if (studentSTSGenap) {
-            renderRaporTable(studentSTSGenap, 'rapor-sts-genap-tbody');
-        } else {
-            document.getElementById('rapor-sts-genap-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data STS Genap belum tersedia untuk siswa ini.</td></tr>';
-        }
-
-        if (studentSAT) {
-            renderRaporTable(studentSAT, 'rapor-sat-tbody');
-        } else {
-            document.getElementById('rapor-sat-tbody').innerHTML = '<tr><td colspan="5" class="p-4 text-center">Data SAT belum tersedia untuk siswa ini.</td></tr>';
-        }
-        
-        const photoContainer = document.getElementById('photo-container');
-        const studentInitials = document.getElementById('student-initials');
-        const studentPhoto = document.getElementById('student-photo');
-
-        studentInitials.textContent = getInitials(primaryStudent.nama);
-        studentPhoto.classList.add('hidden');
-        studentInitials.classList.remove('hidden');
-        photoContainer.classList.add('bg-teal-600'); 
-
-        if (primaryStudent.nisn) {
-            studentPhoto.src = `${photoBaseUrl}/${primaryStudent.nisn}.jpg`;
-            studentPhoto.onload = function() {
-                studentPhoto.classList.remove('hidden'); 
-                studentInitials.classList.add('hidden'); 
-                photoContainer.classList.remove('bg-teal-600'); 
-            };
-            studentPhoto.onerror = function() {
-                studentPhoto.classList.add('hidden');
-                studentInitials.classList.remove('hidden');
-                photoContainer.classList.add('bg-teal-600');
-            };
-        }
-
-        switchTab('sts', document.getElementById('tab-btn-sts'));
-
-        const logoutBtn = document.getElementById('logout-button');
-        const logoutText = document.getElementById('logout-text');
-        const logoutIcon = document.getElementById('logout-icon');
-
-        if (isNavigatedFromList) {
-            if (logoutText) logoutText.textContent = 'Kembali';
-            if (logoutBtn) {
-                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
-            }
-            if (logoutIcon) {
-                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
-                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>';
-            }
-        } else {
-            if (logoutText) logoutText.textContent = 'Keluar';
-            if (logoutBtn) {
-                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
-            }
-            if (logoutIcon) {
-                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
-                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>';
-            }
-        }
-
-        loginContainer.classList.add('hidden');
-        detailContainer.classList.remove('hidden');
     }
 
     function setLoading(isLoading) {
@@ -1044,16 +1257,13 @@
         setLoading(false);
         
         if (!success) return;
-        
-        const allStudents = getUniqueStudentsMap();
-        const searchInputLower = searchInput.toLowerCase();
 
-        // Cek pencarian format Kelas-Tapel (misal: "7-2024/2025")
         const dashIndex = searchInput.indexOf('-');
         if (dashIndex !== -1) {
             const reqKelas = searchInput.substring(0, dashIndex).trim().toLowerCase();
             const reqTapel = searchInput.substring(dashIndex + 1).trim().toLowerCase();
 
+            const allStudents = getUniqueStudentsMap();
             const classMatches = allStudents.filter(s => 
                 s.kelas && s.kelas.toLowerCase() === reqKelas &&
                 s.tapel && s.tapel.toLowerCase() === reqTapel
@@ -1065,114 +1275,83 @@
                 renderStudentListTable(
                     classMatches, 
                     'Aplikasi Rapor Digital', 
-                    `Siswa Kelas ${sample.kelas} (${sample.tapel})`
+                    `Siswa Kelas ${sample.kelas} (${sample.tapel})`,
+                    true 
                 );
                 return;
             }
         }
         
-        // 1. Cek Exact Matches berdasarkan NISN
-        const nisnMatches = allStudents.filter(s => s.nisn === searchInput);
-        if (nisnMatches.length > 0) {
-            if (nisnMatches.length === 1) {
-                // Hanya 1 record, langsung tampilkan detail
-                const matched = nisnMatches[0];
-                const sts = studentDataSTS ? studentDataSTS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const sas = studentDataSAS ? studentDataSAS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const stsGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const sat = studentDataSAT ? studentDataSAT.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                
-                isNavigatedFromList = false;
-                showStudentDetails(sts, sas, stsGenap, sat);
-                errorMessage.classList.add('hidden');
-            } else {
-                // Jika > 1 (Siswa sama, NISN sama, tapi Tahun Ajaran berbeda), tampilkan List
-                errorMessage.classList.add('hidden');
-                renderStudentListTable(
-                    nisnMatches,
-                    'Aplikasi Rapor Digital',
-                    `Ditemukan data ganda untuk NISN: ${searchInput}`
-                );
-            }
+        // Match by NISN
+        const nisnRecords = getStudentClassRecords(searchInput);
+        if (nisnRecords.length > 0) {
+            isNavigatedFromList = false;
+            errorMessage.classList.add('hidden');
+            showStudentDetailsForRecords(nisnRecords);
             return;
         }
 
-        // 2. Cek Matches berdasarkan Nama
-        const nameMatches = allStudents.filter(student => student.nama && student.nama.toLowerCase().includes(searchInputLower));
+        // Match by Name
+        const searchInputLower = searchInput.toLowerCase();
+        const uniqueStudents = getUniqueStudentsList();
+        const nameMatches = uniqueStudents.filter(s => s.nama && s.nama.toLowerCase().includes(searchInputLower));
+
         if (nameMatches.length > 0) {
+            errorMessage.classList.add('hidden');
             if (nameMatches.length === 1) {
-                // Hanya 1 record, langsung tampilkan detail
-                const matched = nameMatches[0];
-                const sts = studentDataSTS ? studentDataSTS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const sas = studentDataSAS ? studentDataSAS.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const stsGenap = studentDataSTSGenap ? studentDataSTSGenap.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                const sat = studentDataSAT ? studentDataSAT.find(s => s.nisn === matched.nisn && s.tapel === matched.tapel) : null;
-                
                 isNavigatedFromList = false;
-                showStudentDetails(sts, sas, stsGenap, sat);
-                errorMessage.classList.add('hidden');
+                showStudentDetailsForRecords(nameMatches[0].classRecords);
             } else {
-                // Lebih dari 1 (termasuk jika 3 nama persis namun beda Tapel), tampilkan List
-                errorMessage.classList.add('hidden');
                 renderStudentListTable(
                     nameMatches,
                     'Aplikasi Rapor Digital',
-                    `Hasil Pencarian Nama: "${searchInput}" (${nameMatches.length} data ditemukan)`
+                    `Hasil Pencarian: "${searchInput}"`
                 );
             }
-            return;
+        } else {
+            errorMessage.textContent = 'Data siswa tidak ditemukan.';
+            errorMessage.classList.remove('hidden');
         }
-
-        // Jika tidak ditemukan apa pun
-        errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
-        errorMessage.classList.remove('hidden');
-    }
-
-    function handleLogout() {
-        if (isNavigatedFromList) {
-            handleBackToList();
-            return;
-        }
-        detailContainer.classList.add('hidden');
-        listContainer.classList.add('hidden');
-        loginContainer.classList.remove('hidden');
-        searchInputElem.value = '';
-        errorMessage.classList.add('hidden');
-        currentStudentSTS = null;
-        currentStudentSAS = null;
-        currentStudentSTSGenap = null;
-        currentStudentSAT = null;
-        isNavigatedFromList = false;
-    }
-
-    function handleBackToList() {
-        detailContainer.classList.add('hidden');
-        listContainer.classList.remove('hidden');
-    }
-
-    function handleListLogout() {
-        detailContainer.classList.add('hidden');
-        listContainer.classList.add('hidden');
-        loginContainer.classList.remove('hidden');
-        searchInputElem.value = '';
-        errorMessage.classList.add('hidden');
-        currentStudentSTS = null;
-        currentStudentSAS = null;
-        currentStudentSTSGenap = null;
-        currentStudentSAT = null;
-        isNavigatedFromList = false;
     }
 
     loginButton.addEventListener('click', handleLogin);
-    logoutButton.addEventListener('click', handleLogout);
-    if (listLogoutButton) listLogoutButton.addEventListener('click', handleListLogout);
-    searchInputElem.addEventListener('keyup', (event) => { if (event.key === 'Enter') handleLogin(); });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loginContainer.classList.remove('hidden');
-        document.getElementById('year').textContent = new Date().getFullYear();
-        fetchAllData(); 
+    searchInputElem.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleLogin();
     });
+
+    logoutButton.addEventListener('click', function() {
+        if (isNavigatedFromList) {
+            detailContainer.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+        } else {
+            detailContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+            searchInputElem.value = '';
+            
+            currentStudentSTS = null;
+            currentStudentSAS = null;
+            currentStudentSTSGenap = null;
+            currentStudentSAT = null;
+            currentClassRecords = [];
+            currentActiveRecordIndex = 0;
+        }
+    });
+
+    listLogoutButton.addEventListener('click', function() {
+        listContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        searchInputElem.value = '';
+        
+        currentStudentSTS = null;
+        currentStudentSAS = null;
+        currentStudentSTSGenap = null;
+        currentStudentSAT = null;
+        currentClassRecords = [];
+        currentActiveRecordIndex = 0;
+        isNavigatedFromList = false;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
