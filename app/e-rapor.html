@@ -308,7 +308,7 @@
                                 </tr>
                                 <tr>
                                     <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
-                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
+                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Capaian</th>
                                 </tr>
                             </thead>
                             <tbody id="rapor-sts-tbody">
@@ -377,7 +377,7 @@
                                 </tr>
                                 <tr>
                                     <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
-                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
+                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Capaian</th>
                                 </tr>
                             </thead>
                             <tbody id="rapor-sas-tbody">
@@ -446,7 +446,7 @@
                                 </tr>
                                 <tr>
                                     <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
-                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
+                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Capaian</th>
                                 </tr>
                             </thead>
                             <tbody id="rapor-sts-genap-tbody">
@@ -515,7 +515,7 @@
                                 </tr>
                                 <tr>
                                     <th class="p-1 sm:p-2 w-9 sm:w-20">Nilai</th>
-                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Predikat</th>
+                                    <th class="p-1 sm:p-2 w-24 sm:w-32">Capaian</th>
                                 </tr>
                             </thead>
                             <tbody id="rapor-sat-tbody">
@@ -1123,7 +1123,7 @@
             { type: 'subject', no: '', title: "a. Al Qur'an Hadits", key: 'qh' },
             { type: 'subject', no: '', title: 'b. Aqidah Akhlaq', key: 'aa' },
             { type: 'subject', no: '', title: 'c. Fiqih', key: 'fq' },
-            { type: 'subject', no: '', title: 'd. Sejarah Kebudayaan Islam', key: 'ski' },
+            { type: 'subject', no: '', title: 'd. Sejarah Keb. Islam', key: 'ski' },
             { type: 'subject', no: '2', title: 'Bahasa Arab', key: 'bar' },
             { type: 'subject', no: '3', title: 'Pendidikan Pancasila', key: 'pkn' },
             { type: 'subject', no: '4', title: 'Bahasa Indonesia', key: 'bind' },
@@ -1158,15 +1158,15 @@
                 totalKktp += kktp;
                 let nilaiStr = student[sub.key] ? student[sub.key].trim() : '';
                 let nilai = parseInt(nilaiStr);
-                let predikat = '';
+                let capaian = '';
                 let textClass = 'text-gray-900';
                 
                 if (!isNaN(nilai)) {
                     if (nilai < kktp) {
-                        predikat = 'Belum Tuntas';
+                        capaian = 'Belum Tuntas';
                         textClass = 'text-red-600 font-bold';
                     } else {
-                        predikat = 'Tuntas';
+                        capaian = 'Tuntas';
                     }
                 } else {
                     nilaiStr = ''; 
@@ -1178,32 +1178,32 @@
                         <td class="p-1 sm:p-2 pl-1 sm:pl-2">${sub.title}</td>
                         <td class="p-1 sm:p-2 text-center">${kktp}</td>
                         <td class="p-1 sm:p-2 text-center ${textClass}">${nilaiStr}</td>
-                        <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${textClass}">${predikat}</td>
+                        <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${textClass}">${capaian}</td>
                     </tr>`;
             }
         });
 
         const jmlVal = parseFloat(student.jml ? student.jml.toString().replace(',', '.') : '');
-        let jmlPredikat = '';
+        let jmlCapaian = '';
         let jmlTextClass = 'text-gray-900';
         if (!isNaN(jmlVal)) {
             if (jmlVal < totalKktp) {
-                jmlPredikat = 'Belum Tuntas';
+                jmlCapaian = 'Belum Tuntas';
                 jmlTextClass = 'text-red-600 font-bold';
             } else {
-                jmlPredikat = 'Tuntas';
+                jmlCapaian = 'Tuntas';
             }
         }
 
         const rataVal = parseFloat(student.rata2 ? student.rata2.toString().replace(',', '.') : '');
-        let rataPredikat = '';
+        let rataCapaian = '';
         let rataTextClass = 'text-gray-900';
         if (!isNaN(rataVal)) {
             if (rataVal < kktp) {
-                rataPredikat = 'Belum Tuntas';
+                rataCapaian = 'Belum Tuntas';
                 rataTextClass = 'text-red-600 font-bold';
             } else {
-                rataPredikat = 'Tuntas';
+                rataCapaian = 'Tuntas';
             }
         }
 
@@ -1212,13 +1212,13 @@
                 <td class="p-1 sm:p-2 text-center" colspan="2">Jumlah</td>
                 <td class="p-1 sm:p-2 text-center">${totalKktp}</td>
                 <td class="p-1 sm:p-2 text-center ${jmlTextClass}">${student.jml || ''}</td>
-                <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${jmlTextClass}">${jmlPredikat}</td>
+                <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${jmlTextClass}">${jmlCapaian}</td>
             </tr>
             <tr class="font-bold bg-gray-50">
                 <td class="p-1 sm:p-2 text-center" colspan="2">Rata-rata</td>
                 <td class="p-1 sm:p-2 text-center">${kktp}</td>
                 <td class="p-1 sm:p-2 text-center ${rataTextClass}">${student.rata2 || ''}</td>
-                <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${rataTextClass}">${rataPredikat}</td>
+                <td style="white-space: nowrap;" class="p-1 sm:p-2 text-center ${rataTextClass}">${rataCapaian}</td>
             </tr>`;
 
         tbody.innerHTML = html;
@@ -1353,5 +1353,6 @@
 
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
