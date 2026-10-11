@@ -454,14 +454,14 @@
         
         students.forEach((student, index) => {
             const tr = document.createElement('tr');
-            tr.className = index === students.length - 1 ? "hover:bg-teal-50" : "border-b border-gray-200 hover:bg-teal-50";
+            tr.className = 'hover:bg-gray-50 transition-colors group';
 
             tr.innerHTML = `
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-900 text-center font-medium">${index + 1}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-900 text-left font-medium">${student.nama}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-left">${student.nisn}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-left">${student.noUjian}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-sm text-gray-500 text-center">
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-center font-medium">${index + 1}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium">${student.nama}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${student.nisn}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${student.noUjian}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center sticky right-0 bg-white group-hover:bg-gray-50 z-10 transition-colors">
                     <button onclick="selectStudentFromList('${student.nisn}')" class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300">
                         Lihat
                     </button>

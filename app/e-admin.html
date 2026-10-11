@@ -114,7 +114,7 @@
 			
 			<div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px;padding-right: 15px;">
 				<p class="text-xs text-teal-700 text-justify">
-					Menghadirkan kemudahan, wujudkan Administrasi Madrasah yang Cepat, Tepat dan Transparan.
+					Menghadirkan kemudahan, wujudkan Administrasi Siswa yang Cepat, Tepat dan Transparan.
 				</p>
 			</div>
 			
@@ -568,14 +568,14 @@
             const latestRecord = group.latestRecord;
 
             const tr = document.createElement('tr');
-			tr.className = 'bg-white hover:bg-teal-50 transition duration-150 border-b';
+			tr.className = 'hover:bg-gray-50 transition-colors group';
             tr.innerHTML = `
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-center font-medium">${index + 1}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium ">${latestRecord.nama}</td>
 				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.nisn}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.kelas}</td>
 				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">Rp. ${latestRecord.admin}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center" style="background-color: #ffffff;">
+				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center sticky right-0 bg-white group-hover:bg-gray-50 z-10 transition-colors">
                     <button class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 select-student-btn">
                         Lihat
                     </button>
