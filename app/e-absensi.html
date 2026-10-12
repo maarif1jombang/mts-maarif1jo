@@ -125,11 +125,11 @@
                 <legend class="ml-0.5 px-2 text-xs text-teal-600 font-semibold whitespace-nowrap">
                     more app
                 </legend>
-                <div class="flex gap-1 w-full">
-                    <a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                <div class="flex gap-2 w-full">
+                    <a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-full hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[12px]">
                         e-Absensi
                     </a>
-                    <a href="e-user.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[11px]">
+                    <a href="e-user.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[12px]">
                         e-User
                     </a>
                 </div>
@@ -171,7 +171,7 @@
 							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]"> 
 								<div class="flex flex-row"> 
 									<p class="text-red-600">e-</p> 
-									<p class="text-teal-600">Ardis</p> 
+									<p class="text-teal-600">Absensi</p> 
 								</div> 
 							</span> 
 							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span> 
@@ -195,11 +195,12 @@
                 <!-- KOLOM KIRI: Absensi Utama & Hari Ini -->
                 <div class="lg:col-span-5 flex flex-col justify-between border-r-0 lg:border-r border-gray-200 lg:pr-6">
                     <div>
+                        
                         <!-- Informasi Waktu Real-Time Hari Ini -->
-                        <div class="card rounded-xl border border-gray-200 p-3.5 mb-7 text-center">
+                        <div class="card rounded-xl border border-gray-200 p-3.5 text-center mb-7">
 							<p id="liveClock" class="text-2xl sm:text-3xl font-extrabold text-teal-600 tracking-wider ">00:00:00</p>
                             <p id="liveDayDate" class="text-sm text-teal-600 tracking-wide mt-0.5"></p>                            
-                        </div>                        
+                        </div>
 						
 						<!-- Tombol Aksi Masuk & Pulang -->
                         <div class="grid grid-cols-2 gap-3 mb-7">
@@ -216,8 +217,8 @@
                                 <span>Pulang</span>
                             </button>
                         </div>
-						
-						<!-- Riwayat Hari Ini -->
+                        
+                        <!-- Riwayat Hari Ini -->
                         <div class="card p-4 rounded-xl border border-gray-200">
                             <h3 class="text-xm font-semibold text-gray-800 text-center">Absensi Hari Ini</h3>
                             <div id="loadingTodayHistory" class="flex justify-center items-center py-2 hidden">
@@ -236,6 +237,7 @@
                                 </table>
                             </div>
                         </div>
+						
                     </div>
                 </div>
 
@@ -605,5 +607,6 @@
         }
     });
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
