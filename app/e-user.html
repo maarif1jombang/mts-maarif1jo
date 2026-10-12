@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <!-- STREAMING_CHUNK:Configuring metadata and loading resources... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>e-User</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- STREAMING_CHUNK:Styling the layout... -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -50,9 +47,9 @@
 </head>
 
 <body>
-    <!-- STREAMING_CHUNK:Rendering the login container... -->
     <div class="flex items-center justify-center min-h-screen p-4">
-
+		
+		<!-- 1. Kontainer Login -->
         <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
             <div class="text-center pb-8">
                 <div class="flex justify-center mx-auto text-teal-600 mb-0">
@@ -114,61 +111,57 @@
             <p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>
 
-        <!-- STREAMING_CHUNK:Rendering the detailed user profile container... -->
+        <!-- 2. Kontainer Detail -->
         <div id="detail-container" class="hidden w-full max-w-4xl p-6 sm:p-8 card">
-            <!-- LAYOUT FOTO GURU -->
-            <div class="card overflow-hidden relative">
-                <div class="w-full bg-teal-600" style="height: 65px;"></div>
-                <div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative">
-                    
-                    <!-- Avatar Bulat Sempurna -->
-                    <div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;">
-                        <div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;">
-                            <span id="teacher-initials" class="text-teal-600 font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
-                            <img id="teacher-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Guru">
-                        </div>
-                    </div>
-                    
-                    <!-- NAMA GURU -->
-                    <div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;">
-                        <h1 id="teacher-name" class="text-gray-900 sm:text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1>
-                    </div>
 
-                    <!-- NIK GURU -->
-                    <div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10">
-                        <div class="flex flex-row gap-1 items-center justify-center sm:justify-start">
-                            <p class="text-gray-400 font-medium" style="font-size: 14px;">NIK</p>
-                            <p class="w-1 h-1 rounded-full bg-gray-400"></p>
-                            <p id="teacher-nik" class="text-gray-400 font-medium" style="font-size: 14px;"></p>
-                        </div>
-                    </div>
-                    
-                    <!-- STATUS BADGE & TOMBOL -->
-                    <div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4">
-                        <div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">
-                                <div class="flex flex-row">
-                                    <p class="text-red-600">e-</p>
-                                    <p class="text-teal-600">User</p>
-                                </div>
-                            </span>
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span>
-                        </div>
-                        
-                        <div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10">
-							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors">
-								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>
-								</svg>
-							  <span class="ml-1 hidden sm:inline">Keluar</span>
-							</button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- STREAMING_CHUNK:Rendering the tab navigation menu... -->
+			<div class="card bg-gradient-to-tr from-teal-800 to-teal-500 overflow-hidden relative"> 
+				<div class="w-full bg-transparent" style="height: 65px;"></div> 
+				<div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative"> 
+					<!-- FOTO PROFIL --> 
+					<div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;"> 
+						<div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;"> 
+							<span id="teacher-initials" class="text-teal-600 font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span> 
+							<img id="teacher-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Guru"> 
+						</div> 
+					</div> 
+					<div class="hidden sm:block absolute left-[132px] right-4 top-[0px] border-b border-white/30 z-10"></div>
+					<!-- NAMA GURU --> 
+					<div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;"> 
+						<h1 id="teacher-name" class="text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1> 
+					</div> 
+					<!-- NISN GURU --> 
+					<div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10"> 
+						<div class="flex flex-row gap-1 items-center justify-center sm:justify-start"> 
+							<p class="text-white font-medium" style="font-size: 14px;">NIK</p> 
+							<p class="w-1 h-1 rounded-full bg-white"></p> 
+							<p id="teacher-nik" class="text-white font-medium" style="font-size: 14px;"></p> 
+						</div> 
+					</div> 
+					<!-- STATUS BADGE & TOMBOL --> 
+					<div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4"> 
+						<!-- GRUP BADGE --> 
+						<div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20"> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]"> 
+								<div class="flex flex-row"> 
+									<p class="text-red-600">e-</p> 
+									<p class="text-teal-600">User</p> 
+								</div> 
+							</span> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span> 
+						</div> 
+						<!-- TOMBOL KEMBALI --> 
+						<div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10"> 
+							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors"> 
+								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org"> 
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path> 
+								</svg> 
+								<span class="ml-1 hidden sm:inline">Keluar</span> 
+							</button> 
+						</div> 
+					</div> 
+				</div> 
+			</div>
+			
             <!-- TAB MENU USER AKUN DI BAWAH LAYOUT FOTO GURU -->
             <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
                 <!-- Tab Emis GTK diubah jadi default -->
@@ -199,7 +192,6 @@
                 </button>
             </div>
             
-            <!-- STREAMING_CHUNK:Rendering the detailed tab panes... -->
             <div class="mt-8 space-y-8">
                 
                 <!-- 1. Emis GTK -->
@@ -438,7 +430,6 @@
         </div>
     </div>
 
-<!-- STREAMING_CHUNK:Initializing JavaScript logic and variables... -->
 <script>
     const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqIP2LAiNip-tF7YPt6MQYe0E2ZzdTdUbObJa-ybfQ9cEOINq02WGCzhoQVImqSvgbvBe3jouFP32z/pub?gid=0&single=true&output=csv';
     const photoBaseUrl = 'https://maarif1jombang.github.io/file/foto_guru'; 
@@ -471,7 +462,7 @@
 
     let announcementDataCache = null;
 
-    /* STREAMING_CHUNK:Defining tab switching and data parsing functions... */
+    /* Defining tab switching and data parsing functions... */
     // Function to handle switching tabs
     function switchTab(tabId, btnElement) {
         const panes = ['gtk', 'emis4', 'gws', 'akgtk', 'simpatika', 'pintar', 'pajak'];
@@ -542,7 +533,7 @@
         return data;
     }
 
-    /* STREAMING_CHUNK:Defining data fetching and displaying functions... */
+    /* Defining data fetching and displaying functions... */
     async function fetchAndProcessData() {
         if (announcementDataCache) return announcementDataCache;
         try {
@@ -649,7 +640,7 @@
         detailContainer.classList.remove('hidden');
     }
     
-    /* STREAMING_CHUNK:Adding final event listeners and initializing app... */
+    /* Adding final event listeners and initializing app... */
     function setLoading(isLoading) {
         if (isLoading) {
             loginButton.disabled = true;

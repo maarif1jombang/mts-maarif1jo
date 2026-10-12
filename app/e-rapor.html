@@ -63,7 +63,7 @@
 <body>
     <div class="flex items-center justify-center min-h-screen p-4">
 
-        <!-- Tampilkan login-container secara default saat halaman dimuat -->
+        <!-- 1. Kontainer Login -->
         <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card">
             <div class="text-center pb-8">
                 <div class="flex justify-center mx-auto text-teal-600 mb-0">
@@ -128,7 +128,8 @@
             <p class="text-xs text-gray-500 text-center mt-6">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>
 
-        <div id="list-container" class="hidden w-full max-w-4xl p-6 sm:p-8 space-y-4 md:space-y-6 card">
+        <!-- 2. Kontainer Hasil Pencarian -->
+		<div id="list-container" class="hidden w-full max-w-4xl p-6 sm:p-8 space-y-4 md:space-y-6 card">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 gap-3 md:gap-4">
 				<div class="flex items-center gap-4">
 					<div class="flex-shrink-0 text-teal-600 bg-teal-50 p-2 rounded-lg border border-teal-600">
@@ -168,52 +169,56 @@
 			</div>
         </div>
 
-        <div id="detail-container" class="hidden w-full max-w-4xl p-6 sm:p-8 card">
-            <div class="card overflow-hidden relative">
-                <div class="w-full bg-teal-600" style="height: 65px;"></div>
-                <div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative">
-                    
-                    <div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;">
-                        <div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;">
-                            <span id="student-initials" class="text-teal-600 font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span>
-                            <img id="student-photo" class="absolute inset-0 w-full h-full object-cover object-top hidden" alt="Foto Siswa">
-                        </div>
-                    </div>
-                    
-                    <div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;">
-                        <h1 id="student-name" class="text-gray-900 sm:text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1>
-                    </div>
-
-                    <div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10">
-                        <div class="flex flex-row gap-1 items-center justify-center sm:justify-start">
-                            <p class="text-gray-500 font-medium" style="font-size: 14px;">NISN</p>
-                            <p class="w-1 h-1 rounded-full bg-gray-400"></p>
-                            <p id="student-nisn" class="text-gray-500 font-medium" style="font-size: 14px;"></p>
-                        </div>
-                    </div>
-                    
-                    <div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4">
-                        <div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">
-                                <div class="flex flex-row">
-									<p class="text-red-600">e-</p>
-									<p class="text-teal-600">Rapor</p>
-								</div>
-                            </span>
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span>
-                        </div>
-                        
-                        <div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10 gap-2">
-                            <button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border transition-colors shadow-sm">
-                                <svg id="logout-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>
-                                </svg>
-                                <span id="logout-text" class="ml-1 hidden sm:inline">Keluar</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- 3. Kontainer Detail -->
+		<div id="detail-container" class="hidden w-full max-w-4xl p-6 sm:p-8 card">
+            
+			<div class="card bg-gradient-to-tr from-teal-800 to-teal-500 overflow-hidden relative"> 
+				<div class="w-full bg-transparent" style="height: 65px;"></div> 
+				<div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative"> 
+					<!-- FOTO PROFIL --> 
+					<div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;"> 
+						<div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;"> 
+							<span id="student-initials" class="text-teal-600 font-bold uppercase select-none text-center" style="font-size: 28px; line-height: 1;"></span> 
+							<img id="student-photo" class="absolute inset-0 w-full h-full object-cover object-top" alt="Foto Siswa"> 
+						</div> 
+					</div> 
+					<div class="hidden sm:block absolute left-[132px] right-4 top-[0px] border-b border-white/30 z-10"></div>
+					<!-- NAMA SISWA --> 
+					<div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;"> 
+						<h1 id="student-name" class="text-white font-bold uppercase tracking-wide" style="font-size: 18px; line-height: 1.2;"></h1> 
+					</div> 
+					<!-- NISN SISWA --> 
+					<div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10"> 
+						<div class="flex flex-row gap-1 items-center justify-center sm:justify-start"> 
+							<p class="text-white font-medium" style="font-size: 14px;">NISN</p> 
+							<p class="w-1 h-1 rounded-full bg-white"></p> 
+							<p id="student-nisn" class="text-white font-medium" style="font-size: 14px;"></p> 
+						</div> 
+					</div> 
+					<!-- STATUS BADGE & TOMBOL --> 
+					<div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4"> 
+						<!-- GRUP BADGE --> 
+						<div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20"> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]"> 
+								<div class="flex flex-row"> 
+									<p class="text-red-600">e-</p> 
+									<p class="text-teal-600">Rapor</p> 
+								</div> 
+							</span> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span> 
+						</div> 
+						<!-- TOMBOL KEMBALI --> 
+						<div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10"> 
+							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors"> 
+								<svg id="logout-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org"> 
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path> 
+								</svg> 
+								<span id="logout-text" class="ml-1 hidden sm:inline">Keluar</span> 
+							</button> 
+						</div> 
+					</div> 
+				</div> 
+			</div>
 
             <div id="class-tabs-wrapper" class="mt-8 hidden border-b border-gray-200 pb-3">
                 <div class="flex items-center gap-2 mb-1">
