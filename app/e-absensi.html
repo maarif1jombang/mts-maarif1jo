@@ -200,13 +200,18 @@
                     <div>
                         
                         <!-- Informasi Waktu Real-Time Hari Ini -->
-                        <div class="card rounded-xl border border-gray-200 p-3.5 text-center mb-7">
-							<p id="liveClock" class="text-2xl sm:text-3xl font-extrabold text-teal-600 tracking-wider ">00:00:00</p>
-                            <p id="liveDayDate" class="text-sm text-teal-600 tracking-wide mt-0.5"></p>                            
+                        <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mb-5 flex items-center justify-between relative overflow-hidden shadow-md">
+                            <div class="flex flex-col">
+                                <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                                <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Jumat, 08 November 2024</p>
+                            </div>
+                            <div>
+                                <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">05.44</p>
+                            </div>
                         </div>
 						
 						<!-- Tombol Aksi Masuk & Pulang -->
-                        <div class="grid grid-cols-2 gap-3 mb-7">
+                        <div class="grid grid-cols-2 gap-3 mb-5">
                             <button id="clockInButton" class="btn rounded-xl bg-green-500 text-white px-4 py-2.5 hover:bg-green-600 disabled:bg-green-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -453,7 +458,6 @@
 
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
 
             const liveDayDateEl = document.getElementById('liveDayDate');
             const liveClockEl = document.getElementById('liveClock');
@@ -462,7 +466,7 @@
                 liveDayDateEl.textContent = `${dayName}, ${dayNum} ${monthName} ${year}`;
             }
             if (liveClockEl) {
-                liveClockEl.textContent = `${hours}:${minutes}:${seconds}`;
+                liveClockEl.textContent = `${hours}.${minutes}`;
             }
         }
 
