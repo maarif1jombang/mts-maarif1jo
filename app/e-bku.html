@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-BKU</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+        .card:hover {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #ffffff;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .excel-table-container {
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+        }
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        .excel-table th, .excel-table td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 10px;
+            color: #000000;
+            white-space: nowrap;
+        }
+        .excel-table th {
+            background-color: #e2e8f0;
+            color: #0f172a;
+            text-align: center;
+            font-weight: bold;
+        }
+        .excel-table tbody tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        .excel-table tbody tr:hover td {
+            background-color: #f1f5f9;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+		
+		<!-- 1. Kontainer Login -->
+        <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
+            <div class="text-center pb-8">
+                <div class="flex justify-center mx-auto text-teal-600 mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                    </svg>
+                </div>
+				<div class="flex flex-row justify-center mb-4">
+                    <p class="font-bold text-red-600">e-</p>
+                    <p class="font-bold text-teal-600">BKU</p>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Aplikasi Buku Kas Umum</h1>
+                <p class="text-gray-500">MTs Ma'arif 1 Jombang</p>
+            </div>
+            
+            <div class="relative">
+                <input type="password" id="searchInput" name="searchInput" placeholder=" " class="peer w-full pl-12 pr-4 py-2 border rounded-md text-gray-900 bg-transparent focus:outline-none focus:ring-1 focus:ring-teal-600 focus:border-teal-600" />
+
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-gray-400 peer-focus:text-teal-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                </span>
+
+                <label for="searchInput" class="absolute left-11 top-1/2 -translate-y-1/2 origin-[0] scale-100 text-gray-400 duration-150 transform bg-white px-1 pointer-events-none peer-focus:top-0 peer-focus:scale-85 peer-focus:text-teal-600 peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-85">Masukkan Password</label>
+            </div>
+            
+            <div>
+                <button id="login-button" class="w-full flex items-center justify-center gap-2 px-4 py-2 font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300">
+                    <span id="login-button-text">Masuk Aplikasi</span>
+                    <div id="loader" class="loader hidden"></div>
+                </button>
+                <div class="flex text-[13px] items-center pt-2 w-full">
+                    <p id="error-message" class="text-red-500 text-left hidden"></p>
+                    <a href="https://api.whatsapp.com/send?phone=6285748408728&text=Assalamu%27alaikum.%0APak+saya+lupa+nomor+Password+saya,+mohon+bantuannya+ya+pak%21" target="_blank" class="font-semibold text-teal-600 ml-auto hover:underline cursor-pointer">Lupa Password ?</a>
+                </div>
+            </div>
+            
+            <div class="bg-teal-50 border-l-4 border-teal-600 rounded-md flex p-2 space-x-2" style="padding-left: 10px; padding-right: 15px;">
+                <p class="text-xs text-teal-700 text-justify">
+                    Buku Kas Umum terintegrasi secara realtime dengan Spreadsheet Keuangan Madrasah.
+                </p>
+            </div>
+			
+			<fieldset class="border border-gray-300 rounded-lg px-3 pb-3 pt-1.5">
+                <legend class="ml-0.5 px-2 text-xs text-teal-600 font-semibold whitespace-nowrap">
+                    more app
+                </legend>
+                <div class="flex gap-2 w-full">
+                    <a href="e-absensi.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[12px]">
+                        e-Absensi
+                    </a>
+					<a href="e-user.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[12px]">
+                        e-User
+                    </a>
+                    <a href="e-bku.html" class="flex-1 flex items-center justify-center px-1 py-1 text-white bg-red-600 rounded-full hover:bg-red-700 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-teal-600 transition duration-300 shadow-md text-[12px]">
+                        e-BKU
+                    </a>
+                </div>
+            </fieldset>
+            
+            <p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
+        </div>
+
+        <!-- 2. Kontainer Detail (Buku Kas Umum) -->
+        <div id="detail-container" class="hidden w-full max-w-4xl p-4 sm:p-8 card">
+
+			<div class="card bg-gradient-to-tr from-teal-800 to-teal-500 overflow-hidden relative shadow-lg"> 
+				<div class="w-full bg-transparent" style="height: 65px;"></div> 
+				<div class="flex flex-col sm:flex-row items-center sm:items-start px-0 sm:px-4 pb-4 gap-0 sm:gap-4 relative"> 
+					<!-- FOTO / LOGO PROFIL --> 
+					<div class="avatar avatar-placeholder" style="margin-top: -50px; flex-shrink: 0; z-index: 10;"> 
+						<div id="photo-container" class="bg-white rounded-full border-[3px] border-white shadow overflow-hidden relative flex items-center justify-center" style="width: 100px; height: 100px;"> 
+							<span id="teacher-initials" class="text-teal-600 font-bold select-none text-center" style="font-size: 20px; line-height: 1;">MTs</span> 
+						</div> 
+					</div> 
+					<div class="hidden sm:block absolute left-[132px] right-4 top-[0px] border-b border-white/30 z-10"></div>
+					<!-- NAMA PROFIL --> 
+					<div class="text-center sm:text-left flex-1 sm:absolute sm:top-[-40px] sm:left-[132px] z-20" style="margin-top: 14px;"> 
+						<h1 id="teacher-name" class="text-white font-bold tracking-wide" style="font-size: 18px; line-height: 1.2;">MTs MA'ARIF 1 JOMBANG</h1> 
+					</div> 
+					<!-- NIK / ALAMAT PROFIL --> 
+					<div class="text-center sm:text-left sm:absolute sm:top-[4px] sm:left-[132px] z-10"> 
+						<div class="flex flex-row gap-1 items-center justify-center sm:justify-start"> 
+							<p class="text-white font-medium" style="font-size: 13px;" id="teacher-nik">Kauman Utara Gg. 1/09 Jombang</p> 
+						</div> 
+					</div> 
+					<!-- STATUS BADGE & TOMBOL --> 
+					<div class="w-full flex flex-row flex-wrap sm:flex-col items-center justify-center sm:justify-start gap-2 mt-[14px] sm:mt-0 sm:absolute sm:inset-x-0 sm:top-0 sm:px-4"> 
+						<!-- GRUP BADGE --> 
+						<div class="flex flex-wrap gap-2 items-center justify-center sm:justify-end sm:absolute sm:top-[-32px] sm:right-4 z-20"> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]"> 
+								<div class="flex flex-row"> 
+									<p class="text-red-600 font-medium">e-</p> 
+									<p class="text-teal-600 font-medium">BKU</p> 
+								</div> 
+							</span> 
+							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">Tahun Anggaran 2026</span> 
+						</div> 
+						<!-- TOMBOL KELUAR --> 
+						<div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10"> 
+							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors"> 
+								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> 
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path> 
+								</svg> 
+								<span class="ml-1 hidden sm:inline">Keluar</span> 
+							</button> 
+						</div> 
+					</div> 
+				</div> 
+			</div>
+			
+            <!-- KONTEN BUKU KAS UMUM DINAMIS -->
+            <div class="mt-6 space-y-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-teal-50 p-3 rounded-lg border border-teal-200 gap-3">
+                    <div>
+                        <h2 class="font-bold text-teal-800 text-sm sm:text-base">Buku Kas Umum (e-BKU)</h2>
+                        <p class="text-xs text-teal-600" id="sync-status-text">Sumber: Google Spreadsheet Keuangan Madrasah</p>
+                    </div>
+                    <button onclick="loadBKUData()" class="w-full sm:w-auto justify-center px-3 py-1.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 transition flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                        </svg>
+                        Sinkronisasi Data
+                    </button>
+                </div>
+
+                <div id="bku-content-area" class="space-y-8 overflow-x-auto">
+                    <!-- Dynamic Tables will be injected here -->
+                    <div class="text-center py-8 text-gray-500 text-sm">Memuat data dari Google Spreadsheet...</div>
+                </div>
+
+                <!-- REKAPITULASI KAS AKHIR -->
+                <div class="pt-4">
+                    <div class="w-full max-w-xs sm:max-w-sm excel-table-container">
+                        <table class="excel-table text-xs sm:text-sm font-bold">
+                            <tbody>
+                                <tr>
+                                    <td style="background-color: #fde047 !important;" class="w-1/3 text-left border-black text-black">BOS</td>
+                                    <td id="summary-kas" style="background-color: #fde047 !important;" class="w-2/3 text-right border-black text-black">0,00</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #f59e0b !important;" class="text-black w-1/3 text-left border-black">BOSDA</td>
+                                    <td id="summary-bosda" style="background-color: #f59e0b !important;" class="text-black w-2/3 text-right border-black">0,00</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #38bdf8 !important;" class="text-black w-1/3 text-left border-black">TOTAL</td>
+                                    <td id="summary-total" style="background-color: #38bdf8 !important;" class="text-black w-2/3 text-right border-black">0,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+
+<script>
+    const dataSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqIP2LAiNip-tF7YPt6MQYe0E2ZzdTdUbObJa-ybfQ9cEOINq02WGCzhoQVImqSvgbvBe3jouFP32z/pub?gid=1112413803&single=true&output=csv';
+
+    const loginContainer = document.getElementById('login-container');
+    const detailContainer = document.getElementById('detail-container');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button'); 
+    const searchInputElem = document.getElementById('searchInput');
+    const errorMessage = document.getElementById('error-message');
+
+    function parseCSV(str) {
+        const arr = [];
+        let quote = false;  
+        let row = 0, col = 0;
+
+        for (let c = 0; c < str.length; c++) {
+            let cc = str[c], nc = str[c+1];
+            arr[row] = arr[row] || [];
+            arr[row][col] = arr[row][col] || '';
+
+            if (cc === '"' && quote && nc === '"') { arr[row][col] += cc; ++c; continue; }
+            if (cc === '"') { quote = !quote; continue; }
+            if (cc === ',' && !quote) { ++col; continue; }
+            if (cc === '\r' && nc === '\n' && !quote) { ++row; col = 0; ++c; continue; }
+            if (cc === '\n' && !quote) { ++row; col = 0; continue; }
+            if (cc === '\r' && !quote) { ++row; col = 0; continue; }
+
+            arr[row][col] += cc;
+        }
+        return arr;
+    }
+
+    function formatNumber(num) {
+        if (num === null || num === undefined || isNaN(num)) return '0,00';
+        return Number(num).toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function parseNumber(str) {
+        if (!str || str.trim() === '' || str === '-' || str === '0') return 0;
+        let clean = str.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '');
+        let val = parseFloat(clean);
+        return isNaN(val) ? 0 : val;
+    }
+
+    async function loadBKUData() {
+        const contentArea = document.getElementById('bku-content-area');
+        const syncStatusText = document.getElementById('sync-status-text');
+        contentArea.innerHTML = '<div class="text-center py-8 text-gray-500 text-sm">Menghubungkan ke Google Spreadsheet...</div>';
+
+        let csvText = null;
+        let isLive = false;
+        const cacheBuster = '&_=' + new Date().getTime();
+
+        // Try direct fetch first
+        try {
+            const response = await fetch(dataSheetUrl + cacheBuster);
+            if (response.ok) {
+                csvText = await response.text();
+                if (csvText && csvText.length > 50) {
+                    isLive = true;
+                }
+            }
+        } catch (e) {
+            console.warn('Direct fetch restricted by CORS, trying CORS proxy...', e);
+        }
+
+        // If direct fetch failed, try CORS proxy 1
+        if (!isLive) {
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(dataSheetUrl + cacheBuster);
+                const response = await fetch(proxyUrl);
+                if (response.ok) {
+                    csvText = await response.text();
+                    if (csvText && csvText.length > 50) {
+                        isLive = true;
+                    }
+                }
+            } catch (e2) {
+                console.warn('CORS proxy 1 failed, trying CORS proxy 2...', e2);
+            }
+        }
+
+        // If proxy 1 failed, try CORS proxy 2
+        if (!isLive) {
+            try {
+                const proxyUrl2 = 'https://corsproxy.io/?' + encodeURIComponent(dataSheetUrl + cacheBuster);
+                const response = await fetch(proxyUrl2);
+                if (response.ok) {
+                    csvText = await response.text();
+                    if (csvText && csvText.length > 50) {
+                        isLive = true;
+                    }
+                }
+            } catch (e3) {
+                console.warn('All live fetch methods failed, falling back to preset data.');
+            }
+        }
+
+        if (isLive && csvText) {
+            const trimmed = csvText.trim().toLowerCase();
+            if (trimmed.startsWith('<!doctype') || trimmed.startsWith('<html')) {
+                syncStatusText.textContent = 'Sinkron Gagal: Google Sheet belum Publish to web';
+                syncStatusText.className = 'text-xs text-red-600 font-semibold';
+                loadPresetData(contentArea);
+                return;
+            }
+
+            const rows = parseCSV(csvText);
+            if (rows.length > 0) {
+                syncStatusText.textContent = 'Sumber: Google Spreadsheet (Sinkron Berhasil ✓)';
+                syncStatusText.className = 'text-xs text-green-600 font-semibold';
+                renderBKUTables(rows);
+                return;
+            }
+        }
+
+        syncStatusText.textContent = 'Sumber: Mode Offline (Gagal koneksi, menampilkan data lokal)';
+        syncStatusText.className = 'text-xs text-amber-600 font-semibold';
+        loadPresetData(contentArea);
+    }
+
+    function renderBKUTables(rows) {
+        const contentArea = document.getElementById('bku-content-area');
+        contentArea.innerHTML = '';
+
+        let tablesData = [];
+        let currentTableName = 'BOS';
+        let currentDataRows = [];
+
+        rows.forEach((r) => {
+            const joined = r.join(' ').trim();
+            if (!joined) return;
+
+            const text0 = (r[0] || '').trim().toUpperCase();
+            if (text0.includes('BOS') || text0.includes('KAS') || (text0 && r.slice(1, 4).every(cell => !cell || cell.trim() === ''))) {
+                if (currentDataRows.length > 0) {
+                    tablesData.push({ name: currentTableName, rows: currentDataRows });
+                    currentDataRows = [];
+                }
+                currentTableName = r[0].trim();
+                return;
+            }
+
+            if (joined.toLowerCase().includes('uraian') || joined.toLowerCase().includes('penerimaan') || joined.toLowerCase().includes('debet')) {
+                return;
+            }
+
+            if (r[0] && r[0].trim() !== '') {
+                currentDataRows.push(r);
+            }
+        });
+
+        if (currentDataRows.length > 0) {
+            tablesData.push({ name: currentTableName || 'BOS', rows: currentDataRows });
+        }
+
+        if (tablesData.length === 0) {
+            loadPresetData(contentArea);
+            return;
+        }
+
+        let totalKas = 0;
+        let totalBosda = 0;
+
+        tablesData.forEach((table) => {
+            const isBosda = table.name.toUpperCase().includes('BOSDA');
+            const summaryBgColor = isBosda ? '#f59e0b' : '#fde047';
+
+            const tableDiv = document.createElement('div');
+            tableDiv.className = 'space-y-1';
+
+            const titleElem = document.createElement('h3');
+            titleElem.className = 'font-bold text-gray-900 text-sm md:text-base uppercase tracking-wide';
+            titleElem.textContent = table.name;
+            tableDiv.appendChild(titleElem);
+
+            const tableWrapper = document.createElement('div');
+            tableWrapper.className = 'excel-table-container overflow-x-auto';
+
+            let html = `<table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">No.</th>
+                        <th style="width: 75px;">Hari</th>
+                        <th style="width: 95px;">Tanggal</th>
+                        <th style="text-align: center;">Uraian</th>
+                        <th style="width: 130px; text-align: center;">Penerimaan</th>
+                        <th style="width: 130px; text-align: center;">Pengeluaran</th>
+                        <th style="width: 130px; text-align: center;">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            let runningSaldo = 0;
+            let sumPenerimaan = 0;
+            let sumPengeluaran = 0;
+
+            table.rows.forEach(row => {
+                const no = row[0] || '';
+                const hari = row[1] || '';
+                const tanggal = row[2] || '';
+                const uraian = row[3] || '';
+                const debet = parseNumber(row[4]);
+                const kredit = parseNumber(row[5]);
+
+                runningSaldo = runningSaldo + debet - kredit;
+                sumPenerimaan += debet;
+                sumPengeluaran += kredit;
+
+                html += `<tr>
+                    <td class="text-center">${no}</td>
+                    <td class="text-center">${hari}</td>
+                    <td class="text-center">${tanggal}</td>
+                    <td>${uraian}</td>
+                    <td class="text-right">${formatNumber(debet)}</td>
+                    <td class="text-right">${formatNumber(kredit)}</td>
+                    <td class="text-right">${formatNumber(runningSaldo)}</td>
+                </tr>`;
+            });
+
+            html += `<tr>
+                <td>&nbsp;</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>`;
+
+            html += `<tr style="font-weight: bold;">
+                <td colspan="4" class="text-center uppercase text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">Jumlah</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(sumPenerimaan)}</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(sumPengeluaran)}</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(runningSaldo)}</td>
+            </tr>`;
+
+            html += `</tbody></table>`;
+            tableWrapper.innerHTML = html;
+            tableDiv.appendChild(tableWrapper);
+            contentArea.appendChild(tableDiv);
+
+            if (isBosda) {
+                totalBosda += runningSaldo;
+            } else {
+                totalKas += runningSaldo;
+            }
+        });
+
+        document.getElementById('summary-kas').textContent = formatNumber(totalKas);
+        document.getElementById('summary-bosda').textContent = formatNumber(totalBosda);
+        document.getElementById('summary-total').textContent = formatNumber(totalKas + totalBosda);
+    }
+
+    function loadPresetData(contentArea) {
+        contentArea.innerHTML = '';
+        const tables = [
+            {
+                title: "BOS",
+                isBosda: false,
+                rows: [
+                    ["1", "Selasa", "29-09-2026", "Uang dari Bu Mas", 15000000, 0]
+                ]
+            },
+            {
+                title: "BOSDA",
+                isBosda: true,
+                rows: [
+                    ["1", "Jum'at", "02-10-2026", "Bosda Tw 3", 1819800, 0]
+                ]
+            }
+        ];
+
+        let totalKas = 0;
+        let totalBosda = 0;
+
+        tables.forEach((t) => {
+            const summaryBgColor = t.isBosda ? '#f59e0b' : '#fde047';
+            const tableDiv = document.createElement('div');
+            tableDiv.className = 'space-y-1';
+
+            const titleElem = document.createElement('h3');
+            titleElem.className = 'font-bold text-gray-900 text-sm md:text-base uppercase tracking-wide';
+            titleElem.textContent = t.title;
+            tableDiv.appendChild(titleElem);
+
+            const tableWrapper = document.createElement('div');
+            tableWrapper.className = 'excel-table-container overflow-x-auto';
+
+            let html = `<table class="excel-table">
+                <thead>
+                    <tr>
+                        <th style="width: 45px;">No.</th>
+                        <th style="width: 75px;">Hari</th>
+                        <th style="width: 95px;">Tanggal</th>
+                        <th style="text-align: center;">Uraian</th>
+                        <th style="width: 130px; text-align: center;">Penerimaan</th>
+                        <th style="width: 130px; text-align: center;">Pengeluaran</th>
+                        <th style="width: 130px; text-align: center;">Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+            let runningSaldo = 0;
+            let sumPenerimaan = 0;
+            let sumPengeluaran = 0;
+
+            t.rows.forEach(row => {
+                const debet = row[4];
+                const kredit = row[5];
+                runningSaldo = runningSaldo + debet - kredit;
+                sumPenerimaan += debet;
+                sumPengeluaran += kredit;
+
+                html += `<tr>
+                    <td class="text-center">${row[0]}</td>
+                    <td class="text-center">${row[1]}</td>
+                    <td class="text-center">${row[2]}</td>
+                    <td>${row[3]}</td>
+                    <td class="text-right">${formatNumber(debet)}</td>
+                    <td class="text-right">${formatNumber(kredit)}</td>
+                    <td class="text-right">${formatNumber(runningSaldo)}</td>
+                </tr>`;
+            });
+
+            html += `<tr>
+                <td>&nbsp;</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>`;
+
+            html += `<tr style="font-weight: bold;">
+                <td colspan="4" class="text-center uppercase text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">Jumlah</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(sumPenerimaan)}</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(sumPengeluaran)}</td>
+                <td class="text-right text-black" style="background-color: ${summaryBgColor} !important; border: 1px solid #cbd5e1;">${formatNumber(runningSaldo)}</td>
+            </tr>`;
+
+            html += `</tbody></table>`;
+            tableWrapper.innerHTML = html;
+            tableDiv.appendChild(tableWrapper);
+            contentArea.appendChild(tableDiv);
+
+            if (t.isBosda) {
+                totalBosda += runningSaldo;
+            } else {
+                totalKas += runningSaldo;
+            }
+        });
+
+        document.getElementById('summary-kas').textContent = formatNumber(totalKas);
+        document.getElementById('summary-bosda').textContent = formatNumber(totalBosda);
+        document.getElementById('summary-total').textContent = formatNumber(totalKas + totalBosda);
+    }
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            loginButton.disabled = true;
+            document.getElementById('login-button-text').textContent = 'Memeriksa...';
+            document.getElementById('loader').classList.remove('hidden');
+            errorMessage.classList.add('hidden');
+        } else {
+            loginButton.disabled = false;
+            document.getElementById('login-button-text').textContent = 'Masuk Aplikasi';
+            document.getElementById('loader').classList.add('hidden');
+        }
+    }
+
+    function handleLogin() {
+        const val = searchInputElem.value.trim().toLowerCase();
+        if (!val) {
+            errorMessage.textContent = 'Password tidak boleh kosong.';
+            errorMessage.classList.remove('hidden');
+            return;
+        }
+
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            if (val === 'admin') {
+                loginContainer.classList.add('hidden');
+                detailContainer.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                loadBKUData();
+            } else {
+                errorMessage.textContent = 'Password salah! Masukkan "admin".';
+                errorMessage.classList.remove('hidden');
+            }
+        }, 500);
+    }
+
+    function handleLogout() {
+        detailContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
+        searchInputElem.value = '';
+        errorMessage.classList.add('hidden');
+    }
+
+    loginButton.addEventListener('click', handleLogin);
+    logoutButton.addEventListener('click', handleLogout);
+    searchInputElem.addEventListener('keyup', (event) => { if (event.key === 'Enter') handleLogin(); });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loginContainer.classList.remove('hidden');
+        document.getElementById('year').textContent = new Date().getFullYear();
+    });
+</script>
+</body>
+</html>
