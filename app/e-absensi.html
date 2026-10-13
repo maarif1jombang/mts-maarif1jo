@@ -200,7 +200,7 @@
                     <div>
                         
                         <!-- Informasi Waktu Real-Time Hari Ini -->
-                        <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mb-5 flex items-center justify-between relative overflow-hidden shadow-md">
+                        <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mb-6 flex items-center justify-between relative overflow-hidden shadow-md">
                             <div class="flex flex-col">
                                 <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
                                 <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Jumat, 08 November 2024</p>
@@ -210,8 +210,30 @@
                             </div>
                         </div>
 						
-						<!-- Tombol Aksi Masuk & Pulang -->
-                        <div class="grid grid-cols-2 gap-3 mb-5">
+						<div class="card p-4 rounded-xl border border-gray-200">
+						
+                        <!-- Riwayat Hari Ini -->
+                        <div class="mb-5">
+                            <h3 class="text-xm font-semibold text-gray-800 text-center">Absensi Hari Ini</h3>
+                            <div id="loadingTodayHistory" class="flex justify-center items-center py-2 hidden">
+                                <div class="loader"></div>
+                            </div>
+                            <p id="historyDate" class="text-center text-sm text-gray-500 mb-3"></p>
+                            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
+                                <table class="min-w-full">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="py-2.5 px-4 text-center text-xs font-semibold text-gray-600 tracking-wider border-b border-r border-gray-200">Jam Masuk</th>
+                                            <th class="py-2.5 px-4 text-center text-xs font-semibold text-gray-600 tracking-wider border-b border-gray-200">Jam Pulang</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="historyTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Tombol Aksi Masuk & Pulang -->
+                        <div class="grid grid-cols-2 gap-3">
                             <button id="clockInButton" class="btn rounded-xl bg-green-500 text-white px-4 py-2.5 hover:bg-green-600 disabled:bg-green-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -225,25 +247,6 @@
                                 <span>Pulang</span>
                             </button>
                         </div>
-                        
-                        <!-- Riwayat Hari Ini -->
-                        <div class="card p-4 rounded-xl border border-gray-200">
-                            <h3 class="text-xm font-semibold text-gray-800 text-center">Absensi Hari Ini</h3>
-                            <div id="loadingTodayHistory" class="flex justify-center items-center py-2 hidden">
-                                <div class="loader"></div>
-                            </div>
-                            <p id="historyDate" class="text-center text-sm text-gray-500 mb-3"></p>
-                            <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
-                                <table class="min-w-full">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th class="py-2.5 px-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-r border-gray-200">Jam Masuk</th>
-                                            <th class="py-2.5 px-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider border-b border-gray-200">Jam Pulang</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="historyTableBody"></tbody>
-                                </table>
-                            </div>
                         </div>
 						
                     </div>
