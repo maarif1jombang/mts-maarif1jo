@@ -220,6 +220,17 @@
 				</div> 
 			</div>
 			
+			<!-- Informasi Waktu Real-Time Hari Ini -->
+            <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mt-4 flex items-center justify-between relative overflow-hidden shadow-md">
+                <div class="flex flex-col">
+                    <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                    <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Memuat...</p>
+                </div>
+                <div>
+                    <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">00.00</p>
+                </div>
+            </div>
+			
 			<!-- INFO SISWA -->
 			<div class="mt-6">
 				
@@ -336,6 +347,21 @@
     let lastView = 'login'; 
     let currentStudent = null;
 
+    function updateRealTimeClock() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = now.toLocaleDateString('id-ID', options);
+        
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        const liveDayDateElem = document.getElementById('liveDayDate');
+        const liveClockElem = document.getElementById('liveClock');
+        
+        if (liveDayDateElem) liveDayDateElem.textContent = dateString;
+        if (liveClockElem) liveClockElem.textContent = `${hours}.${minutes}`;
+    }
+
     // Robust CSV Parser untuk menampung sel ber-quote ganda dan koma
     function parseCSV(str) {
         const arr = [];
@@ -445,7 +471,6 @@
         lastView = 'list'; 
     }
 
-    // Mengubah fungsi selectStudent agar sinkronus karena aksi render detail bersifat sinkronus
     window.selectStudentFromList = function(nisn) {
         if (!announcementDataCache) return;
         const student = announcementDataCache.find(s => s.nisn === nisn);
@@ -607,8 +632,14 @@
         loginContainer.classList.remove('hidden');
         fetchAndProcessData();
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Start live real-time clock
+        updateRealTimeClock();
+        setInterval(updateRealTimeClock, 1000);
     });
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

@@ -105,8 +105,11 @@
                 </div>
 
                 <!-- Tab Kategori -->
-                <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-1" id="tabsContainer">
-                    <!-- Rendered by JS -->
+                <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1" id="tabsOuterContainer">
+                    <div id="semuaContainer" class="sticky left-0 z-20 bg-[#FAFBFC] pr-2 border-r flex-shrink-0"></div>
+                    <div class="flex gap-2 flex-shrink-0" id="scrollableTabsContainer">
+                        <!-- Rendered by JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,7 +224,8 @@
         let searchQuery = "";
 
         // DOM Elements
-        const tabsContainer = document.getElementById('tabsContainer');
+        const semuaContainer = document.getElementById('semuaContainer');
+        const scrollableTabsContainer = document.getElementById('scrollableTabsContainer');
         const contentContainer = document.getElementById('contentContainer');
         const searchInput = document.getElementById('searchInput');
 
@@ -240,7 +244,9 @@
 
         // Render Tabs
         function renderTabs() {
-            tabsContainer.innerHTML = '';
+            semuaContainer.innerHTML = '';
+            scrollableTabsContainer.innerHTML = '';
+
             categories.forEach(cat => {
                 const btn = document.createElement('button');
                 const count = getCategoryCount(cat);
@@ -267,7 +273,12 @@
                     renderTabs();
                     renderContent();
                 };
-                tabsContainer.appendChild(btn);
+
+                if (cat === "Semua") {
+                    semuaContainer.appendChild(btn);
+                } else {
+                    scrollableTabsContainer.appendChild(btn);
+                }
             });
         }
 
@@ -452,5 +463,8 @@
             lucide.createIcons();
         });
     </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

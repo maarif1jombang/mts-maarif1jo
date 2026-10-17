@@ -224,6 +224,17 @@
 				</div> 
 			</div>
 			
+			<!-- Informasi Waktu Real-Time Hari Ini -->
+            <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mt-4 flex items-center justify-between relative overflow-hidden shadow-md">
+                <div class="flex flex-col">
+                    <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                    <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Memuat...</p>
+                </div>
+                <div>
+                    <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">00.00</p>
+                </div>
+            </div>
+			
 			<!-- Identitas Pribadi Siswa -->
 			<div class="mt-6">
 				<h3 class="border-b font-semibold text-sm sm:text-base text-teal-700 mb-4 pb-1">Identitas Siswa</h3>
@@ -260,7 +271,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
 						</div>
 						<div>
-							<p class="text-xs sm:text-sm text-gray-500">Tahun Masuk</p>
+							<p class="text-xs sm:text-sm text-gray-500">Tanggal Masuk</p>
 							<p id="student-entry-year" class="font-semibold text-sm sm:text-base"></p>
 						</div>
 					</div>
@@ -350,7 +361,6 @@
     let studentListCache = null;
     let currentSearchResults = [];
 
-    // FUNGSI PARSER CSV: Menangani tanda kutip ganda dan koma dalam kalimat
     function parseCSV(str) {
         const arr = [];
         let quote = false;  
@@ -407,7 +417,6 @@
         return data;
     }
 
-    // Mengambil dan memproses data dari spreadsheet Google
     async function fetchAndProcessData() {
         if (studentListCache) return studentListCache;
 
@@ -442,6 +451,23 @@
         }
     }
     
+    // Fungsi real-time untuk memperbarui tanggal dan jam secara berkala
+    function updateRealTimeClock() {
+        const now = new Date();
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const dateStr = now.toLocaleDateString('id-ID', options);
+        
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timeStr = `${hours}.${minutes}`;
+        
+        const dayDateElem = document.getElementById('liveDayDate');
+        const clockElem = document.getElementById('liveClock');
+        
+        if (dayDateElem) dayDateElem.textContent = dateStr;
+        if (clockElem) clockElem.textContent = timeStr;
+    }
+    
     // Membuat inisial nama siswa jika foto profil gagal dimuat
     function getInitials(name) {
         if (!name) return '??';
@@ -451,7 +477,6 @@
         return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
-    // Menampilkan panel detail data siswa terpilih
     function showStudentDetails(student) {
         if (!student) return;
         
@@ -484,7 +509,6 @@
         detailContainer.classList.remove('hidden');
     }
 
-    // Menampilkan panel daftar tabel siswa hasil pencarian nama/kelas yang mirip
     function showStudentList(students) {
         studentTableBody.innerHTML = '';
         
@@ -509,7 +533,6 @@
             studentTableBody.appendChild(tr);
         });
 
-        // Event listener khusus tombol detail di baris tabel
         document.querySelectorAll('.btn-detail').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const nisn = e.target.getAttribute('data-nisn');
@@ -523,7 +546,6 @@
         listContainer.classList.remove('hidden');
     }
     
-    // Efek loading tombol cari data
     function setLoading(isLoading) {
         if (isLoading) {
             loginButton.disabled = true;
@@ -537,7 +559,6 @@
         }
     }
 
-    // Melakukan filter pencarian data berdasarkan kata kunci input
     async function handleLogin() {
         const searchInput = searchInputElem.value.trim();
         if (!searchInput) {
@@ -575,7 +596,6 @@
         }
     }
 
-    // Navigasi Kembali ke halaman/tabel sebelumnya
     function handleBack() {
         if (currentSearchResults && currentSearchResults.length > 1) {
              showStudentList(currentSearchResults);
@@ -584,7 +604,6 @@
         }
     }
 
-    // Reset formulir kembali ke halaman awal pencarian utama
     function resetToSearch() {
         searchInputElem.value = '';
         detailContainer.classList.add('hidden');
@@ -594,7 +613,6 @@
         currentSearchResults = [];
     }
 
-    // Inisialisasi Event Listeners
     loginButton.addEventListener('click', handleLogin);
     backButton.addEventListener('click', handleBack);
     backToSearchButton.addEventListener('click', resetToSearch);
@@ -605,10 +623,13 @@
     
     document.addEventListener('DOMContentLoaded', () => {
        fetchAndProcessData();
+       updateRealTimeClock();
+       setInterval(updateRealTimeClock, 1000);
     });
 
 	document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

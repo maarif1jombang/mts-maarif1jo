@@ -165,10 +165,25 @@
 				</div> 
 			</div>
 			
-            <!-- TAB MENU USER AKUN DI BAWAH LAYOUT FOTO GURU -->
-            <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar">
-                <!-- Tab Emis GTK diubah jadi default -->
-                <button onclick="switchTab('gtk', this)" id="tab-btn-gtk" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+			<!-- Informasi Waktu Real-Time Hari Ini -->
+            <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mt-4 flex items-center justify-between relative overflow-hidden shadow-md">
+                <div class="flex flex-col">
+                    <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                    <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Memuat...</p>
+                </div>
+                <div>
+                    <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">00.00</p>
+                </div>
+            </div>
+			
+            <div class="mt-6 flex overflow-x-auto gap-2 py-2 border-b border-gray-200 no-scrollbar items-center">
+                <!-- Tab "Semua" diubah jadi default pertama dan sticky agar tetap terlihat saat di-scroll serta diberi pembatas garis vertikal -->
+                <div class="sticky left-0 z-20 bg-white pr-2 border-r flex-shrink-0">
+                    <button onclick="switchTab('semua', this)" id="tab-btn-semua" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-teal-600 text-white whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
+                        <span>Semua</span>
+                    </button>
+                </div>
+                <button onclick="switchTab('gtk', this)" id="tab-btn-gtk" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>Emis GTK</span>
                 </button>
 				<button onclick="switchTab('akgtk', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
@@ -188,10 +203,6 @@
                 </button>
                 <button onclick="switchTab('pajak', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
                     <span>Pajak</span>
-                </button>
-                <!-- Tab Semua dipindahkan ke posisi paling akhir -->
-                <button onclick="switchTab('semua', this)" class="tab-btn px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap shadow-sm transition-all flex items-center gap-1.5">
-                    <span>Semua</span>
                 </button>
             </div>
             
@@ -465,7 +476,29 @@
 
     let announcementDataCache = null;
 
-    /* Defining tab switching and data parsing functions... */
+    function updateRealTimeClock() {
+        const now = new Date();
+        
+        // Format tanggal Indonesia (contoh: Kamis, 15 Oktober 2026)
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const dateString = now.toLocaleDateString('id-ID', options);
+        
+        const dayDateElem = document.getElementById('liveDayDate');
+        if (dayDateElem) {
+            dayDateElem.textContent = dateString;
+        }
+
+        // Format waktu dengan pemisah titik (sesuai format 00.00)
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timeString = `${hours}.${minutes}`;
+
+        const clockElem = document.getElementById('liveClock');
+        if (clockElem) {
+            clockElem.textContent = timeString;
+        }
+    }
+
     // Function to handle switching tabs
     function switchTab(tabId, btnElement) {
         const panes = ['gtk', 'emis4', 'gws', 'akgtk', 'simpatika', 'pintar', 'pajak'];
@@ -536,7 +569,6 @@
         return data;
     }
 
-    /* Defining data fetching and displaying functions... */
     async function fetchAndProcessData() {
         if (announcementDataCache) return announcementDataCache;
         try {
@@ -635,15 +667,14 @@
             };
         }
 
-        // Mengatur tab 'Emis GTK' sebagai tab aktif secara default ketika detail muncul
-        const defaultTabBtn = document.getElementById('tab-btn-gtk'); 
-        switchTab('gtk', defaultTabBtn);
+        // Mengatur tab 'Semua' sebagai tab aktif secara default ketika detail muncul
+        const defaultTabBtn = document.getElementById('tab-btn-semua'); 
+        switchTab('semua', defaultTabBtn);
 
         loginContainer.classList.add('hidden');
         detailContainer.classList.remove('hidden');
     }
     
-    /* Adding final event listeners and initializing app... */
     function setLoading(isLoading) {
         if (isLoading) {
             loginButton.disabled = true;
@@ -686,7 +717,7 @@
                 errorMessage.classList.remove('hidden');
             } else {
                 errorMessage.textContent = 'Data tidak ditemukan. Coba lagi.';
-                errorMessage.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
             }
         }
     }
@@ -706,8 +737,16 @@
         loginContainer.classList.remove('hidden');
         fetchAndProcessData();
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Inisialisasi dan jalankan interval waktu real-time
+        updateRealTimeClock();
+        setInterval(updateRealTimeClock, 1000);
     });
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

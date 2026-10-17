@@ -75,9 +75,8 @@
 </head>
 
 <body>
-    <div class="flex items-center justify-center min-h-screen p-2 sm:p-4">
+    <div class="flex items-center justify-center min-h-screen p-4">
 		
-		<!-- 1. Kontainer Login -->
         <div id="login-container" class="border-y-4 border-teal-600 w-full max-w-sm p-8 space-y-3 card hidden">
             <div class="text-center pb-8">
                 <div class="flex justify-center mx-auto text-teal-600 mb-0">
@@ -142,8 +141,7 @@
             <p class="text-xs text-gray-500 text-center">&copy; <span id="year"></span> MTs Ma'arif 1 Jombang</p>
         </div>
 
-        <!-- 2. Kontainer Detail (Buku Kas Umum) -->
-        <div id="detail-container" class="hidden w-full max-w-4xl p-4 sm:p-8 card">
+        <div id="detail-container" class="hidden w-full max-w-4xl p-6 sm:p-8 card">
 
 			<div class="card bg-gradient-to-tr from-teal-800 to-teal-500 overflow-hidden relative shadow-lg"> 
 				<div class="w-full bg-transparent" style="height: 65px;"></div> 
@@ -189,6 +187,17 @@
 					</div> 
 				</div> 
 			</div>
+			
+			<!-- Informasi Waktu Real-Time Hari Ini -->
+            <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mt-4 flex items-center justify-between relative overflow-hidden shadow-md">
+                <div class="flex flex-col">
+                    <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                    <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Memuat...</p>
+                </div>
+                <div>
+                    <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">00.00</p>
+                </div>
+            </div>
 			
             <!-- KONTEN BUKU KAS UMUM DINAMIS -->
             <div class="mt-6 space-y-6">
@@ -247,6 +256,29 @@
     const searchInputElem = document.getElementById('searchInput');
     const errorMessage = document.getElementById('error-message');
 
+    function updateRealtimeClock() {
+        const now = new Date();
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        
+        const dayName = days[now.getDay()];
+        const date = now.getDate();
+        const monthName = months[now.getMonth()];
+        const year = now.getFullYear();
+        
+        const dayDateElem = document.getElementById('liveDayDate');
+        if (dayDateElem) {
+            dayDateElem.textContent = `${dayName}, ${date} ${monthName} ${year}`;
+        }
+        
+        const clockElem = document.getElementById('liveClock');
+        if (clockElem) {
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            clockElem.textContent = `${hours}.${minutes}`;
+        }
+    }
+
     function parseCSV(str) {
         const arr = [];
         let quote = false;  
@@ -290,7 +322,6 @@
         let isLive = false;
         const cacheBuster = '&_=' + new Date().getTime();
 
-        // Try direct fetch first
         try {
             const response = await fetch(dataSheetUrl + cacheBuster);
             if (response.ok) {
@@ -303,7 +334,6 @@
             console.warn('Direct fetch restricted by CORS, trying CORS proxy...', e);
         }
 
-        // If direct fetch failed, try CORS proxy 1
         if (!isLive) {
             try {
                 const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(dataSheetUrl + cacheBuster);
@@ -319,7 +349,6 @@
             }
         }
 
-        // If proxy 1 failed, try CORS proxy 2
         if (!isLive) {
             try {
                 const proxyUrl2 = 'https://corsproxy.io/?' + encodeURIComponent(dataSheetUrl + cacheBuster);
@@ -646,7 +675,13 @@
     document.addEventListener('DOMContentLoaded', () => {
         loginContainer.classList.remove('hidden');
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Initialize real-time clock and schedule interval update
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
     });
 </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>

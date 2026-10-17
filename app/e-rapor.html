@@ -207,18 +207,29 @@
 							</span> 
 							<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-[#E8F8F2] text-[#009675] border border-[#D1F2E6]">MTs Ma'arif 1 Jombang</span> 
 						</div> 
-						<!-- TOMBOL KEMBALI --> 
+						<!-- TOMBOL KELUAR --> 
 						<div class="flex items-center justify-center sm:justify-end sm:absolute sm:top-[5px] sm:right-4 z-10"> 
-							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors"> 
-								<svg id="logout-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org"> 
+							<button id="logout-button" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm"> 
+								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> 
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path> 
 								</svg> 
-								<span id="logout-text" class="ml-1 hidden sm:inline">Keluar</span> 
+								<span class="ml-1 hidden sm:inline">Keluar</span> 
 							</button> 
 						</div> 
 					</div> 
 				</div> 
 			</div>
+			
+			<!-- Informasi Waktu Real-Time Hari Ini -->
+            <div class="card bg-gradient-to-tr from-teal-800 to-teal-500 rounded-xl p-4 text-white mt-4 flex items-center justify-between relative overflow-hidden shadow-md">
+                <div class="flex flex-col">
+                    <p class="text-xs sm:text-sm text-white/90">Hari ini,</p>
+                    <p id="liveDayDate" class="text-sm sm:text-base font-bold tracking-wide mt-0.5">Memuat...</p>
+                </div>
+                <div>
+                    <p id="liveClock" class="text-3xl sm:text-4xl font-extrabold tracking-wider">00.00</p>
+                </div>
+            </div>
 
             <div id="class-tabs-wrapper" class="mt-8 hidden border-b border-gray-200 pb-3">
                 <div class="flex items-center gap-2 mb-1">
@@ -596,6 +607,24 @@
     let currentActiveExamTab = 'sts';
     let isNavigatedFromList = false;
 
+    // Real-Time Clock & Date Function
+    function updateRealTimeClock() {
+        const now = new Date();
+        const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+        const dateStr = now.toLocaleDateString('id-ID', options);
+        
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const timeStr = `${hours}.${minutes}`;
+
+        const liveDayDateElem = document.getElementById('liveDayDate');
+        const liveClockElem = document.getElementById('liveClock');
+        if (liveDayDateElem) liveDayDateElem.textContent = dateStr;
+        if (liveClockElem) liveClockElem.textContent = timeStr;
+    }
+    setInterval(updateRealTimeClock, 1000);
+    updateRealTimeClock();
+
     function getClassLevel(kelasStr) {
         if (!kelasStr) return 0;
         const str = kelasStr.toString().trim().toUpperCase();
@@ -953,30 +982,6 @@
         }
 
         switchTab(currentActiveExamTab || 'sts', document.getElementById(`tab-btn-${currentActiveExamTab || 'sts'}`));
-
-        const logoutBtn = document.getElementById('logout-button');
-        const logoutText = document.getElementById('logout-text');
-        const logoutIcon = document.getElementById('logout-icon');
-
-        if (isNavigatedFromList) {
-            if (logoutText) logoutText.textContent = 'Kembali';
-            if (logoutBtn) {
-                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
-            }
-            if (logoutIcon) {
-                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
-                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>';
-            }
-        } else {
-            if (logoutText) logoutText.textContent = 'Keluar';
-            if (logoutBtn) {
-                logoutBtn.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border border-red-200 text-red-700 bg-red-100 hover:bg-red-200 transition-colors shadow-sm';
-            }
-            if (logoutIcon) {
-                logoutIcon.setAttribute('class', 'w-3.5 h-3.5');
-                logoutIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"></path>';
-            }
-        }
     }
 
     function showStudentDetailsForRecords(records, initialIndex = 0) {
@@ -1354,5 +1359,7 @@
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
