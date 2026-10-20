@@ -243,8 +243,7 @@
 			<div class="mt-6">
 				
 				<div class="border-b flex flex-row items-center gap-1 mb-4 pb-1">
-					<h3 class="font-semibold text-sm sm:text-base text-teal-700">Administrasi Kelas</h3>
-					<h3 id="student-class" class="font-semibold text-sm sm:text-base text-teal-700"></h3>
+					<h3 id="student-admin-header" class="font-semibold text-sm sm:text-base text-teal-700">Administrasi Siswa</h3>
 					<!-- Tombol di ujung kanan diubah menjadi toggle show/hide -->
 					<button id="toggle-rincian-btn" class="ms-auto bg-teal-600 hover:bg-teal-700 text-white font-medium text-[10px] sm:text-xs py-1 px-3 rounded-full transition duration-200 text-center focus:outline-none">Lihat Rincian</button>
 				</div>
@@ -255,7 +254,7 @@
 					<div class="flex items-center gap-4">
 						<div class="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-teal-50 border border-teal-600 flex items-center justify-center shadow-sm">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-teal-600">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 0 5.25 9h13.5A2.25 2.25 0 0 0 21 11.25v7.5" />
 							</svg>
 						</div>
 						<div>
@@ -399,6 +398,12 @@
     let studentListCache = null;
     let isFromSearchList = false; // State untuk melacak asal navigasi
 
+    // Helper untuk mengubah string menjadi Kapital di awal kata (Capitalize / Title Case)
+    function capitalizeWords(str) {
+        if (!str) return '';
+        return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+    }
+
     // --- REAL-TIME CLOCK & DATE FUNCTION ---
     function updateRealTimeClock() {
         const now = new Date();
@@ -450,6 +455,25 @@
         if (normalized.includes('8') || normalized.includes('VIII')) return 8;
         if (normalized.includes('9') || normalized.includes('IX')) return 9;
         return 0; 
+    }
+
+    // Helper untuk memformat tampilan nama kelas dengan awalan "Kelas" jika angka/romawi
+    function formatKelas(kelasStr) {
+        if (!kelasStr) return '';
+        const trimmed = kelasStr.trim();
+        const upper = trimmed.toUpperCase();
+        
+        // Jika Alumni, kembalikan dengan format huruf besar di awal
+        if (upper === 'ALUMNI') return 'Alumni';
+
+        // Cek jika sudah diawali kata 'kelas'
+        if (upper.startsWith('KELAS')) return trimmed;
+
+        // Cek apakah angka 7, 8, 9 atau Romawi VII, VIII, IX
+        if (['7', '8', '9', 'VII', 'VIII', 'IX'].includes(upper) || /^[789]\b/.test(upper)) {
+            return `Kelas ${trimmed}`;
+        }
+        return trimmed;
     }
 
     function getInitials(name) {
@@ -525,7 +549,18 @@
 		};
 
         document.getElementById('student-name').textContent = latestRecord.nama;
-        document.getElementById('student-class').textContent = latestRecord.kelas;
+        
+        // Penyesuaian teks Header Administrasi secara dinamis
+        const adminHeaderEl = document.getElementById('student-admin-header');
+        if (adminHeaderEl) {
+            const rawKelas = (latestRecord.kelas || '').trim();
+            if (rawKelas.toLowerCase() === 'alumni') {
+                adminHeaderEl.textContent = `Administrasi Siswa Alumni`;
+            } else {
+                adminHeaderEl.textContent = `Administrasi Siswa ${formatKelas(rawKelas)}`;
+            }
+        }
+
         document.getElementById('student-nisn').textContent = latestRecord.nisn;
 		document.getElementById('student-tapel').textContent = latestRecord.tapel;
 		document.getElementById('student-admin').textContent = latestRecord.admin;
@@ -577,13 +612,19 @@
         sortedStudentGroups.forEach((group, index) => {
             const latestRecord = group.latestRecord;
 
+            // Format nama kelas agar Kapital di awal jika Alumni
+            let displayedKelas = latestRecord.kelas;
+            if (displayedKelas && displayedKelas.toLowerCase() === 'alumni') {
+                displayedKelas = 'Alumni';
+            }
+
             const tr = document.createElement('tr');
 			tr.className = 'hover:bg-gray-50 transition-colors group';
             tr.innerHTML = `
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-center font-medium">${index + 1}</td>
                 <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-900 text-left font-medium ">${latestRecord.nama}</td>
 				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.nisn}</td>
-                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${latestRecord.kelas}</td>
+                <td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">${displayedKelas}</td>
 				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-left">Rp. ${latestRecord.admin}</td>
 				<td class="whitespace-nowrap px-4 py-3 sm:px-6 text-gray-500 text-center sticky right-0 bg-white group-hover:bg-gray-50 z-10 transition-colors">
                     <button class="px-3 py-1.5 text-xs font-medium text-white bg-teal-600 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 select-student-btn">
@@ -633,7 +674,13 @@
                 return sKelas === targetKelas && sTaPel === targetTaPel;
             });
             isGroupSearch = true;
-            groupTitle = `Siswa Kelas ${targetKelas.toUpperCase()} (${targetTaPel.toUpperCase()})`;
+            
+            // Pengondisian Judul Tabel
+            if (targetKelas.toLowerCase() === 'alumni') {
+                groupTitle = `Siswa Alumni (${targetTaPel})`;
+            } else {
+                groupTitle = `Siswa Kelas ${targetKelas.toUpperCase()} (${targetTaPel.toUpperCase()})`;
+            }
         } else {
             rawMatches = allStudents.filter(s => 
                 (s.nisn && s.nisn.toString() === query) || 
@@ -758,6 +805,7 @@
 	document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"70760a7e421d4e849fa6754c30393f2e","r":1,"spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
