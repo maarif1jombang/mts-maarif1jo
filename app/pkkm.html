@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PKKM - MTs Ma'arif 1 Jombang</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Nunito) -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Nunito', sans-serif; 
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Hover animation effect */
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(15, 118, 110, 0.2), 0 10px 10px -5px rgba(15, 118, 110, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col justify-between text-gray-800">
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-3 sm:px-4 py-8 md:py-12 max-w-6xl flex-grow flex flex-col justify-center items-center">
+        
+        <!-- Header / Identity -->
+        <div class="text-center mb-8 md:mb-12 animate-fade-in">
+            <div class="inline-flex items-center justify-center p-2.5 sm:p-3 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-teal-50 border border-teal-100 rounded-2xl sm:rounded-3xl text-teal-700 mb-3 sm:mb-4 shadow-inner">
+                <i class="fas fa-folder-open text-2xl sm:text-3xl md:text-4xl"></i>
+            </div>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-teal-800 tracking-tight">
+                DASHBOARD BUKTI FISIK PKKM
+            </h1>
+            <p class="text-sm sm:text-base md:text-xl text-teal-600 font-bold tracking-wider">
+                MTs MA'ARIF 1 JOMBANG
+            </p>
+            <div class="w-16 sm:w-24 h-1 bg-teal-500 mx-auto mt-3 sm:mt-4 rounded-full"></div>
+            <p class="text-[11px] sm:text-xs md:text-sm text-gray-500 mt-2 sm:mt-3 max-w-md mx-auto px-2">
+                Sistem Informasi & E-Arsip Penilaian Kinerja Kepala Madrasah. Silakan pilih tahun akademik di bawah ini.
+            </p>
+        </div>
+
+        <!-- Cards Container: Flexbox Centered untuk 1, 2, atau lebih card secara presisi di tengah -->
+        <div class="flex flex-wrap justify-center items-stretch gap-3 sm:gap-6 md:gap-8 w-full max-w-5xl mx-auto">
+            
+            <!-- Tombol PKKM 2025 -->
+            <a href="pkkm2025.html" class="group block w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] md:w-72 lg:w-72 xl:w-80 flex-shrink-0">
+                <div class="glass-card card-hover border border-gray-100 hover:border-teal-500 rounded-xl sm:rounded-2xl p-3 sm:p-6 md:p-8 text-center flex flex-col items-center justify-between h-full bg-white relative overflow-hidden shadow-md">
+                    <!-- Decor Badge -->
+					<span class="absolute top-0 right-0 bg-teal-600 text-white text-[8px] sm:text-[10px] uppercase font-bold px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-bl-lg">
+                        TA 2026
+                    </span>
+                    
+                    <div class="my-2 sm:my-4 flex flex-col items-center w-full">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-teal-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300 mx-auto shadow-sm">
+                            <i class="fas fa-folder-closed text-2xl sm:text-3xl md:text-4xl"></i>
+                        </div>
+                        <h2 class="text-sm sm:text-xl md:text-2xl font-bold text-gray-800 mt-2 sm:mt-4 group-hover:text-teal-700 transition-colors">
+                            PKKM 2025
+                        </h2>
+                        <p class="text-[10px] sm:text-xs text-gray-500 mt-1 sm:mt-2 line-clamp-2 sm:line-clamp-none">
+                            Akses rekapitulasi data dan berkas bukti fisik PKKM untuk periode 2025.
+                        </p>
+                    </div>
+
+                    <div class="w-full mt-2 sm:mt-4">
+                        <span class="inline-flex items-center justify-center w-full py-1.5 sm:py-3 px-2 sm:px-5 rounded-lg sm:rounded-xl bg-teal-50 font-bold text-teal-700 group-hover:bg-teal-600 group-hover:text-white transition-all text-xs sm:text-sm shadow-sm gap-1 sm:gap-2">
+                            <span>Buka Dokumen</span>
+                            <i class="fas fa-arrow-right text-[10px] sm:text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Tombol PKKM 2026 -->
+            <a href="pkkm2026.html" class="group block w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] md:w-72 lg:w-72 xl:w-80 flex-shrink-0">
+                <div class="glass-card card-hover border border-gray-100 hover:border-teal-500 rounded-xl sm:rounded-2xl p-3 sm:p-6 md:p-8 text-center flex flex-col items-center justify-between h-full bg-white relative overflow-hidden shadow-md">
+                    <!-- Decor Badge -->
+                    <span class="absolute top-0 right-0 bg-teal-600 text-white text-[8px] sm:text-[10px] uppercase font-bold px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-bl-lg">
+                        TA 2026
+                    </span>
+
+                    <div class="my-2 sm:my-4 flex flex-col items-center w-full">
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-teal-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-teal-600 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300 mx-auto shadow-sm">
+                            <i class="fas fa-folder-closed text-2xl sm:text-3xl md:text-4xl"></i>
+                        </div>
+                        <h2 class="text-sm sm:text-xl md:text-2xl font-bold text-gray-800 mt-2 sm:mt-4 group-hover:text-teal-700 transition-colors">
+                            PKKM 2026
+                        </h2>
+                        <p class="text-[10px] sm:text-xs text-gray-500 mt-1 sm:mt-2 line-clamp-2 sm:line-clamp-none">
+                            Akses rekapitulasi data dan berkas bukti fisik PKKM untuk periode 2026.
+                        </p>
+                    </div>
+
+                    <div class="w-full mt-2 sm:mt-4">
+                        <span class="inline-flex items-center justify-center w-full py-1.5 sm:py-3 px-2 sm:px-5 rounded-lg sm:rounded-xl bg-teal-50 font-bold text-teal-700 group-hover:bg-teal-600 group-hover:text-white transition-all text-xs sm:text-sm shadow-sm gap-1 sm:gap-2">
+                            <span>Buka Dokumen</span>
+                            <i class="fas fa-arrow-right text-[10px] sm:text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+		
+		<p class="text-xs text-gray-500 text-center mt-8 md:mt-12">&copy; <span id="year"></span> MTs MA'ARIF 1 JOMBANG</p>
+
+    </div>
+
+    <script>
+        // Set tahun otomatis di footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
