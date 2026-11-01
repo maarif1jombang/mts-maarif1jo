@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-        body { font-family: 'Nunito', sans-serif; }
+        body { 
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden; /* Mencegah scroll seluruh halaman body */
+        }
 
         /* --- CSS TAMBAHAN UNTUK GARIS SEKAT KOLOM (GRID) --- */
         
@@ -20,6 +23,21 @@
         /* Garis vertikal untuk header (judul kolom) */
         thead th:not(:last-child) {
             border-right: 1px solid rgba(255, 255, 255, 0.3); /* Putih transparan agar bagus di background teal */
+        }
+
+        /* Tampilan scrollbar yang rapi untuk isi tabel */
+        tbody::-webkit-scrollbar {
+            width: 6px;
+        }
+        tbody::-webkit-scrollbar-track {
+            background: #f9fafb; /* bg-gray-50 */
+        }
+        tbody::-webkit-scrollbar-thumb {
+            background: #e5e7eb; /* gray-200 */
+            border-radius: 4px;
+        }
+        tbody::-webkit-scrollbar-thumb:hover {
+            background: #d1d5db; /* gray-300 saat dihover */
         }
 
         /* --- STYLE TOMBOL GOOGLE DRIVE --- */
@@ -52,25 +70,26 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 text-gray-800 h-screen flex flex-col justify-between overflow-hidden">
 
-    <div class="container mx-auto px-3 md:px-4 py-8 max-w-7xl">
-        <!-- Header -->
-        <div class="text-center mb-6 md:mb-10">
+    <div class="container mx-auto px-3 md:px-4 pt-6 pb-2 max-w-7xl flex flex-col h-full">
+        <!-- Header Utama (Tetap Diam / Tidak Ter-scroll) -->
+        <div class="text-center mb-4 md:mb-6 shrink-0">
             <h1 class="text-2xl md:text-4xl font-extrabold text-gray-900">REKAP FILE BUKTI FISIK PKKM</h1>
             <p class="text-sm md:text-lg text-teal-600 font-bold">MTs MA'ARIF 1 JOMBANG - TAHUN 2026</p>
         </div>
 
-        <!-- Table Container -->
-        <div class="bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200 table-fixed">
-                    <thead class="bg-teal-500 text-white">
-                        <tr>
-                            <!-- Header No diubah menjadi text-center -->
-                            <th scope="col" class="px-3 md:px-6 py-3 text-center text-[12px] md:text-sm font-bold uppercase tracking-wider w-[10%] md:w-1/12">No</th>
-                            <th scope="col" class="px-3 md:px-6 py-3 text-left text-[12px] md:text-sm font-bold uppercase tracking-wider w-[40%] md:w-5/12">Indikator</th>
-                            <th scope="col" class="px-3 md:px-6 py-3 text-left text-[12px] md:text-sm font-bold uppercase tracking-wider w-[50%] md:w-6/12 relative overflow-hidden">
+        <!-- Table Container (Flex fill area sisa layar) -->
+        <div class="bg-white shadow-xl rounded-lg border border-gray-200 flex-1 flex flex-col min-h-0 overflow-hidden mb-2">
+            <div class="overflow-x-auto flex-1 flex flex-col">
+                <table class="w-full table-fixed border-collapse flex flex-col h-full">
+                    
+                    <!-- Judul Tabel (Tetap Diam / Tidak Ter-scroll) -->
+                    <thead class="bg-teal-500 text-white shrink-0 block w-full">
+                        <tr class="flex w-full">
+                            <th scope="col" class="px-3 md:px-6 py-3 text-center text-[12px] md:text-sm font-bold uppercase tracking-wider w-[10%] md:w-1/12 shrink-0">No</th>
+                            <th scope="col" class="px-3 md:px-6 py-3 text-left text-[12px] md:text-sm font-bold uppercase tracking-wider w-[40%] md:w-5/12 shrink-0">Indikator</th>
+                            <th scope="col" class="px-3 md:px-6 py-3 text-left text-[12px] md:text-sm font-bold uppercase tracking-wider w-[50%] md:w-6/12 shrink-0 relative overflow-hidden">
                                 <div class="flex items-center justify-between gap-1 w-full min-w-0">
                                     <span class="truncate pr-1 shrink">
                                         <span class="inline sm:hidden">Bukti Fisik</span>
@@ -84,19 +103,20 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+
+                    <!-- Isi Tabel (HANYA BAGIAN INI YANG DI-SCROLL) -->
+                    <tbody class="bg-white divide-y divide-gray-200 overflow-y-auto flex-1 block w-full">
                         
                         <!-- BAGIAN 1 -->
-                        <tr class="bg-gray-100">
-                            <td colspan="3" class="px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
+                        <tr class="bg-gray-100 flex w-full">
+                            <td colspan="3" class="w-full px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
                                 1. Usaha Pengembangan Madrasah
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <!-- Kolom No ditambahkan text-center -->
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.1</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengembangkan madrasah sesuai dengan kebutuhan</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.1</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengembangkan madrasah sesuai dengan kebutuhan</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1.5"></i>1.1.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1.5"></i>1.1.2</a>
@@ -104,10 +124,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.2</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola perubahan dan pengembangan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.2</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola perubahan dan pengembangan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.2.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.2.2</a>
@@ -116,10 +136,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.3</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola hubungan antara madrasah dan masyarakat</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.3</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola hubungan antara madrasah dan masyarakat</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.3.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.3.2</a>
@@ -127,10 +147,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.4</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola proses pencapaian 8 SNP</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.4</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola proses pencapaian 8 SNP</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.4.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.4.2</a>
@@ -139,10 +159,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.5</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola unit layanan khusus madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.5</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola unit layanan khusus madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.5.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.5.2</a>
@@ -151,10 +171,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.6</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola sistem informasi madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.6</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola sistem informasi madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.6.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.6.2</a>
@@ -163,10 +183,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">1.7</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Memanfaatkan kemajuan teknologi informasi</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">1.7</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Memanfaatkan kemajuan teknologi informasi</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.7.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 1.7.2</a>
@@ -176,15 +196,15 @@
                         </tr>
 
                         <!-- BAGIAN 2 -->
-                        <tr class="bg-gray-100">
-                            <td colspan="3" class="px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
+                        <tr class="bg-gray-100 flex w-full">
+                            <td colspan="3" class="w-full px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
                                 2. Pelaksanaan Tugas Manajerial
                             </td>
                         </tr>
-                         <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.1</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Menyusun perencanaan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                         <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.1</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Menyusun perencanaan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.1.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.1.2</a>
@@ -193,10 +213,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.2</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Memimpin madrasah & pendayagunaan SDM</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.2</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Memimpin madrasah & pendayagunaan SDM</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.2.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.2.2</a>
@@ -205,10 +225,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.3</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Menciptakan budaya dan iklim madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.3</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Menciptakan budaya dan iklim madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.3.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.3.2</a>
@@ -217,10 +237,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.4</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola guru dan staf</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.4</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola guru dan staf</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.4.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.4.2</a>
@@ -229,10 +249,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.5</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola sarana dan prasarana madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.5</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola sarana dan prasarana madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.5.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.5.2</a>
@@ -241,10 +261,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.6</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola peserta didik (PPDB & pengembangan)</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.6</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola peserta didik (PPDB & pengembangan)</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.6.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.6.2</a>
@@ -253,10 +273,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.7</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola pengembangan kurikulum dan pembelajaran</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.7</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola pengembangan kurikulum dan pembelajaran</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.7.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.7.2</a>
@@ -266,10 +286,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.8</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola keuangan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.8</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola keuangan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.8.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.8.2</a>
@@ -278,10 +298,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.9</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Mengelola ketatausahaan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.9</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Mengelola ketatausahaan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.9.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.9.2</a>
@@ -290,10 +310,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">2.10</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Melakukan monitoring, evaluasi, dan pelaporan</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">2.10</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Melakukan monitoring, evaluasi, dan pelaporan</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.10.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 2.10.2</a>
@@ -304,15 +324,15 @@
                         </tr>
 
                         <!-- BAGIAN 3 -->
-                        <tr class="bg-gray-100">
-                            <td colspan="3" class="px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
+                        <tr class="bg-gray-100 flex w-full">
+                            <td colspan="3" class="w-full px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
                                 3. Pengembangan Kewirausahaan
                             </td>
                         </tr>
-                         <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">3.1</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Menciptakan inovasi bagi pengembangan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                         <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">3.1</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Menciptakan inovasi bagi pengembangan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.1.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.1.2</a>
@@ -321,10 +341,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">3.2</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Bekerja keras untuk keberhasilan madrasah</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">3.2</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Bekerja keras untuk keberhasilan madrasah</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.2.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.2.2</a>
@@ -333,10 +353,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">3.3</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Memiliki motivasi kuat untuk sukses</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">3.3</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Memiliki motivasi kuat untuk sukses</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.3.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.3.2</a>
@@ -344,10 +364,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">3.4</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Pantang menyerah dan selalu mencari solusi terbaik</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">3.4</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Pantang menyerah dan selalu mencari solusi terbaik</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.4.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.4.2</a>
@@ -355,10 +375,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">3.5</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Memiliki naluri kewirausahaan dalam mengelola produksi/jasa</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">3.5</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Memiliki naluri kewirausahaan dalam mengelola produksi/jasa</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.5.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 3.5.2</a>
@@ -369,15 +389,15 @@
                         </tr>
 
                         <!-- BAGIAN 4 -->
-                        <tr class="bg-gray-100">
-                            <td colspan="3" class="px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
+                        <tr class="bg-gray-100 flex w-full">
+                            <td colspan="3" class="w-full px-3 md:px-6 py-2 md:py-3 text-sm md:text-sm font-bold text-gray-800 uppercase tracking-wide">
                                 4. Supervisi Guru dan Tenaga Kependidikan
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">4.1</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Menyusun program supervisi akademik</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">4.1</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Menyusun program supervisi akademik</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.1.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.1.2</a>
@@ -385,10 +405,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">4.2</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Melaksanakan supervisi akademik</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">4.2</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Melaksanakan supervisi akademik</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.2.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.2.2</a>
@@ -397,10 +417,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr class="hover:bg-teal-50 transition-colors">
-                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center">4.3</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight">Menilai dan menindaklanjuti supervisi akademik</td>
-                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700">
+                        <tr class="hover:bg-teal-50 transition-colors flex w-full">
+                            <td class="px-3 md:px-6 py-3 whitespace-nowrap text-sm md:text-sm font-medium text-gray-900 align-middle text-center w-[10%] md:w-1/12 shrink-0">4.3</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 align-middle leading-tight w-[40%] md:w-5/12 shrink-0">Menilai dan menindaklanjuti supervisi akademik</td>
+                            <td class="px-3 md:px-6 py-3 text-sm md:text-sm text-gray-700 w-[50%] md:w-6/12 shrink-0">
                                 <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.3.1</a>
                                     <a href="" target="_blank" class="btn-drive"><i class="fab fa-google-drive mr-1"></i> 4.3.2</a>
@@ -415,7 +435,7 @@
             </div>
         </div>
 		
-		<p class="mt-8 text-sm text-gray-500 text-center">&copy; <span id="year"></span> MTs MA'ARIF 1 JOMBANG</p>
+		<p class="py-1 text-xs md:text-sm text-gray-500 text-center shrink-0">&copy; <span id="year"></span> MTs MA'ARIF 1 JOMBANG</p>
     </div>
 
     <!-- Toast Notification / Alert Berhasil (Atas Tengah) -->
